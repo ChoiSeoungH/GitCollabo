@@ -7,5 +7,5 @@ import jakarta.servlet.http.HttpServletRequest;
 
 public interface Controller {
 	public String requestHandler(HttpServletRequest req,HttpServletRequest resopnse) throws ServletException, IOException;
-	
+	//ㅗㅓㅎ
 }
