@@ -7,6 +7,11 @@ import controller.map.MapController;
 import controller.map.QuickMainController;
 
 import java.util.HashMap;
+import product.ProductAddController;
+import product.ProductListController;
+import product.ProductSearchListController;
+import search.NaverSerach;
+import user.MainController;
 
 public class HandlerMapping {
 	private HashMap<String, Controller> mappings;
@@ -19,6 +24,22 @@ public class HandlerMapping {
 		//map
 		mappings.put("/map.do", new MapController());
 		mappings.put("/insertAddress.do", new InsertAddressController());
+
+		//메인
+		mappings.put("/main.do", new MainController());
+
+		//상품등록
+		mappings.put("/productAdd.do", new ProductAddController());
+
+
+		//검색체크
+		mappings.put("/productSearch.do", new ProductSearchListController());
+
+
+		//상품리스트
+		mappings.put("/productList.do" ,new ProductListController());
+
+
 	}
 
 	public Controller getController(String key) {

@@ -2,12 +2,12 @@ package controller.map;
 
 
 import com.google.gson.Gson;
-import dao.ProductDao;
 import frontcontorller.Controller;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import vo.Product;
+import dao.ProductDAO;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class QuickMainController implements Controller {
   @Override
   public String requestHandler(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    ProductDao pdao = ProductDao.getInstance();
+    ProductDAO pdao = ProductDAO.getInstance();
     ArrayList<Product> list = (ArrayList<Product>) pdao.getProductsByLocation("역삼동");
 //    for (User user : list) {
 //      System.out.println(user);

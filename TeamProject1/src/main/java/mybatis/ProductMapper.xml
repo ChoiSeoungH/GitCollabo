@@ -1,18 +1,155 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mybatis.ProductMapper">
-    <select id="productList" resultType="vo.Product">
-        SELECT * FROM product
-    </select>
 
-    <insert id="insertProduct" parameterType="vo.Product">
-        INSERT INTO product (category, seller_no, title, price, description, is_auction, sell_location, product_method)
-        VALUES (#{category}, #{sellerNo}, #{title}, #{price}, #{description}, #{isAuction}, #{sellLocation}, #{productMethod})
+<!-- 상품등록 -->
+
+  <resultMap id="product" type="vo.Product">
+  <id property="no" column="no"/>
+  <result property="category" column="category"/>
+  <result property="sellerNo" column="seller_no"/>
+  <result property="title" column="title"/>
+  <result property="price" column="price"/>
+  <result property="description" column="description"/>
+  <result property="regDate" column="reg_date"/>
+  <result property="isAuction" column="is_auction"/>
+  <result property="sellLocation" column="sell_location"/>
+  <result property="productMethod" column="product_method"/>
+  <result property="buyerNo" column="buyer_no"/>
+  <result property="endDate" column="end_date"/>
+</resultMap>
+  
+  <!-- 경매 -->
+  
+  <resultMap id="auction"  type="vo.Auction">
+  <result property="productNo" column="product_no"/>
+  <result property="lastPrice"  column="last_price"/>
+  <result property="lastBidDate" column="last_bid_date"/>
+  <result property="lastBidderNo" column="last_bidder_no"/>
+  </resultMap>
+  
+  <!-- 상품이미지 -->
+  
+  <resultMap id="productImg" type="vo.ProductImg">
+  <id property="no" column="no" />
+  <result property="productNo"  column="product_no"/>
+  <result property="imageUrl" column="image_url"/>
+  <result property="regDate"  column="reg_date"/>
+  </resultMap>
+  
+   <!-- 카테고리 -->
+  
+  <resultMap id="category" type="vo.Category">
+  <id property="no" column="no"/>
+  <result property="name" column="name"/>
+  </resultMap>
+ 
+ <!-- 모든등록 조회리스트 --> 
+  <select id="selectAllProduct" resultMap="product">
+  SELECT * FROM product
+</select>
+
+<!--카테고리 상품 조회리스트 -->
+<select id="getCateProductList" resultMap="product" parameterType="InTeger">
+	select * from product where category=#{category}
+</select>
+<!-- 상품 검색 조회 -->
+<select id="getSearchProduct"  resultMap="product" parameterType="String">
+SELECT * FROM product WHERE title LIKE CONCAT('%', #{title}, '%')
+
+</select>	
+ 
+ 		<!-- 판매상품넘버가져오기 -->
+     	<select id="getOneProduct" parameterType="String" resultMap="product">
+    	 SELECT * FROM product where no=#{no} 
+    	</select>
+ 	
+   			<!-- 판매자 상품유저 가져오기 -->
+    	<select id="getSellUserProductList" parameterType="String" resultMap="product">
+    	 SELECT * FROM product where seller_no=#{sellerNo} 
+    	</select>
+   
+   
+   <!-- 상품수정 -->  	
+  		<update id="productUpdate" parameterType="product" >
+    	update product 
+    	set price=#{price} , category=#{category} , title=#{title}, description=#{description} ,product_method=#{productMethod}
+    	where no=#{no}
+    	</update>
+    
+    <!--  거래완료 -->
+    	<update id="productUpdateEnd" parameterType="product" >
+    	update product 
+    	set end_date=#{endDate}, buyer_no=#{buyerNo}
+    	where no=#{no}
+    	</update>
+    
+    <!--  상품등록 -->
+        <insert id="productInsert" parameterType="product">
+        INSERT INTO product (no, category, seller_no, title, price, description,is_auction,sell_location,product_method,end_date)
+       VALUES(
+        #{no},
+        #{category},
+        #{sellerNo},
+        #{title},
+        #{price},
+        #{description},
+        #{isAuction},
+        #{sellLocation},
+        #{productMethod},
+        #{endDate}
+        )       
     </insert>
-
-    <select id="getProductsByLocation" parameterType="String" resultType="user">
-        SELECT *
-        FROM user
-        WHERE sell_location LIKE CONCAT('%', #{location}, '%')
+    
+    <!-- 상품추가시 옥션일때 마지막 번호 가져와서 값 넣기 -->
+    <select id="getProductNo" resultType="Integer">
+    SELECT no FROM product ORDER BY no DESC LIMIT 1;
     </select>
+    
+     <!-- 상품삭제 본인-->
+      <delete id="productDelete" parameterType="String">  
+        delete from user where no=#{no} 
+    </delete>
+    
+    <!-- 경매리스트 불러오기 -->
+	<select id="selectAllAuction" parameterType="auction">
+	SELECT * FROM AUCTION
+	</select>
+	
+	<!-- 경매선택추가 -->
+    <insert id="addOneAuction" parameterType="auction">
+    INSERT INTO AUCTION(product_no,last_price)
+    VALUES(
+    #{productNo},
+    #{lastPrice}
+    )
+    </insert>
+    
+    <!-- 경매 추가입찰자 -->
+    <update id="addBidAuction" parameterType="auction">
+    update auction 
+    set last_price=#{lastPrice}, lastbid_date=#{lastBidDate}, last_bidder_no=#{lastBidderNo}
+   	where product_no=#{productNo} 
+    </update>
+    
+    <!-- 상품이미지리스트 전체불러오기 -->
+    <select id="getAllProductImg" resultMap="productImg">
+    select * from Product_image;
+    </select>
+	<insert id="insertProductImg" parameterType="productImg">
+	  INSERT INTO Product_image(product_no,image_url)
+    VALUES(
+    #{productNo},
+    #{imageUrl}
+    )
+	</insert>
+<!-- 제품 지역으로 불러오기 -->
+<select id="getProductsByLocation" parameterType="String" resultType="user">
+    SELECT *
+    FROM user
+    WHERE sell_location LIKE CONCAT('%', #{location}, '%')
+</select>
 </mapper>
