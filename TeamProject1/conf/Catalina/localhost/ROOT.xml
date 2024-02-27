@@ -28,6 +28,7 @@
     <PostResources base="C:/GitCollabo/TeamProject1/src/main/webapp/WEB-INF/lib/jackson-core-2.12.3.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/jackson-core-2.12.3.jar"/>
     <PostResources base="C:/GitCollabo/TeamProject1/src/main/webapp/WEB-INF/lib/jackson-core-2.16.1.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/jackson-core-2.16.1.jar"/>
     <PostResources base="C:/GitCollabo/TeamProject1/src/main/webapp/WEB-INF/lib/jackson-databind-2.9.7.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/jackson-databind-2.9.7.jar"/>
+    <PostResources base="C:/GitCollabo/TeamProject1/src/main/webapp/WEB-INF/lib/jackson-databind-2.16.1.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/jackson-databind-2.16.1.jar"/>
     <PostResources base="C:/GitCollabo/TeamProject1/src/main/webapp/WEB-INF/lib/jakarta.servlet.jsp.jstl-2.0.0.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/jakarta.servlet.jsp.jstl-2.0.0.jar"/>
     <PostResources base="C:/GitCollabo/TeamProject1/src/main/webapp/WEB-INF/lib/jstl-1.2.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/jstl-1.2.jar"/>
     <PostResources base="C:/GitCollabo/TeamProject1/src/main/webapp/WEB-INF/lib/mybatis-3.4.6.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/mybatis-3.4.6.jar"/>

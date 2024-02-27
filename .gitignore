@@ -200,3 +200,4 @@ README.html
 .idea
 .exercism
 TeamProject1/logs/localhost_access_log.2024-02-27.txt
+*.txt
