@@ -9,5 +9,6 @@ import java.io.IOException;
 
 public interface Controller {
   public String requestHandler(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
+}
 
 

@@ -14,11 +14,10 @@ import java.util.List;
 import java.util.Map;
 
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import dao.ProductDAO;
 import frontcontorller.Controller;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

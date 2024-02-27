@@ -4,20 +4,15 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.net.http.HttpClient;
-import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.tomcat.util.http.fileupload.RequestContext;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import frontcontorller.Controller;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
