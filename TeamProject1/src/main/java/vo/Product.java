@@ -22,3 +22,4 @@ public class Product {
   private int buyerNo;           // 구매자 번호
   private String endDate;     // 판매 종료일
 }
+
