@@ -117,8 +117,8 @@ input.img {
 			</tr>
 			<tr>
 				<td>경매여부 : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <input
-					type="radio" name="is_auction" value="0">일반판매 <input
-					type="radio" name="is_auction" value="1">경매판매
+					type="radio" name="auction" value="0">일반판매 <input
+					type="radio" name="auction" value="1">경매판매
 				</td>
 			</tr>
 			<tr>
@@ -172,9 +172,9 @@ input.img {
 			return false;
 
 		}
-		if (!form.is_auction.value) {
+		if (!form.auction.value) {
 			alert("판매방법을 선택하세요");
-			form.is_auction.focus();
+			form.auction.focus();
 			return false;
 		}
 		if (!form.category.value) {

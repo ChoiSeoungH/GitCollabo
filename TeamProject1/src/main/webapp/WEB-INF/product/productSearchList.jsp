@@ -46,12 +46,9 @@ margin-right: 10px;
 <c:forEach var="c" items="${vo}">
 <table class="list">
 <tr>
-<td>옥션값 반환 ${c.is_auction}</td>
+<td>옥션값 반환 ${c.auction}</td>
 </tr>
-<%-- <tr>
-<c:out value="${c.productImgs[0].img_url}" />
-   <td><img src="img/${c.productImgs[0].img_url}" alt="이미지"  /></td>
-</tr> --%>
+
 <tr>
 <td>${c.title}</td>
 </tr>

@@ -8,13 +8,20 @@ public class Product {
 	private int price;
 	private String description;
 	private String regDate;
-	private boolean isAuction;
+	private boolean auction;
 	private String sellLocation;
 	private int productMethod;
 	private int buyerNo;
 	private String endDate;
+	@Override
+	public String toString() {
+		return "Product [no=" + no + ", category=" + category + ", sellerNo=" + sellerNo + ", title=" + title
+				+ ", price=" + price + ", description=" + description + ", regDate=" + regDate + ", auction=" + auction
+				+ ", sellLocation=" + sellLocation + ", productMethod=" + productMethod + ", buyerNo=" + buyerNo
+				+ ", endDate=" + endDate + "]";
+	}
 	public Product(int no, int category, int sellerNo, String title, int price, String description, String regDate,
-			boolean isAuction, String sellLocation, int productMethod, int buyerNo, String endDate) {
+			boolean auction, String sellLocation, int productMethod, int buyerNo, String endDate) {
 		super();
 		this.no = no;
 		this.category = category;
@@ -23,12 +30,15 @@ public class Product {
 		this.price = price;
 		this.description = description;
 		this.regDate = regDate;
-		this.isAuction = isAuction;
+		this.auction = auction;
 		this.sellLocation = sellLocation;
 		this.productMethod = productMethod;
 		this.buyerNo = buyerNo;
 		this.endDate = endDate;
 	}
+    public boolean isAuction() {
+        return auction;
+    }
 	public int getNo() {
 		return no;
 	}
@@ -71,11 +81,11 @@ public class Product {
 	public void setRegDate(String regDate) {
 		this.regDate = regDate;
 	}
-	public boolean isAuction() {
-		return isAuction;
+	public boolean auction() {
+		return auction;
 	}
-	public void setAuction(boolean isAuction) {
-		this.isAuction = isAuction;
+	public void setAuction(boolean auction) {
+		this.auction =auction;
 	}
 	public String getSellLocation() {
 		return sellLocation;
@@ -101,4 +111,6 @@ public class Product {
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
+	public Product() {}
+
 }

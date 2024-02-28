@@ -2,6 +2,7 @@ package frontcontorller;
 
 import java.util.HashMap;
 import product.ProductAddController;
+import product.ProductContentController;
 import product.ProductListController;
 import product.ProductSearchListController;
 import search.NaverSerach;
@@ -27,7 +28,7 @@ public class HandlerMapping {
 	
 	//상품리스트
 	mappings.put("/productList.do" ,new ProductListController());
-	
+	mappings.put("/productContent.do", new ProductContentController());
 	
 	
 	//경매

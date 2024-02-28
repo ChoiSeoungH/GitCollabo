@@ -5,11 +5,18 @@ public class ProductImg {
 	private int productNo;
 	private String imageUrl;
 	private String regDate;
-	public ProductImg(int product_no, String image_url, String reg_date) {
+	@Override
+	public String toString() {
+		return "ProductImg [no=" + no + ", productNo=" + productNo + ", imageUrl=" + imageUrl + ", regDate=" + regDate
+				+ "]";
+	}
+	public ProductImg() {}
+	public ProductImg(int no, int productNo, String imageUrl, String regDate) {
 		super();
-		this.productNo = product_no;
-		this.imageUrl = image_url;
-		this.regDate = reg_date;
+		this.no = no;
+		this.productNo = productNo;
+		this.imageUrl = imageUrl;
+		this.regDate = regDate;
 	}
 	public int getNo() {
 		return no;
@@ -17,22 +24,22 @@ public class ProductImg {
 	public void setNo(int no) {
 		this.no = no;
 	}
-	public int getProduct_no() {
+	public int getProductNo() {
 		return productNo;
 	}
-	public void setProduct_no(int product_no) {
-		this.productNo = product_no;
+	public void setProductNo(int productNo) {
+		this.productNo = productNo;
 	}
-	public String getImage_url() {
+	public String getImageUrl() {
 		return imageUrl;
 	}
-	public void setImage_url(String image_url) {
-		this.imageUrl = image_url;
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
-	public String getReg_date() {
+	public String getRegDate() {
 		return regDate;
 	}
-	public void setReg_date(String reg_date) {
-		this.regDate = reg_date;
+	public void setRegDate(String regDate) {
+		this.regDate = regDate;
 	}
 }

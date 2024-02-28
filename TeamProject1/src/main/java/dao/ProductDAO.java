@@ -41,10 +41,19 @@ public class ProductDAO {
 			return list;
 		}
 		
+		//최신상품 3개 가져오기
+		public List<Product> getLatestProduct(){
+			SqlSession session = MybatisConfig.getInstance().openSession();
+			List<Product> list = session.selectList("mapper.product.latestProductThree");
+			session.close();
+			return list;
+			
+		}
+		
 		// 상품검색했을떄 이미지도 불러오기		
 		public List<Product> getSearchListImg(String title){
 			SqlSession session = MybatisConfig.getInstance().openSession();
-			List<Product> list = session.selectList("mapper.product.selectAllProductImg",title);
+			List<Product> list = session.selectList("mapper.product.getSearchProduct",title);
 			session.close();
 			return list;
 		}
@@ -61,6 +70,14 @@ public class ProductDAO {
 			int no = session.selectOne("mapper.product.getProductNo");
 			session.close();
 			return no;
+		}
+		// 상품클릭시 상품 제품 가지고 오기		
+		public List<Product> getProductNoContent(int no){
+			SqlSession session = MybatisConfig.getInstance().openSession();
+			List<Product> list = session.selectList("mapper.product.getOneProduct",no);
+			session.close();
+			return list;
+		
 		}
 
 		

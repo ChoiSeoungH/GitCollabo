@@ -24,6 +24,12 @@ public class AuctionDAO {
 		session.close();
 		return list;
 	}
+	public List<Auction> getOneAuction(int no){
+		SqlSession session = MybatisConfig.getInstance().openSession();
+		List<Auction> list = session.selectList("mapper.product.getOneAuction",no);
+		session.close();
+		return list;
+	}
 	
 	
 }

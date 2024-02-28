@@ -13,17 +13,25 @@ public class ProductImgDAO {
 	public static ProductImgDAO getInstance() {
 		return instance;
 	}
+	// 전체 상품 이미지 불러오기
 	public List<ProductImg> getAllProductImg(){
 		SqlSession session = MybatisConfig.getInstance().openSession();
 		List<ProductImg> list = session.selectList("mapper.product.getAllProductImg");
 		session.close();
 		return list;
 	}
-	
+	// 상품 추가시 이미지 추가하기
 	public List<ProductImg> addOneProductImg(ProductImg vo){
 		SqlSession session = MybatisConfig.getInstance().openSession();
 		List<ProductImg> list =session.selectList("mapper.product.insertProductImg",vo);
 		session.commit();
+		session.close();
+		return list;
+	}
+	// 상품선택시 상품이미지 뺴오기 
+	public List<ProductImg> getOneProductImg(int no){
+		SqlSession session = MybatisConfig.getInstance().openSession();
+		List<ProductImg> list = session.selectList("mapper.product.getOneImage",no);
 		session.close();
 		return list;
 	}

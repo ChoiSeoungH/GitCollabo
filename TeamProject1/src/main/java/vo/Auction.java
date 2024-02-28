@@ -5,37 +5,38 @@ public class Auction {
 	private int lastPrice; // 마지막 입찰가
 	private String lastBidDate; //마지막입찰일
 	private int  lastBidderNo;  //마지막입찰자 유저
-	public Auction(int product_no, int last_price, String last_bid_date, int last_bidder_no) {
+	public Auction(int productNo, int lastPrice, String lastBidDate, int lastBidderNo) {
 		super();
-		this.productNo = product_no;
-		this.lastPrice = last_price;
-		this.lastBidDate = last_bid_date;
-		this.lastBidderNo = last_bidder_no;
+		this.productNo = productNo;
+		this.lastPrice = lastPrice;
+		this.lastBidDate = lastBidDate;
+		this.lastBidderNo = lastBidderNo;
 	}
-	public int getProduct_no() {
+	public int getProductNo() {
 		return productNo;
 	}
-	public void setProduct_no(int product_no) {
-		this.productNo = product_no;
+	public void setProductNo(int productNo) {
+		this.productNo = productNo;
 	}
-	public int getLast_price() {
+	public int getLastPrice() {
 		return lastPrice;
 	}
-	public void setLast_price(int last_price) {
-		this.lastPrice = last_price;
+	public void setLastPrice(int lastPrice) {
+		this.lastPrice = lastPrice;
 	}
-	public String getLast_bid_date() {
+	public String getLastBidDate() {
 		return lastBidDate;
 	}
-	public void setLast_bid_date(String last_bid_date) {
-		this.lastBidDate = last_bid_date;
+	public void setLastBidDate(String lastBidDate) {
+		this.lastBidDate = lastBidDate;
 	}
-	public int getLast_bidder_no() {
+	public int getLastBidderNo() {
 		return lastBidderNo;
 	}
-	public void setLast_bidder_no(int last_bidder_no) {
-		this.lastBidderNo = last_bidder_no;
+	public void setLastBidderNo(int lastBidderNo) {
+		this.lastBidderNo = lastBidderNo;
 	}
-	
+	public Auction() {}
+
 	
 }

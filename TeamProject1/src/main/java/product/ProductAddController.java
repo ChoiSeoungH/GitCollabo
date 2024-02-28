@@ -33,18 +33,19 @@ public class ProductAddController implements Controller {
 		int sellerNo = Integer.parseInt(request.getParameter("no"));
 		int price =Integer.parseInt(request.getParameter("productPrice"));
 		int method = Integer.parseInt(request.getParameter("method"));
-		int is_auction = Integer.parseInt(request.getParameter("is_auction"));
+		int auction = Integer.parseInt(request.getParameter("auction"));
 		int category = Integer.parseInt(request.getParameter("category"));
 		String productContent = request.getParameter("productContent");
-		System.out.println(image);
+		System.out.println("image" + image);
+		
 		
 
 
-		if(is_auction == 0 ) { // 경매 방법
+		if(auction == 0 ) { // 경매 방법
 			Product vo = new Product(0, category, sellerNo, title, price, productContent,null, false, null, method,0,null); 
 			ProductDAO.getInstance().insertOneProduct(vo);
 			int no =ProductDAO.getInstance().getselectAucton();
-			ProductImg Img = new ProductImg(no, image, null);
+			ProductImg Img = new ProductImg(0,no, image, null);
 			ProductImgDAO.getInstance().addOneProductImg(Img);
 			return "main";
 		
@@ -54,7 +55,7 @@ public class ProductAddController implements Controller {
 			ProductDAO.getInstance().insertOneProduct(vo);
 			int no =ProductDAO.getInstance().getselectAucton();
 			Auction au = new Auction(no, price, null, 0);
-			ProductImg Img = new ProductImg(no, image, null);
+			ProductImg Img = new ProductImg(0,no, image, null);
 			ProductImgDAO.getInstance().addOneProductImg(Img);
 			AuctionDAO.getInstance().addAuction(au);
 			return "main";
