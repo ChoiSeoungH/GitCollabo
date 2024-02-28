@@ -1,7 +1,5 @@
 package user;
 
-import java.io.IOException;
-
 import frontcontorller.Controller;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,4 +18,5 @@ public class MainController implements Controller {
 
     return "main";
   }
+
 }
