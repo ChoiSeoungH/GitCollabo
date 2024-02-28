@@ -43,18 +43,16 @@ public class UserDAO {
     return cnt == 0? true : false;
   }
 
-  public int checkLogin(String id, String pw) {
-    int no = 0;
+  public User checkLogin(String id, String pw) {
 
     User vo = new User();
     vo.setId(id);
     vo.setPw(pw);
-
     SqlSession session = MybatisConfig.getInstance().openSession(true);
-    no = session.selectOne("userLogin", vo);
+    User u = session.selectOne("userLogin", vo);
     session.close();
 
-    return no;
+    return u;
   }
 
   public int getuserNo(String id) {

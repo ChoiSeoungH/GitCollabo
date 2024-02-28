@@ -33,7 +33,7 @@
   
   <!-- 상품이미지 -->
   
-  <resultMap id="productImg" type="vo.ProductImg">
+  <resultMap id="productImg" type="vo.ProductImage">
   <id property="no" column="no" />
   <result property="productNo"  column="product_no"/>
   <result property="imageUrl" column="image_url"/>
@@ -139,17 +139,24 @@ SELECT * FROM product WHERE title LIKE CONCAT('%', #{title}, '%')
     <select id="getAllProductImg" resultMap="productImg">
     select * from Product_image;
     </select>
-	<insert id="insertProductImg" parameterType="productImg">
+	<insert id="insertProductImg" parameterType="productImage">
 	  INSERT INTO Product_image(product_no,image_url)
     VALUES(
     #{productNo},
     #{imageUrl}
     )
 	</insert>
-<!-- 제품 지역으로 불러오기 -->
-<select id="getProductsByLocation" parameterType="String" resultType="user">
-    SELECT *
-    FROM user
-    WHERE sell_location LIKE CONCAT('%', #{location}, '%')
-</select>
+    <!-- 제품 지역으로 상품 조회 -->
+    <select id="getProductsByLocation" parameterType="String" resultMap="product">
+        SELECT *
+        FROM product
+        WHERE sell_location LIKE CONCAT('%', #{location}, '%')
+    </select>
+
+    <select id="getDeliveryProductsByLocation" parameterType="String" resultMap="product">
+        SELECT *
+        FROM product
+        WHERE sell_location LIKE CONCAT('%', #{location}, '%')
+          AND buyer_no IS NOT NULL
+    </select>
 </mapper>

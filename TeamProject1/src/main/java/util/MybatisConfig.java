@@ -14,7 +14,7 @@ public class MybatisConfig {
   // 초기화 블럭-프로그램실행시 딱 한번만 실되는 코드영역
   static {
     try {
-      String resource = "mybatis/config.xml";
+      String resource = "mybatis/Config.xml";
       System.out.println(resource);
       InputStream inputStream = Resources.getResourceAsStream(resource);//읽기
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);

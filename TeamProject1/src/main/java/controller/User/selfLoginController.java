@@ -22,7 +22,7 @@ public class selfLoginController implements Controller {
 		String ctx = req.getContextPath();
 		String id = req.getParameter("id");
 		String pw = req.getParameter("pw");
-		int no = UserDAO.getInstance().checkLogin(id, pw);
+		int no = 0;
 		System.out.println(no);
 		
 		if (no == 0) {
