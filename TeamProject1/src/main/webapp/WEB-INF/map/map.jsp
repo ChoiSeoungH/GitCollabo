@@ -233,7 +233,7 @@
 
   // 주소를 검색하고 해당 위치로 지도를 이동시키는 함수
   function searchAndMoveTo() {
-    var address = document.getElementById('search').value; // 사용자 입력 주소 가져오기
+    var address = document.getElementById('controller.search').value; // 사용자 입력 주소 가져오기
 
     // 주소로 좌표를 검색합니다.
     geocoder.addressSearch(address, function(result, status) {

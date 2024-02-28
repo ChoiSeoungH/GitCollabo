@@ -95,6 +95,21 @@
 	<lib name="mysql-connector-java-8.0.15.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/mysql-connector-java-8.0.15.jar!/"/>
 	</lib>
+	<lib name="gson-2.8.5.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/gson-2.8.5.jar!/"/>
+	</lib>
+	<lib name="jakarta.servlet.jsp.jstl-3.0.1.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/jakarta.servlet.jsp.jstl-3.0.1.jar!/"/>
+	</lib>
+	<lib name="jakarta.servlet.jsp.jstl-api-3.0.0.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/jakarta.servlet.jsp.jstl-api-3.0.0.jar!/"/>
+	</lib>
+	<lib name="javax.servlet.jsp.jstl-10.0-b28.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/javax.servlet.jsp.jstl-10.0-b28.jar!/"/>
+	</lib>
+	<lib name="json-simple-1.1.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/json-simple-1.1.jar!/"/>
+	</lib>
 	<levels>
 		<level name="apache-tomcat-10.0.27" value="project"/>
 		<level name="org.eclipse.jst.j2ee.internal.web.container" value="project"/>
