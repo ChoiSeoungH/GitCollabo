@@ -7,14 +7,14 @@ import vo.User;
 
 import java.util.List;
 
-public class UserDao {
+public class UserDAO {
 
-  private UserDao() {
+  private UserDAO() {
   }
 
-  static private UserDao instance = new UserDao();
+  static private UserDAO instance = new UserDAO();
 
-  static public UserDao getInstance() {
+  static public UserDAO getInstance() {
     return instance;
   }
 
@@ -28,6 +28,7 @@ public class UserDao {
   }
 
   public int userInsert(User vo) {
+    System.out.println(vo);
     SqlSession session = MybatisConfig.getInstance().openSession();
     int cnt = session.insert("userInsert", vo);
     session.commit();
@@ -42,14 +43,16 @@ public class UserDao {
     return cnt == 0? true : false;
   }
 
-  public String checkLogin(String id, String pw) {
+  public User checkLogin(String id, String pw) {
+
     User vo = new User();
     vo.setId(id);
     vo.setPw(pw);
-    SqlSession session = MybatisConfig.getInstance().openSession();
-    String name = session.selectOne("checkLogin", vo);
+    SqlSession session = MybatisConfig.getInstance().openSession(true);
+    User u = session.selectOne("userLogin", vo);
     session.close();
-    return name;
+
+    return u;
   }
 
   public int getuserNo(String id) {
@@ -67,15 +70,15 @@ public class UserDao {
     return cnt;
   }
 
-  public User userContent(int num) {
-    SqlSession session = MybatisConfig.getInstance().openSession();
-    User vo = session.selectOne("userContent", num);
+  public User getOneUser(int no) {
+    SqlSession session= MybatisConfig.getInstance().openSession(true);
+    User user = session.selectOne("getOneUser",no);
     session.close();
-    return vo;
+    return user;
   }
 
   public int userUpdate(User vo) {
-    SqlSession session = MybatisConfig.getInstance().openSession();
+    SqlSession session= MybatisConfig.getInstance().openSession(true);
     int cnt = session.update("userUpdate", vo);
     session.commit();
     session.close();

@@ -1,8 +1,109 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mybatis.ProductMapper">
-    <select id="productList" resultType="vo.Product">
-        SELECT * FROM product
+
+<!-- 상품등록 -->
+
+  <resultMap id="product" type="vo.Product">
+  <id property="no" column="no"/>
+  <result property="category" column="category"/>
+  <result property="sellerNo" column="seller_no"/>
+  <result property="title" column="title"/>
+  <result property="price" column="price"/>
+  <result property="description" column="description"/>
+  <result property="regDate" column="reg_date"/>
+  <result property="isAuction" column="is_auction"/>
+  <result property="sellLocation" column="sell_location"/>
+  <result property="productMethod" column="product_method"/>
+  <result property="buyerNo" column="buyer_no"/>
+  <result property="endDate" column="end_date"/>
+</resultMap>
+  
+  <!-- 경매 -->
+  
+  <resultMap id="auction"  type="vo.Auction">
+  <result property="productNo" column="product_no"/>
+  <result property="lastPrice"  column="last_price"/>
+  <result property="lastBidDate" column="last_bid_date"/>
+  <result property="lastBidderNo" column="last_bidder_no"/>
+  </resultMap>
+  
+  <!-- 상품이미지 -->
+  
+  <resultMap id="productImg" type="vo.ProductImage">
+  <id property="no" column="no" />
+  <result property="productNo"  column="product_no"/>
+  <result property="imageUrl" column="image_url"/>
+  <result property="regDate"  column="reg_date"/>
+  </resultMap>
+  
+   <!-- 카테고리 -->
+  
+  <resultMap id="category" type="vo.Category">
+  <id property="no" column="no"/>
+  <result property="name" column="name"/>
+  </resultMap>
+ 
+ <!-- 모든등록 조회리스트 --> 
+  <select id="selectAllProduct" resultMap="product">
+  SELECT * FROM product
+</select>
+
+<!--카테고리 상품 조회리스트 -->
+<select id="getCateProductList" resultMap="product" parameterType="InTeger">
+	select * from product where category=#{category}
+</select>
+<!-- 상품 검색 조회 -->
+<select id="getSearchProduct"  resultMap="product" parameterType="String">
+SELECT * FROM product WHERE title LIKE CONCAT('%', #{title}, '%')
+
+</select>	
+ 
+ 		<!-- 판매상품넘버가져오기 -->
+     	<select id="getOneProduct" parameterType="String" resultMap="product">
+    	 SELECT * FROM product where no=#{no} 
+    	</select>
+ 	
+   			<!-- 판매자 상품유저 가져오기 -->
+    	<select id="getSellUserProductList" parameterType="String" resultMap="product">
+    	 SELECT * FROM product where seller_no=#{sellerNo} 
+    	</select>
+   
+   
+   <!-- 상품수정 -->  	
+  		<update id="productUpdate" parameterType="product" >
+    	update product 
+    	set price=#{price} , category=#{category} , title=#{title}, description=#{description} ,product_method=#{productMethod}
+    	where no=#{no}
+    	</update>
+    
+    <!--  거래완료 -->
+    	<update id="productUpdateEnd" parameterType="product" >
+    	update product 
+    	set end_date=#{endDate}, buyer_no=#{buyerNo}
+    	where no=#{no}
+    	</update>
+    
+    <!--  상품등록 -->
+        <insert id="productInsert" parameterType="product">
+        INSERT INTO product (no, category, seller_no, title, price, description,is_auction,sell_location,product_method,end_date)
+       VALUES(
+        #{no},
+        #{category},
+        #{sellerNo},
+        #{title},
+        #{price},
+        #{description},
+        #{isAuction},
+        #{sellLocation},
+        #{productMethod},
+        #{endDate}
+        )       
+    </insert>
+    
+    <!-- 상품추가시 옥션일때 마지막 번호 가져와서 값 넣기 -->
+    <select id="getProductNo" resultType="Integer">
+    SELECT no FROM product ORDER BY no DESC LIMIT 1;
     </select>
 
     <insert id="insertProduct" parameterType="vo.Product">
@@ -14,5 +115,25 @@
         SELECT *
         FROM user
         WHERE sell_location LIKE CONCAT('%', #{location}, '%')
+    </select>
+	<insert id="insertProductImg" parameterType="productImage">
+	  INSERT INTO Product_image(product_no,image_url)
+    VALUES(
+    #{productNo},
+    #{imageUrl}
+    )
+	</insert>
+    <!-- 제품 지역으로 상품 조회 -->
+    <select id="getProductsByLocation" parameterType="String" resultMap="product">
+        SELECT *
+        FROM product
+        WHERE sell_location LIKE CONCAT('%', #{location}, '%')
+    </select>
+
+    <select id="getDeliveryProductsByLocation" parameterType="String" resultMap="product">
+        SELECT *
+        FROM product
+        WHERE sell_location LIKE CONCAT('%', #{location}, '%')
+          AND buyer_no IS NOT NULL
     </select>
 </mapper>

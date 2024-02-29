@@ -125,6 +125,10 @@ SELECT * FROM delivery;
 INSERT INTO user (id, pw, name, phone, deliver) VALUES ('admin', 'admin', '관리자', '010-1234-5678', TRUE);
 INSERT INTO user (id, pw, name, phone) VALUES ('qwer', '1234', '김세희', '010-3231-1232');
 INSERT INTO user (id, pw, name, phone, deliver) VALUES ('abcd', '1234', '김민수', '010-1234-5643', TRUE);
+INSERT INTO user (id, pw, name, phone, deliver) VALUES ('zxcv', '1234', '김영희', '010-1234-5644', TRUE);
+INSERT INTO user (id, pw, name, phone) VALUES ('aaaa', '1234', '김철수', '010-1234-5645' );
+
+
 
 INSERT INTO category (no, name) VALUES (0, '전체');
 INSERT INTO category (no, name) VALUES (1, '디지털');

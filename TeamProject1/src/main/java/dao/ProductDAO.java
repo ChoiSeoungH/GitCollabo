@@ -34,4 +34,10 @@ public class ProductDao {
 }
 
 
+  public List<Product> getDeliveryProductsByLocation(String location) {
+    SqlSession session = MybatisConfig.getInstance().openSession();
+    List<Product> list = session.selectList("getDeliveryProductsByLocation", location);
+    session.close();
+    return list;
+  }
 
