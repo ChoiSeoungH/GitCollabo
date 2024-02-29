@@ -19,14 +19,14 @@ public class AuctionDAO {
 //	경매추가일시
 	public List<Auction> addAuction(Auction vo){
 		SqlSession session = MybatisConfig.getInstance().openSession();
-		List<Auction> list = session.selectList("mapper.product.addOneAuction",vo);
+		List<Auction> list = session.selectList("addOneAuction",vo);
 		session.commit();
 		session.close();
 		return list;
 	}
 	public List<Auction> getOneAuction(int no){
 		SqlSession session = MybatisConfig.getInstance().openSession();
-		List<Auction> list = session.selectList("mapper.product.getOneAuction",no);
+		List<Auction> list = session.selectList("getOneAuction",no);
 		session.close();
 		return list;
 	}

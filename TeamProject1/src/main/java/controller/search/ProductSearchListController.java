@@ -8,13 +8,11 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import dao.ProductDAO;
@@ -23,9 +21,8 @@ import frontcontorller.Controller;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import util.MybatisConfig;
 import vo.Product;
-import vo.ProductImg;
+import vo.ProductImage;
 
 public class ProductSearchListController implements Controller {
 
@@ -69,7 +66,7 @@ public class ProductSearchListController implements Controller {
         	jakarta.servlet.http.HttpSession session = request.getSession();
 	    	List<Product> list = ProductDAO.getInstance().getSearchListImg(request.getParameter("query"));
 	    	session.setAttribute("query", request.getParameter("query"));
-	    	List<ProductImg> imgList = ProductImgDAO.getInstance().getAllProductImg();
+	    	List<ProductImage> imgList = ProductImgDAO.getInstance().getAllProductImg();
 	    	request.setAttribute("img", imgList);
 		    request.setAttribute("vo", list);
 		    request.setAttribute("naver", responseMap);

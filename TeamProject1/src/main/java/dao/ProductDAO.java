@@ -17,8 +17,9 @@ public class ProductDAO {
   }
   // 전체상품 가져오기
   public List<Product> getAllProduct(){
+
     SqlSession session =MybatisConfig.getInstance().openSession();
-    List<Product> list = session.selectList("mapper.product.selectAllProduct");
+    List<Product> list = session.selectList("selectAllProduct");
     session.close();
     return list;
   }
@@ -26,7 +27,7 @@ public class ProductDAO {
   //카테고리 리스트 조회하기
   public List<Product> getCategoryList(int category){
     SqlSession session =MybatisConfig.getInstance().openSession();
-    List<Product> list = session.selectList("mapper.product.getCateProductList", category);
+    List<Product> list = session.selectList("getCateProductList", category);
     session.close();
     return list;
   }
@@ -35,7 +36,7 @@ public class ProductDAO {
   //상품 검색 조회
   public List<Product> getSearchList(String title){
     SqlSession session = MybatisConfig.getInstance().openSession();
-    List<Product> list = session.selectList("mapper.product.getSearchProduct",title);
+    List<Product> list = session.selectList("getSearchProduct",title);
     session.close();
     return list;
   }
@@ -43,7 +44,7 @@ public class ProductDAO {
   //최신상품 3개 가져오기
   public List<Product> getLatestProduct(){
     SqlSession session = MybatisConfig.getInstance().openSession();
-    List<Product> list = session.selectList("mapper.product.latestProductThree");
+    List<Product> list = session.selectList("latestProductThree");
     session.close();
     return list;
 
@@ -52,28 +53,28 @@ public class ProductDAO {
   // 상품검색했을떄 이미지도 불러오기
   public List<Product> getSearchListImg(String title){
     SqlSession session = MybatisConfig.getInstance().openSession();
-    List<Product> list = session.selectList("mapper.product.getSearchProduct",title);
+    List<Product> list = session.selectList("getSearchProduct",title);
     session.close();
     return list;
   }
   // 상품등록
   public List<Product> insertOneProduct(Product product){
     SqlSession session = MybatisConfig.getInstance().openSession();
-    List<Product> list = session.selectList("mapper.product.productInsert",product);
+    List<Product> list = session.selectList("productInsert",product);
     session.commit();
     session.close();
     return list;
   }
   public int getselectAucton() {
     SqlSession session = MybatisConfig.getInstance().openSession();
-    int no = session.selectOne("mapper.product.getProductNo");
+    int no = session.selectOne("getProductNo");
     session.close();
     return no;
   }
   // 상품클릭시 상품 제품 가지고 오기
   public List<Product> getProductNoContent(int no){
     SqlSession session = MybatisConfig.getInstance().openSession();
-    List<Product> list = session.selectList("mapper.product.getOneProduct",no);
+    List<Product> list = session.selectList("getOneProduct",no);
     session.close();
     return list;
 
