@@ -10,6 +10,7 @@ import controller.map.QuickMainController;
 
 import java.util.HashMap;
 import product.ProductAddController;
+import product.ProductContentController;
 import product.ProductListController;
 import product.ProductSearchListController;
 import controller.Product.ProductMainController;
@@ -39,6 +40,7 @@ public class HandlerMapping {
 
 		//상품리스트
 		mappings.put("/productList.do" ,new ProductListController());
+		mappings.put("/productContent.do", new ProductContentController());
 
 		// main
 		mappings.put("/main.do", new MainController());
@@ -54,7 +56,6 @@ public class HandlerMapping {
 		mappings.put("/userUpdate.do", new userUpdateController());
 
 	}
-
 	public Controller getController(String key) {
 		return mappings.get(key);
 	}

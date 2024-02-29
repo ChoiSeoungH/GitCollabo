@@ -12,7 +12,8 @@
   <result property="price" column="price"/>
   <result property="description" column="description"/>
   <result property="regDate" column="reg_date"/>
-  <result property="isAuction" column="is_auction"/>
+  <!-- <result property="isAuction" column="is_auction" /> -->
+  <result property="auction" column="is_auction" jdbcType="TINYINT" javaType="boolean"/>
   <result property="sellLocation" column="sell_location"/>
   <result property="productMethod" column="product_method"/>
   <result property="buyerNo" column="buyer_no"/>
@@ -44,10 +45,15 @@
   <result property="name" column="name"/>
   </resultMap>
  
- <!-- 모든등록 조회리스트 --> 
+ <!-- 모든상품 조회리스트 --> 
   <select id="selectAllProduct" resultMap="product">
   SELECT * FROM product
 </select>
+	<!--  최신상품 3개 조회해오기 -->
+<select id="latestProductThree" resultMap="product">
+SELECT * FROM product ORDER BY no DESC LIMIT 3
+</select>
+
 
 <!--카테고리 상품 조회리스트 -->
 <select id="getCateProductList" resultMap="product" parameterType="InTeger">
@@ -60,7 +66,7 @@ SELECT * FROM product WHERE title LIKE CONCAT('%', #{title}, '%')
 </select>	
  
  		<!-- 판매상품넘버가져오기 -->
-     	<select id="getOneProduct" parameterType="String" resultMap="product">
+     	<select id="getOneProduct" parameterType="Integer" resultMap="product">
     	 SELECT * FROM product where no=#{no} 
     	</select>
  	
@@ -94,7 +100,7 @@ SELECT * FROM product WHERE title LIKE CONCAT('%', #{title}, '%')
         #{title},
         #{price},
         #{description},
-        #{isAuction},
+        #{auction},
         #{sellLocation},
         #{productMethod},
         #{endDate}
@@ -106,9 +112,27 @@ SELECT * FROM product WHERE title LIKE CONCAT('%', #{title}, '%')
     SELECT no FROM product ORDER BY no DESC LIMIT 1;
     </select>
 
-    <insert id="insertProduct" parameterType="vo.Product">
-        INSERT INTO product (category, seller_no, title, price, description, is_auction, sell_location, product_method)
-        VALUES (#{category}, #{sellerNo}, #{title}, #{price}, #{description}, #{isAuction}, #{sellLocation}, #{productMethod})
+     <!-- 상품삭제 본인-->
+      <delete id="productDelete" parameterType="String">  
+        delete from user where no=#{no} 
+    </delete>
+    
+    <!-- 경매리스트 불러오기 -->
+	<select id="selectAllAuction" resultMap="auction">
+	SELECT * FROM AUCTION
+	</select>
+	<!--경매상품넘버가져오기 -->
+     	<select id="getOneAuction" parameterType="Integer" resultMap="auction">
+    	 SELECT * FROM auction where product_no=#{no} 
+    	</select>
+	
+	<!-- 경매선택추가 -->
+    <insert id="addOneAuction" parameterType="auction">
+    INSERT INTO AUCTION(product_no,last_price)
+    VALUES(
+    #{productNo},
+    #{lastPrice}
+    )
     </insert>
 
     <select id="getProductsByLocation" parameterType="String" resultType="user">
@@ -136,4 +160,11 @@ SELECT * FROM product WHERE title LIKE CONCAT('%', #{title}, '%')
         WHERE sell_location LIKE CONCAT('%', #{location}, '%')
           AND buyer_no IS NOT NULL
     </select>
+
+    <!-- 각 상품이미지 불러오기 -->
+    <select id="getOneImage" parameterType="Integer" resultMap="productImg">
+        select * from product_image where product_no=#{no}
+    </select>
 </mapper>
+
+
