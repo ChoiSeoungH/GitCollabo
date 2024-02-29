@@ -39,7 +39,7 @@ public class QuickMainController implements Controller {
     }
 
     Gson gson = new Gson();
-    String json = gson.toJson(list); // User 객체 리스트를 JSON 형식으로 변환
+    String json = gson.toJson(list); // Product 객체 리스트를 JSON 형식으로 변환
     System.out.println(json);
     request.setAttribute("json", json); // JSON 데이터를 "json" 속성으로 설정하여 JSP로 전달
 
@@ -47,6 +47,9 @@ public class QuickMainController implements Controller {
     System.out.println(user);
     request.setAttribute("deliver", deliver); // JSON 데이터를 "json" 속성으로 설정하여 JSP로 전달
     request.setAttribute("user", user);
+
+    String buyerJson = gson.toJson(buyerList);
+    request.setAttribute("buyerJson",buyerJson);
 
     return "quick/quickMain";
   }

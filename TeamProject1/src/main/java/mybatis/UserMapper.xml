@@ -59,6 +59,10 @@
         SELECT * FROM user WHERE no=#{no}
     </select>
 
+    <select id="getOneUser" parameterType="Integer" resultMap="user">
+        SELECT * FROM user where no=#{no}
+    </select>
+
     <update id="userUpdate" parameterType="user">
         UPDATE user
         SET nickname=#{nickname}, phone=#{phone}, location=#{location}, img_url=#{imgUrl}
@@ -84,4 +88,6 @@
         FROM user
         WHERE location LIKE CONCAT('%', #{location}, '%')
     </select>
+
+
 </mapper>

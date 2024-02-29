@@ -35,7 +35,8 @@
 
       #map-container {
           width: 100%;
-          height: 100%;
+          height: calc(100% - 30px);
+          margin-bottom: 10px;
       }
 
 
@@ -44,13 +45,15 @@
           max-width: 400px; /* 최대 너비를 설정하여 너무 크게 확장되는 것을 방지 */
           white-space: nowrap; /* 텍스트를 줄바꿈 없이 한 줄로 표시 */
       }
+
       .bAddr {
           margin: 0;
           padding: 10px;
           border-radius: 5px;
           background: #fff;
-          box-shadow: 0 2px 2px rgba(0,0,0,0.2);
+          box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
       }
+
       .title {
           display: block;
           margin-bottom: 5px;
@@ -70,6 +73,7 @@
   <!-- Financial information -->
   <div id="financial-info">
     <span id="cash">현금 : ${user.cash}</span>
+
     <span id="weekly-income">이번주 수입 : </span>
   </div>
   <!-- Delivery and navigation buttons -->
@@ -96,8 +100,11 @@
 <script
     src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c8936a5cd23e9343aaae775855cc0679&libraries=services,clusterer,drawing"></script>
 <script>
+
+
   var listData = JSON.parse('${json}');
   var deliver = JSON.parse('${deliver}');
+  var buyerListData = JSON.parse('${buyerJson}');
   // listData를 사용하여 작업을 수행합니다.
   // console.log(listData);
   // console.log(deliver);
@@ -150,13 +157,13 @@
       searchAddrFromCoords(map.getCenter(), displayInfowindow);
 
       // 마커에 마우스오버 이벤트를 등록합니다
-      kakao.maps.event.addListener(marker, 'mouseover', function() {
+      kakao.maps.event.addListener(marker, 'mouseover', function () {
         // 마커에 마우스오버 이벤트가 발생하면 인포윈도우를 마커위에 표시합니다
         infowindow.open(map, marker);
       });
 
       // 마커에 마우스아웃 이벤트를 등록합니다
-      kakao.maps.event.addListener(marker, 'mouseout', function() {
+      kakao.maps.event.addListener(marker, 'mouseout', function () {
         // 마커에 마우스아웃 이벤트가 발생하면 인포윈도우를 제거합니다
         infowindow.close();
       });
@@ -195,18 +202,6 @@
     }
 
 
-
-
-    function panTo() {//지도좌표 이동
-      // 이동할 위도 경도 위치를 생성합니다
-      var moveLatLon = new kakao.maps.LatLng(lat, lon);
-
-      // 지도 중심을 부드럽게 이동시킵니다
-      // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
-      map.panTo(moveLatLon);
-    }
-
-
     //프로덕트 마커 표시
     var MARKER_WIDTH = 33, // 기본, 클릭 마커의 너비
         MARKER_HEIGHT = 36, // 기본, 클릭 마커의 높이
@@ -230,34 +225,46 @@
     var selectedMarker = null; // 클릭한 마커를 담을 변수
 
     for (let i = 0; i < listData.length; i++) {// 제품의 마커 생성
-      const product = listData[i];
+      var product = listData[i];
+      var buyer = buyerListData[i];
       console.log(product);
+      console.log(buyer);
       var locationList = product.sellLocation.split("/");
+      var buyerLocationList = buyer.location.split("/");
       console.log(locationList);
       var roadAddress = locationList[0];
       var detailAddress = locationList[2];
+      var adress = roadAddress + " " + detailAddress;
+
+      var buyerRoadAddress = locationList[0];
+      var buyerDetailAddress = locationList[2];
+      var buyerAdress = buyerRoadAddress + " " + buyerDetailAddress;
       // 주소를 위도와 경도로 변환
       geocoder.addressSearch(roadAddress + ' ' + detailAddress, function (result, status) {
         if (status === kakao.maps.services.Status.OK) {
           // 변환된 주소의 위도와 경도를 가져옴
           var latlng = new kakao.maps.LatLng(result[0].y, result[0].x);
-
-          var gapX = (MARKER_WIDTH + SPRITE_GAP), // 스프라이트 이미지에서 마커로 사용할 이미지 X좌표 간격 값
-              originY = (MARKER_HEIGHT + SPRITE_GAP) * i, // 스프라이트 이미지에서 기본, 클릭 마커로 사용할 Y좌표 값
-              overOriginY = (OVER_MARKER_HEIGHT + SPRITE_GAP) * i, // 스프라이트 이미지에서 오버 마커로 사용할 Y좌표 값
-              normalOrigin = new kakao.maps.Point(0, originY), // 스프라이트 이미지에서 기본 마커로 사용할 영역의 좌상단 좌표
-              clickOrigin = new kakao.maps.Point(gapX, originY), // 스프라이트 이미지에서 마우스오버 마커로 사용할 영역의 좌상단 좌표
-              overOrigin = new kakao.maps.Point(gapX * 2, overOriginY); // 스프라이트 이미지에서 클릭 마커로 사용할 영역의 좌상단 좌표
-          console.log(i);
-          // 마커를 생성하고 지도위에 표시합니다
-          addMarker(latlng, normalOrigin, overOrigin, clickOrigin);
+          geocoder.addressSearch(buyerRoadAddress + ' ' + buyerDetailAddress, function (result, status) {
+            if (status === kakao.maps.services.Status.OK) {
+              var buyerLatlng = new kakao.maps.LatLng(result[0].y, result[0].x);
+              var gapX = (MARKER_WIDTH + SPRITE_GAP), // 스프라이트 이미지에서 마커로 사용할 이미지 X좌표 간격 값
+                  originY = (MARKER_HEIGHT + SPRITE_GAP) * i, // 스프라이트 이미지에서 기본, 클릭 마커로 사용할 Y좌표 값
+                  overOriginY = (OVER_MARKER_HEIGHT + SPRITE_GAP) * i, // 스프라이트 이미지에서 오버 마커로 사용할 Y좌표 값
+                  normalOrigin = new kakao.maps.Point(0, originY), // 스프라이트 이미지에서 기본 마커로 사용할 영역의 좌상단 좌표
+                  clickOrigin = new kakao.maps.Point(gapX, originY), // 스프라이트 이미지에서 마우스오버 마커로 사용할 영역의 좌상단 좌표
+                  overOrigin = new kakao.maps.Point(gapX * 2, overOriginY); // 스프라이트 이미지에서 클릭 마커로 사용할 영역의 좌상단 좌표
+              console.log(i);
+              // 마커를 생성하고 지도위에 표시합니다
+              addMarker(latlng, buyerLatlng,adress,buyerAdress, normalOrigin, overOrigin, clickOrigin);
+            }
+          });
         }
       });
     }
 
 
     // 마커를 생성하고 지도 위에 표시하고, 마커에 mouseover, mouseout, click 이벤트를 등록하는 함수입니다
-    function addMarker(position, normalOrigin, overOrigin, clickOrigin) {
+    function addMarker(position,buyerPosition,adress,buyerAdress, normalOrigin, overOrigin, clickOrigin) {
 
       // 기본 마커이미지, 오버 마커이미지, 클릭 마커이미지를 생성합니다
       var normalImage = createMarkerImage(markerSize, markerOffset, normalOrigin),
@@ -313,11 +320,13 @@
         selectedMarker = marker;
 
         // 인포윈도우에 표시할 내용
-        var content = '<div>배달료 : ' + data.estimatedCost + '</div>' +
-            '<div>픽업 : ' + data.sellLocation + '</div>' +
-            '<div>전달 : ' + users[data.buyerNo].location + '</div>' +
-            '<button onclick="closeInfowindow();">거절</button>' +
-            '<button onclick="acceptDelivery(' + data.buyerNo + ', \'' + data.sellLocation + '\');">배차 수락</button>';
+        // var content = '<div>배달료 : ' + data.estimatedCost + '</div>' +
+
+        var content = '<div>배달료 : 3900원</div>' +
+            '<div>픽업 : ' + adress + '</div>' +
+            '<div>전달 : ' + buyerAdress + '</div>' +
+            '<button onclick="infowindow.close();">거절</button>'
+            // '<button onclick="acceptDelivery();">배차 수락</button>';
         infowindow.setContent(content);
         infowindow.open(map, marker);
       });
@@ -371,6 +380,15 @@
 
     dtoSline.setMap(map);
     stoBline.setMap(map);
+  }
+
+  function panTo() {//지도좌표 이동
+    // 이동할 위도 경도 위치를 생성합니다
+    var moveLatLon = new kakao.maps.LatLng(lat, lon);
+
+    // 지도 중심을 부드럽게 이동시킵니다
+    // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
+    map.panTo(moveLatLon);
   }
 
 </script>

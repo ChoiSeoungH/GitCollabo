@@ -12,7 +12,7 @@ import java.util.HashMap;
 import controller.Product.ProductAddController;
 import controller.Product.ProductContentController;
 import controller.Product.ProductListController;
-import product.ProductSearchListController;
+import controller.search.ProductSearchListController;
 import controller.Product.ProductMainController;
 
 public class HandlerMapping {

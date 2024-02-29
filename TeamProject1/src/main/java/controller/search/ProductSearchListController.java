@@ -1,4 +1,4 @@
-package product;
+package controller.search;
 
 import java.io.BufferedReader;
 import java.io.IOException;
