@@ -9,25 +9,24 @@ import com.basic.team.controller.frontController.Controller;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 public class userContentController implements Controller {
 
 	@Override
 	public String requestHandler(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		
-		HttpSession session = req.getSession();
+		int no = -1;
 		
-		int log = -1;
-		log = (int) session.getAttribute("no");
+		no = Integer.parseInt(req.getParameter("no"));
 		
-		if(log == -1) {
+		if(no == -1) {
 			req.removeAttribute("center");
 			return "main";
 		}
 		
-		User user = UserDAO.getInstance().getOneUser(log);
+		User user = UserDAO.getInstance().getOneUser(no);
 		System.out.println(user);
+		
 		req.setAttribute("user", user);
 		return "user/userContent";
 		

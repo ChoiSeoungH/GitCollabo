@@ -1,5 +1,7 @@
 package com.basic.team.DAO;
 
+import java.util.ArrayList;
+
 import org.apache.ibatis.session.SqlSession;
 
 import com.basic.team.VO.User;
@@ -16,18 +18,17 @@ public class UserDAO {
 		return instance;
 	}
 	
-	public int checkLogin(String id, String pw) {
-		int no = 0; 
+	public User checkLogin(String id, String pw) {
 		
 		User vo = new User();
 		vo.setId(id);
 		vo.setPw(pw);
 		
 		SqlSession session = MybatisConfig.getInstance().openSession(true);
-		no = session.selectOne("userLogin", vo);
+		User u = session.selectOne("userLogin", vo);
 		session.close();
 		
-		return no;
+		return u;
 	}
 	
 	public boolean isValidId(String id) {
@@ -51,6 +52,13 @@ public class UserDAO {
 		User user = session.selectOne("getOneUser",no);
 		session.close();
 		return user;
+	}
+	
+	public ArrayList<User> getUserList() {
+		SqlSession session= MybatisConfig.getInstance().openSession(true);
+		ArrayList<User> list= (ArrayList)session.selectList("selectAllUsers");
+		session.close();
+		return list;
 	}
 	
 	public int userUpdate(User vo) {

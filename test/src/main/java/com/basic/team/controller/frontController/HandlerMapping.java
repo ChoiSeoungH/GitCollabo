@@ -9,7 +9,9 @@ import com.basic.team.controller.User.naverLoginController;
 import com.basic.team.controller.User.selfJoinController;
 import com.basic.team.controller.User.selfLoginController;
 import com.basic.team.controller.User.userContentController;
+import com.basic.team.controller.User.userLogOutController;
 import com.basic.team.controller.User.userUpdateController;
+import com.basic.team.controller.admin.userListController;
 
 
 
@@ -33,7 +35,11 @@ public class HandlerMapping {
 		mappings.put("/vaildIdAjax.do", new VaildIdAjaxController());
 		mappings.put("/userContent.do", new userContentController());
 		mappings.put("/userUpdate.do", new userUpdateController());
+		mappings.put("/userLogOut.do", new userLogOutController());
 
+		// admin
+		mappings.put("/userList.do", new userListController());
+		
 	}
 	
 	public Controller getController(String key) {

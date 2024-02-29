@@ -14,7 +14,7 @@
   <result property="cash" column="cash"/>
   <result property="phone" column="phone"/>
   <result property="location" column="location"/>
-  <result property="regDate" column="regDate"/>
+  <result property="regDate" column="reg_date"/>
   <result property="penalty" column="penalty"/>
   <result property="deliver" column="deliver"/>
   <result property="status" column="status"/>
@@ -24,8 +24,8 @@
   		SELECT * FROM user
 	</select>
   
-    <select id="userLogin" parameterType="user" resultType="Integer">
-        select no from user where id=#{id} and pw=#{pw}       
+    <select id="userLogin" parameterType="user" resultMap="user">
+        select * from user where id=#{id} and pw=#{pw}       
     </select>
     
 	<select id="validId" parameterType="String" resultType="String">
