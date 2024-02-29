@@ -60,14 +60,7 @@ public class ProductAddController implements Controller {
 			return "main";
 			
 		}
-		
-
-		
-		
-		
 
 	}
-
-	
 
 }

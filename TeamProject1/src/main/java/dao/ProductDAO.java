@@ -1,37 +1,29 @@
 package dao;
 
-import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
-
-import com.mysql.cj.Session;
-
 import util.MybatisConfig;
 import vo.Product;
 
+import java.util.List;
+
 public class ProductDAO {
+
   private ProductDAO() {
   }
-  private static ProductDAO instance = new ProductDAO();
-  public static ProductDAO getInstance() {
+  static private ProductDAO instance = new ProductDAO();
+
+  static public ProductDAO getInstance() {
     return instance;
   }
-  // 전체상품 가져오기
-  public List<Product> getAllProduct(){
-    SqlSession session =MybatisConfig.getInstance().openSession();
-    List<Product> list = session.selectList("mapper.product.selectAllProduct");
+
+  public List<Product> getAllProduct() {
+    // 컨넥션 객체 + sql 쿼리문 실행해주는 객체
+    SqlSession session = MybatisConfig.getInstance().openSession();
+    List<Product> list = session.selectList("productList");
     session.close();
     return list;
   }
-
-  //카테고리 리스트 조회하기
-  public List<Product> getCategoryList(int category){
-    SqlSession session =MybatisConfig.getInstance().openSession();
-    List<Product> list = session.selectList("mapper.product.getCateProductList", category);
-    session.close();
-    return list;
-  }
-
 
   //상품 검색 조회
   public List<Product> getSearchList(String title){
@@ -75,5 +67,8 @@ public class ProductDAO {
     session.close();
     return list;
   }
-
 }
+
+
+
+
