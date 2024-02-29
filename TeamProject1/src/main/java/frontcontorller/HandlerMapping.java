@@ -53,7 +53,6 @@ public class HandlerMapping {
 		mappings.put("/userContent.do", new userContentController());
 		mappings.put("/userUpdate.do", new userUpdateController());
 
-
 	}
 
 	public Controller getController(String key) {
