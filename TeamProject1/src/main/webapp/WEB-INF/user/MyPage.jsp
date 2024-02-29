@@ -129,8 +129,7 @@
 		</table> -->
 	</div>
 	<ul class="mypage_menu">
-	<li> <a href="${ctx}/userInfo.do"> - 내 동네 설정 </a></li>
-	<li> <a href="${ctx}/userInfo.do"> - 키워드 설정 </a></li>
+	<li> <a href="${ctx}/map.do"> - 내 동네 설정 </a></li>
 	<li> <a href="${ctx}/userInfo.do"> - 판매 내역 </a></li>
 	<li> <a href="${ctx}/userInfo.do"> - 구매 내역 </a></li>
 	<li> <a href="${ctx}/userInfo.do"> - 라이더 신청 </a></li>

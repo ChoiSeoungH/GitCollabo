@@ -222,6 +222,7 @@
         // 성공적으로 응답을 받았을 때의 처리
         console.log("응답:", response);
         alert('주소가 성공적으로 저장되었습니다.');
+        location.href = "/selfLogin.do"
       },
       error: function(xhr, status, error) {
         // 에러가 발생했을 때의 처리

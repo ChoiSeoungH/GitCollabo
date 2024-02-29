@@ -2,6 +2,7 @@ package dao;
 
 
 import org.apache.ibatis.session.SqlSession;
+
 import util.MybatisConfig;
 import vo.User;
 
@@ -28,7 +29,6 @@ public class UserDAO {
   }
 
   public int userInsert(User vo) {
-    System.out.println(vo);
     SqlSession session = MybatisConfig.getInstance().openSession();
     int cnt = session.insert("userInsert", vo);
     session.commit();
@@ -44,14 +44,12 @@ public class UserDAO {
   }
 
   public User checkLogin(String id, String pw) {
-
     User vo = new User();
     vo.setId(id);
     vo.setPw(pw);
-    SqlSession session = MybatisConfig.getInstance().openSession(true);
-    User u = session.selectOne("userLogin", vo);
+    SqlSession session = MybatisConfig.getInstance().openSession();
+    User u = session.selectOne("checkLogin", vo);
     session.close();
-
     return u;
   }
 
@@ -70,6 +68,13 @@ public class UserDAO {
     return cnt;
   }
 
+  public User userContent(int num) {
+    SqlSession session = MybatisConfig.getInstance().openSession();
+    User vo = session.selectOne("userContent", num);
+    session.close();
+    return vo;
+  }
+
   public User getOneUser(int no) {
     SqlSession session= MybatisConfig.getInstance().openSession(true);
     User user = session.selectOne("getOneUser",no);
@@ -78,7 +83,7 @@ public class UserDAO {
   }
 
   public int userUpdate(User vo) {
-    SqlSession session= MybatisConfig.getInstance().openSession(true);
+    SqlSession session = MybatisConfig.getInstance().openSession();
     int cnt = session.update("userUpdate", vo);
     session.commit();
     session.close();

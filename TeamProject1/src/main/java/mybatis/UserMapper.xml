@@ -43,8 +43,8 @@
         SELECT COUNT(*) FROM user WHERE id=#{id}
     </select>
 
-    <select id="checkLogin" parameterType="user" resultType="String">
-        SELECT name FROM user WHERE id=#{id} AND pw=#{pw}
+    <select id="checkLogin" parameterType="user" resultMap="user">
+        SELECT * FROM user WHERE id=#{id} AND pw=#{pw}
     </select>
 
     <select id="getUserNo" parameterType="String" resultType="Integer">
