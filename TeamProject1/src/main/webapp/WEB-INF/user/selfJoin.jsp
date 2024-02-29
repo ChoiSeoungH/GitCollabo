@@ -45,7 +45,7 @@
   	
     <td colspan="2"> 
     <input type="checkbox" name="checkbox" value="check">
-    뜨끈한 우동의 전체 이용약관에 동의합니다.(필수)</td>
+    뜨끈한 우동의 전체 <a onclick="#">이용약관</a>에 동의합니다.(필수)</td>
   </tr>
   
   <tr>

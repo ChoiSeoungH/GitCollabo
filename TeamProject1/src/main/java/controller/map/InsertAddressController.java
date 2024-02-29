@@ -1,7 +1,7 @@
 package controller.map;
 
 
-import dao.UserDAO;
+import dao.UserDao;
 import frontcontorller.Controller;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,14 +26,14 @@ public class InsertAddressController implements Controller {
     }
 
     HttpSession session = request.getSession();
-    UserDAO uDao = UserDAO.getInstance();
-    int no = 5;
+    UserDao uDao = UserDao.getInstance();
+    int no = 1;
     if (session.getAttribute("no") != null) {
       no = (int) session.getAttribute("no");
     }
-
-    User vo = uDao.getOneUser(no);
-    System.out.println(vo);
+//    System.out.println("no : "+no);
+//    System.out.println("user : "+uDao.userList().get(no));
+    User vo = uDao.userList().get(no + 1);
     String combinedAddress = null;
 
     try {

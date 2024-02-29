@@ -1,9 +1,11 @@
-package controller.User;
+package com.basic.team.controller.User;
 
 import java.io.IOException;
 
-import dao.UserDAO;
-import frontcontorller.Controller;
+import com.basic.team.DAO.UserDAO;
+import com.basic.team.VO.User;
+import com.basic.team.controller.frontController.Controller;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,14 +24,15 @@ public class selfLoginController implements Controller {
 		String ctx = req.getContextPath();
 		String id = req.getParameter("id");
 		String pw = req.getParameter("pw");
-		int no = 0;
-		System.out.println(no);
+		User user = UserDAO.getInstance().checkLogin(id, pw);
+		System.out.println(user);
 		
-		if (no == 0) {
+		if (user == null) {
 			return "redirect:" + ctx + "/main.do";
 		} else {
+			user.setRegDate(user.getRegDate().substring(0,10));
 			HttpSession session = req.getSession();
-			session.setAttribute("log", no);
+			session.setAttribute("user", user);
 //			return "redirect:" + ctx + "/main.do";
 			return "user/MyPage";
 			

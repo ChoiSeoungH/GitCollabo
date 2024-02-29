@@ -43,5 +43,4 @@ public class Auction {
 	}
 	public Auction() {}
 
-	
 }

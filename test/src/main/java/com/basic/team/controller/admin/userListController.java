@@ -1,6 +1,7 @@
-package com.basic.team.controller.User;
+package com.basic.team.controller.admin;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import com.basic.team.DAO.UserDAO;
 import com.basic.team.VO.User;
@@ -10,27 +11,20 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public class userContentController implements Controller {
+public class userListController implements Controller {
 
 	@Override
 	public String requestHandler(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		
-		int no = -1;
+		ArrayList<User> list = UserDAO.getInstance().getUserList();
 		
-		no = Integer.parseInt(req.getParameter("no"));
-		
-		if(no == -1) {
-			req.removeAttribute("center");
-			return "main";
+		for(User user : list) {
+			user.setRegDate(user.getRegDate().substring(0,10));
 		}
+		req.setAttribute("list", list);
 		
-		User user = UserDAO.getInstance().getOneUser(no);
-		System.out.println(user);
+		return "admin/userList";
 		
-		req.setAttribute("user", user);
-		return "user/userContent";
-		
-//		req.setAttribute("center", "user/userInfo");
 	}
 
 }

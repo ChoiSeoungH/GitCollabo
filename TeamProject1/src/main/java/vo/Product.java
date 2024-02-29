@@ -117,5 +117,4 @@ public class Product {
 		this.endDate = endDate;
 	}
 	public Product() {}
-
 }

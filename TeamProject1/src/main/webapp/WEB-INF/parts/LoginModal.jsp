@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<%@ taglib prefix="c" uri="jakarta.tags.core"%>
-<c:set var="join" value="0"/> 
 <html>
 <head>
 <meta charset="UTF-8">
@@ -68,16 +66,18 @@
 		<path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path>
 		</svg> 이메일로 시작하기 </button>
 	</div>
+	
 	<div id="modal_login">
 	    <button class="btn email" onclick="location.href='${ctx}/selfLogin.do'" >
     	<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" class="text-sm sm:text-base me-1.5" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
 		<path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path>
 		</svg> 이메일로 로그인하기 </button>
 	</div>
+	
 	<br><hr width="350px">	
 	<p> 도움이 필요하시면 고객센터 또는 02-000-0000으로 문의 주시기 바랍니다.</p>	                                                                              
 </div>
-<div class="overlay hidden"></div>
+<div class="overlay hidden" onclick="unclickLogin()"></div>
 </body>
 </html>
 
@@ -85,15 +85,22 @@
   const $btn = document.querySelector(".userImg");
   const $modal = document.querySelector(".modal");
   const $overlay = document.querySelector(".overlay");
+		
+	function clickLogin(){
+		$modal.classList.remove("hidden");
+		$overlay.classList.remove("hidden");
+	}
 	
-  function clickLogin(){
-    $modal.classList.remove("hidden");
-    $overlay.classList.remove("hidden");
-  }
+	 function unclickLogin(){
+	    $modal.classList.add("hidden");
+	    $overlay.classList.add("hidden");
+	 }
+	 
 	let $kakao = document.querySelector(".kakao");			  
 	let $naver = document.querySelector(".naver");			  
 	let $google = document.querySelector(".google");			  
-	let $email = document.querySelector(".email");	
+	let $email = document.querySelector(".email");
+	
 	let $join = document.querySelector(".join"); 	
 	let $login = document.querySelector(".login"); 	
 	
@@ -118,5 +125,4 @@
   		document.getElementById("modal_join").style.display = "block";
   		document.getElementById("modal_login").style.display = "none";
 	}
-  
 </script>

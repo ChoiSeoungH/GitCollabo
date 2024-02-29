@@ -122,7 +122,10 @@
 	<input type="text" name="search" width="400px" height="200px">
 	
 	</div>
-	<div class="userImg"> <a onclick="clickLogin()"><img class="userImg" src="https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg" ></a></div>
+	<div class="userImg"> 
+	<c:if test="${ user eq null }"> <a onclick="clickLogin()"> <img class="userImg" src="https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg" ></a></c:if>
+	<c:if test="${ user ne null }"> <a onclick="openInfo()"> <img class="userImg" src="./img/${ user.imgUrl }" ></a></c:if>
+	</div>
  	</header>
  	
  	
