@@ -135,11 +135,6 @@ SELECT * FROM product WHERE title LIKE CONCAT('%', #{title}, '%')
     )
     </insert>
 
-    <select id="getProductsByLocation" parameterType="String" resultType="user">
-        SELECT *
-        FROM user
-        WHERE sell_location LIKE CONCAT('%', #{location}, '%')
-    </select>
 	<insert id="insertProductImg" parameterType="productImage">
 	  INSERT INTO Product_image(product_no,image_url)
     VALUES(

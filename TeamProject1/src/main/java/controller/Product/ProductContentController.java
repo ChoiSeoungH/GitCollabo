@@ -1,4 +1,4 @@
-package product;
+package controller.Product;
 
 import java.io.IOException;
 import java.util.List;

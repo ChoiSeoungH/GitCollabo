@@ -9,9 +9,9 @@ import controller.map.MapController;
 import controller.map.QuickMainController;
 
 import java.util.HashMap;
-import product.ProductAddController;
-import product.ProductContentController;
-import product.ProductListController;
+import controller.Product.ProductAddController;
+import controller.Product.ProductContentController;
+import controller.Product.ProductListController;
 import product.ProductSearchListController;
 import controller.Product.ProductMainController;
 

@@ -1,4 +1,4 @@
-package product;
+package controller.Product;
 
 public class ProductUpdateController {
 

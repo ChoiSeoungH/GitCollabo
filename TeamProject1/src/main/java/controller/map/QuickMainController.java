@@ -2,6 +2,7 @@ package controller.map;
 
 
 import com.google.gson.Gson;
+import dao.ProductDAO;
 import dao.UserDAO;
 import frontcontorller.Controller;
 import jakarta.servlet.ServletException;
@@ -9,7 +10,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import vo.Product;
 
-import dao.;
 import vo.User;
 
 import java.io.IOException;

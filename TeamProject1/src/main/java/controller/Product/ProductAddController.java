@@ -1,4 +1,4 @@
-package product;
+package controller.Product;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import dao.AuctionDAO;
 import dao.ProductDAO;
 import dao.ProductImgDAO;
+import dao.UtilDAO;
 import frontcontorller.Controller;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,7 +26,7 @@ public class ProductAddController implements Controller {
 			return "product/productAdd";
 		}
 		 String saveDirectory = request.getServletContext().getRealPath("/img");
-		dao.UtilDAO.newFolder(request);
+		UtilDAO.newFolder(request);
 		ArrayList <String> images = dao.UtilDAO.multipleFile(request, saveDirectory);
 		String image = String.join(",", images);
 		

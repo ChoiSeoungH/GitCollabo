@@ -9,7 +9,7 @@ public class ProductMainController implements Controller {
 
   @Override
   public String requestHandler(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
+      throws ServletException {
 
     String saveDirectory = request.getServletContext().getRealPath("/img");
     System.out.println(saveDirectory);
