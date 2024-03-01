@@ -1,0 +1,7 @@
+CREATE DATABASE IF NOT EXISTS team;
+USE team;
+
+SELECT * FROM chat;
+
+SELECT * FROM product;
+
