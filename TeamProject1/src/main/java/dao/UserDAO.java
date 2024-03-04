@@ -1,8 +1,8 @@
 package dao;
 
 
-import org.apache.ibatis.session.SqlSession;
 
+import org.apache.ibatis.session.SqlSession;
 import util.MybatisConfig;
 import vo.Product;
 import vo.User;
@@ -109,4 +109,20 @@ public class UserDAO {
   }
 
 
+<<<<<<< Updated upstream
+=======
+  public int updateUserStatus(int userNo, int status) {
+    SqlSession session = MybatisConfig.getInstance().openSession();
+    User user = new User();
+    user.setNo(userNo);
+    user.setStatus(status);
+    int cnt = session.update("updateUserStatus", user);
+    session.commit();
+    session.close();
+    return cnt;
+  }
+
+
+
+>>>>>>> Stashed changes
 }

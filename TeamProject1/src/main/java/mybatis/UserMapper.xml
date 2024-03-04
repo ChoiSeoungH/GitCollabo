@@ -83,6 +83,11 @@
         SELECT name FROM user WHERE id=#{id} AND pw=#{pw}
     </select>
 
+    <select id="getOneUser" parameterType="Integer" resultMap="user">
+SELECT * FROM user where no=#{no}
+</select>
+
+
     <select id="getUserByLocation" parameterType="String" resultType="user">
         SELECT *
         FROM user
@@ -90,4 +95,13 @@
     </select>
 
 
+<<<<<<< Updated upstream
+=======
+    <update id="updateUserStatus" parameterType="user">
+        UPDATE user
+        SET status=#{status}
+        WHERE no=#{no}
+    </update>
+
+>>>>>>> Stashed changes
 </mapper>

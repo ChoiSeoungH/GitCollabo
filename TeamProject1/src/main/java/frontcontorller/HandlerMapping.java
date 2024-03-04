@@ -2,11 +2,12 @@ package frontcontorller;
 
 
 
+import controller.Quick.DeliverStatusController;
 import controller.User.*;
 import controller.main.MainController;
 import controller.map.InsertAddressController;
 import controller.map.MapController;
-import controller.map.QuickMainController;
+import controller.Quick.QuickMainController;
 
 import java.util.HashMap;
 import controller.Product.ProductAddController;
@@ -22,6 +23,7 @@ public class HandlerMapping {
 		mappings = new HashMap<String, Controller>();
 		//quick
 		mappings.put("/quickMain.do", new QuickMainController());
+		mappings.put("/DeliverStatus.do", new DeliverStatusController());
 
 		//map
 		mappings.put("/map.do", new MapController());

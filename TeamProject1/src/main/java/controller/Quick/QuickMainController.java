@@ -1,4 +1,4 @@
-package controller.map;
+package controller.Quick;
 
 
 import com.google.gson.Gson;
@@ -34,6 +34,7 @@ public class QuickMainController implements Controller {
 //      System.out.println(product);
 //    }
 
+    System.out.println("buyerList");
     for (User u : buyerList) {
       System.out.println(u);
     }
@@ -42,6 +43,10 @@ public class QuickMainController implements Controller {
     String json = gson.toJson(list); // Product 객체 리스트를 JSON 형식으로 변환
     System.out.println(json);
     request.setAttribute("json", json); // JSON 데이터를 "json" 속성으로 설정하여 JSP로 전달
+
+    json = gson.toJson(buyerList); // User 객체 리스트를 JSON 형식으로 변환
+    System.out.println(json);
+    request.setAttribute("buyerJson", json); // JSON 데이터를 "json" 속성으로 설정하여 JSP로 전달
 
     String deliver = gson.toJson(user);
     System.out.println(user);
