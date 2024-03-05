@@ -1,10 +1,5 @@
 package vo;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
 public class Auction {
 	private int productNo; // 상품번호
 	private int lastPrice; // 마지막 입찰가
@@ -43,4 +38,5 @@ public class Auction {
 	}
 	public Auction() {}
 
+	
 }

@@ -30,6 +30,15 @@ margin-right: 10px;
  width:100px;
  height:100px;
  }
+.fixed {
+    background-color: #f1f1f1;
+    padding: 10px;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 100px;
+}
 
 </style>
 </head>
@@ -60,7 +69,8 @@ margin-right: 10px;
 </c:forEach>
 </c:if>
 <hr>
-<h3>네이버 최저가 ${query}</h3>
+<div class="fixed">
+<h3>네이버 최저가 연관검색어 ${query}</h3>
 <div class="list-container">
 <c:forEach var="na" items="${naver.items}">
 <a href="${na.link}" target="_blank">
@@ -74,6 +84,7 @@ margin-right: 10px;
 </table>
 </a>
 </c:forEach>
+</div>
 </div>
 </body>
 </html>

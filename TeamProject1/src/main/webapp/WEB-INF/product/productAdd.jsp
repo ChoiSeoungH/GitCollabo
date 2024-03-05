@@ -95,7 +95,7 @@ input.img {
 	<h1 align="center">상품추가하기</h1>
 	<form action="${ctx}/productAdd.do" enctype="multipart/form-data"	method="post">
 		<table align="center" border=1>
-		<input type="hidden" name="no" value="1" >
+		<input type="hidden" name="no" value="1" > 
 
 			<tr>
 				<td>상품제목 : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <input

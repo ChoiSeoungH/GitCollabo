@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 
 import util.MybatisConfig;
-import vo.ProductImage;
+import vo.ProductImg;
 
 public class ProductImgDAO {
 	private ProductImgDAO() {}
@@ -14,24 +14,24 @@ public class ProductImgDAO {
 		return instance;
 	}
 	// 전체 상품 이미지 불러오기
-	public List<ProductImage> getAllProductImg(){
+	public List<ProductImg> getAllProductImg(){
 		SqlSession session = MybatisConfig.getInstance().openSession();
-		List<ProductImage> list = session.selectList("getAllProductImage");
+		List<ProductImg> list = session.selectList("mapper.product.getAllProductImg");
 		session.close();
 		return list;
 	}
 	// 상품 추가시 이미지 추가하기
-	public List<ProductImage> addOneProductImg(ProductImage vo){
+	public List<ProductImg> addOneProductImg(ProductImg vo){
 		SqlSession session = MybatisConfig.getInstance().openSession();
-		List<ProductImage> list =session.selectList("insertProductImg",vo);
+		List<ProductImg> list =session.selectList("mapper.product.insertProductImg",vo);
 		session.commit();
 		session.close();
 		return list;
 	}
 	// 상품선택시 상품이미지 뺴오기 
-	public List<ProductImage> getOneProductImg(int no){
+	public List<ProductImg> getOneProductImg(int no){
 		SqlSession session = MybatisConfig.getInstance().openSession();
-		List<ProductImage> list = session.selectList("getOneImage",no);
+		List<ProductImg> list = session.selectList("mapper.product.getOneImage",no);
 		session.close();
 		return list;
 	}
