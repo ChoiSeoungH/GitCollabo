@@ -36,8 +36,6 @@ public class ProductAddController implements Controller {
 		int category = Integer.parseInt(request.getParameter("category"));
 		String productContent = request.getParameter("productContent");
 		System.out.println("image" + image);
-		
-		
 
 
 		if(auction == 0 ) { // 경매 방법

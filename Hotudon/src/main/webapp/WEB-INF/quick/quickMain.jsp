@@ -102,7 +102,7 @@
   </div>
   <!-- Financial information -->
   <div id="financial-info">
-    <span id="cash">현금 : ${user.cash}</span>
+    <span id="cash">현금 : ${user.cash}원</span>
 
     <span id="weekly-income">이번주 수입 : </span>
   </div>
@@ -193,6 +193,8 @@
   var lon;
   var locPosition;
   var distance;
+  var productNo = 0;
+  var price = 0;
 
   var roadAddress = deliver.location.split("/")[0];
   var detailAddress = deliver.location.split("/")[2];
@@ -225,6 +227,8 @@
     addDeliveryMarker(buyerPosition, '전달 : ' + buyerAddress, position, buyerPosition);
     startMarkerMovement(position, buyerPosition, marker);
   }
+
+
 
   geocoder.addressSearch(roadAddress + ' ' + detailAddress, function (result, status) {//배달기사 위치확인
     if (status === kakao.maps.services.Status.OK) {
@@ -393,7 +397,7 @@
 
 
     // 마커를 생성하고 지도 위에 표시하고, 마커에 mouseover, mouseout, click 이벤트를 등록하는 함수입니다
-    function addMarker(productNo, position, buyerPosition, normalOrigin, overOrigin, clickOrigin, productAddress, buyerAddress, deliveryFee) {
+    function addMarker(no, position, buyerPosition, normalOrigin, overOrigin, clickOrigin, productAddress, buyerAddress, deliveryFee) {
 
       // 기본 마커이미지, 오버 마커이미지, 클릭 마커이미지를 생성합니다
       var normalImage = createMarkerImage(markerSize, markerOffset, normalOrigin),
@@ -471,12 +475,17 @@
 
         var acceptDeliveryButton = document.createElement('button');
         acceptDeliveryButton.textContent = '배달수락';
-        acceptDeliveryButton.setAttribute('data-product-no', productNo);
+        acceptDeliveryButton.setAttribute('data-product-no', no);
+        acceptDeliveryButton.setAttribute('data-delivery-fee', deliveryFee);
+        acceptDeliveryButton.classList.add('accept-delivery-button'); // 클래스 추가
 
         acceptDeliveryButton.addEventListener('click', function () {
+          productNo = $(this).data('product-no');
+          price = $(this).data('delivery-fee');
           acceptDelivery(position, buyerPosition, productAddress, buyerAddress, deliveryFee);
-          var newStatus = 3; // data-status 속성 값 가져오기
-          updateDeliveryStatus(${user.no}, newStatus); // 상태 업데이트 함수 호출
+          var newStatus = 3;
+          setDelivery(productNo,${user.no},deliveryFee,productAddress);
+          updateDeliverStatus(${user.no}, newStatus, 0); // 상태 업데이트 함수 호출
         });
 
         content.appendChild(acceptDeliveryButton);
@@ -634,8 +643,10 @@
 
 
   function startMarkerMovement(position, buyerPosition, marker) {
-    var pathToPickup = generatePathPoints(locPosition, position, 10);
-    var pathToDelivery = generatePathPoints(position, buyerPosition, 10);
+    // var pathToPickup = generatePathPoints(locPosition, position, 5);
+    // var pathToDelivery = generatePathPoints(position, buyerPosition, 5);
+    var pathToPickup = generatePathPoints(locPosition, position, 2);
+    var pathToDelivery = generatePathPoints(position, buyerPosition, 2);
     var completePath = pathToPickup.concat(pathToDelivery); // 두 경로를 합칩니다.
 
     var currentStep = 0; // 현재 경로 포인트 인덱스
@@ -657,6 +668,7 @@
         if (getDistance(locPosition.getLat(), locPosition.getLng(), position.getLat(), position.getLng()) < 5) {
           isPickUp = true;
           dtoSline.setMap(null);
+          updateDeliveryStatus(productNo, 1);
         }
 
         if (!isPickUp) {
@@ -756,27 +768,55 @@
   // 모달 내 상태 버튼 클릭 이벤트
   $('.status-button').on('click', function () {
     var newStatus = $(this).data('status'); // data-status 속성 값 가져오기
-    updateDeliveryStatus(${user.no}, newStatus); // 상태 업데이트 함수 호출
+    updateDeliverStatus(${user.no}, newStatus , 0); // 상태 업데이트 함수 호출
     $('#statusModal').modal('hide'); // 모달 창 숨기기
   });
 
+
+
+
+  //도착버튼
   $('#arrival').on('click', function () {
     var newStatus = 1; // 휴식
-    var productNo = ${user.no}; // 현재 사용자의 상품 번호를 가져옵니다.
-    var newEndDate = new Date(); // 현재 날짜를 생성합니다.
 
-    updateEndDate(productNo, newEndDate);
+    console.log(productNo)
+    updateEndDate(productNo);
 
     // Java의 ProductDAO 클래스 내 updateEndDate 메소드 호출 (서버사이드 코드에서 처리 필요)
-    updateDeliveryStatus(${user.no}, newStatus); // 상태 업데이트 함수 호출
+    var fee = price;
+    updateDeliverStatus(${user.no}, newStatus , fee); // 상태 업데이트 함수 호출
+    updateDeliveryStatus(productNo, 2);
     // 클라이언트 사이드에서는 AJAX 호출을 통해 서버에 요청을 보내야 합니다.
     // 예시:
+    productNo =0;
   });
 
-  // 상태 업데이트 함수
-  function updateDeliveryStatus(no, newStatus) {
+
+  // 배달원 상태 업데이트 함수
+  function updateDeliverStatus(no, newStatus, fee) {
     $.ajax({
       url: 'deliverStatus.do', // DeliverStatusController로의 실제 경로
+      type: 'POST',
+      data: {
+        no: no,
+        status: newStatus,
+        cash : fee
+      },
+      success: function (response) {
+        $('#user-status').text("상태 : " + response.status); // 응답 받은 새로운 상태로 업데이트
+        $('#cash').text("현금 : " + response.cash+"원");
+        toggleButtonsBasedOnStatus(response);
+      },
+      error: function () {
+        alert("상태 업데이트에 실패하였습니다.");
+      }
+    });
+  }
+
+  // 딜리버리 상태 업데이트 함수
+  function updateDeliveryStatus(no, newStatus) {
+    $.ajax({
+      url: 'deliveryStatus.do', // DeliverStatusController로의 실제 경로
       type: 'POST',
       data: {
         no: no,
@@ -791,19 +831,37 @@
       }
     });
   }
-  function updateEndDate(productNo, newEndDate) {
+
+  function updateEndDate(productNo) {
     $.ajax({
-      url: '/updateEndDate', // 서버의 엔드포인트
+      url: 'quickEnd.do',
       method: 'POST',
-      data: {
-        no: productNo,
-        endDate: newEndDate
-      },
+      data: { no: productNo }, // endDate를 제외하고 no만 전송
       success: function(response) {
-        toggleButtonsBasedOnStatus(response);
+        console.log("날짜 업데이트 완료");
+      },
+      error: function(xhr, status, error) {
+        console.error("날짜 업데이트 실패");
       }
     });
+  }
 
+  function setDelivery(productNo,deliverNo,deliveryFee,productAddress) {
+    $.ajax({
+      url: 'deliverySet.do',
+      method: 'POST',
+      data: { productNo: productNo ,
+        deliverNo: deliverNo,
+        deliveryFee : deliveryFee,
+        productAddress : productAddress,
+      },
+      success: function(response) {
+        console.log("딜리버리 셋팅 완료");
+      },
+      error: function(xhr, status, error) {
+        console.error("딜리버리 셋팅 실패");
+      }
+    });
   }
   function panTo() {//지도좌표 이동
     // 이동할 위도 경도 위치를 생성합니다

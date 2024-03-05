@@ -100,6 +100,7 @@ public class ProductDAO {
     HashMap<String, Object> params = new HashMap<>();
     params.put("no", productNo);
     params.put("endDate", newEndDate);
+    System.out.println(params);
     session.update("productEnd", params);
     session.commit();
     session.close();

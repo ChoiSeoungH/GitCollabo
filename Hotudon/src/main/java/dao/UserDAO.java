@@ -119,7 +119,16 @@ public class UserDAO {
     session.close();
     return cnt;
   }
-
-
-
+  public int updateUserStatus(int userNo, int status, int cash) {
+    SqlSession session = MybatisConfig.getInstance().openSession();
+    User user = new User();
+    user.setNo(userNo);
+    user.setStatus(status);
+    user.setCash(cash);
+    System.out.println("cash : "+cash);
+    int cnt = session.update("updateUserStatus", user);
+    session.commit();
+    session.close();
+    return cnt;
+  }
 }

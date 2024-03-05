@@ -1,8 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mybatis.DeliveryMapper">
-    <insert id="insertDelivery" parameterType="vo.Delivery">
+    <resultMap id="delivery" type="vo.Delivery">
+        <id column="no" property="no"/>
+        <result column="product_no" property="productNo"/>
+        <result column="deliver_no" property="deliverNo"/>
+        <result column="price" property="price"/>
+        <result column="status" property="status"/>
+        <result column="reg_date" property="regDate"/>
+        <result column="location" property="location"/>
+    </resultMap>
+
+    <insert id="insertDelivery" parameterType="delivery">
         INSERT INTO delivery (product_no, deliver_no, price, location)
         VALUES (#{productNo}, #{deliverNo}, #{price}, #{location})
     </insert>
+
+    <update id="updateDeliveryStatus" parameterType="map">
+        UPDATE delivery
+        SET status = #{newStatus}
+        WHERE product_no = #{productNo}
+    </update>
 </mapper>
