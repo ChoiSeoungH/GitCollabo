@@ -1,4 +1,4 @@
-package user;
+package controller.User;
 
 import frontcontorller.Controller;
 import jakarta.servlet.ServletException;
