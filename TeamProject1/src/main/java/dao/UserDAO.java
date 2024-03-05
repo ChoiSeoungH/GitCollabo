@@ -1,12 +1,15 @@
 package dao;
 
 
-import org.apache.ibatis.session.SqlSession;
 
+import org.apache.ibatis.session.SqlSession;
 import util.MybatisConfig;
+import vo.Product;
 import vo.User;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserDAO {
 
@@ -104,5 +107,19 @@ public class UserDAO {
     session.close();
     return list;
   }
+
+
+  public int updateUserStatus(int userNo, int status) {
+    SqlSession session = MybatisConfig.getInstance().openSession();
+    User user = new User();
+    user.setNo(userNo);
+    user.setStatus(status);
+    int cnt = session.update("updateUserStatus", user);
+    session.commit();
+    session.close();
+    return cnt;
+  }
+
+
 
 }
