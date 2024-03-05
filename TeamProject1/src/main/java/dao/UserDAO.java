@@ -109,8 +109,6 @@ public class UserDAO {
   }
 
 
-<<<<<<< Updated upstream
-=======
   public int updateUserStatus(int userNo, int status) {
     SqlSession session = MybatisConfig.getInstance().openSession();
     User user = new User();
@@ -124,5 +122,4 @@ public class UserDAO {
 
 
 
->>>>>>> Stashed changes
 }

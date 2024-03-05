@@ -23,7 +23,7 @@ public class HandlerMapping {
 		mappings = new HashMap<String, Controller>();
 		//quick
 		mappings.put("/quickMain.do", new QuickMainController());
-		mappings.put("/DeliverStatus.do", new DeliverStatusController());
+		mappings.put("/deliverStatus.do", new DeliverStatusController());
 
 		//map
 		mappings.put("/map.do", new MapController());
@@ -35,10 +35,8 @@ public class HandlerMapping {
 		//상품등록
 		mappings.put("/productAdd.do", new ProductAddController());
 
-
 		//검색체크
 		mappings.put("/productSearch.do", new ProductSearchListController());
-
 
 		//상품리스트
 		mappings.put("/productList.do" ,new ProductListController());

@@ -60,15 +60,45 @@
           font-weight: bold;
       }
   </style>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <!-- Add Bootstrap for Modal -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 </head>
+
+
+
 <body>
 <div id="navigation-bar">
   <!-- User information and status -->
   <div id="user-info">
     <span id="user-name">이름 : ${user.name}</span>
-    <span id="user-status">상태 : ${user.status}</span>
+    <c:set var="userStatus" value="${user.status}" />
+
+    <span id="user-status">
+    <c:choose>
+      <c:when test="${userStatus eq 0}">
+        상태 : 오프라인
+      </c:when>
+      <c:when test="${userStatus eq 1}">
+        상태 : 휴식
+      </c:when>
+      <c:when test="${userStatus eq 2}">
+        상태 : 대기
+      </c:when>
+      <c:when test="${userStatus eq 3}">
+        상태 : 배송중
+      </c:when>
+      <c:when test="${userStatus eq 4}">
+        상태 : 비활성화(탈퇴)
+      </c:when>
+      <c:otherwise>
+        상태 : 알 수 없음
+      </c:otherwise>
+    </c:choose>
+</span>
   </div>
   <!-- Financial information -->
   <div id="financial-info">
@@ -88,21 +118,39 @@
     <div id="map" style="width:100%;height:100%;"></div>
   </div>
   <!-- Map control buttons -->
-  <button id="center-map" onclick="panTo()">내 중심좌표</button>
-  <button id="reset-range" onclick="setBounds()">범위 재설정</button>
-  <button id="refresh">새로고침</button>
-  <button id="status-toggle">상태전환</button>
+  <button id="center-map"  class="btn btn-primary" onclick="panTo()">내 중심좌표</button>
+  <button id="reset-range" class="btn btn-primary" onclick="setBounds()">범위 재설정</button>
+  <button id="refresh" class="btn btn-primary" >새로고침</button>
+  <button id="status-toggle" class="btn btn-primary">상태전환</button>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="statusModal" tabindex="-1" role="dialog" aria-labelledby="statusModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="statusModalLabel">상태 전환</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <button type="button" class="btn btn-secondary status-button" data-status="1">휴식</button>
+        <button type="button" class="btn btn-secondary status-button" data-status="2">대기</button>
+        <button type="button" class="btn btn-secondary status-button" data-status="0">오프라인</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script src="path_to_your_javascript_file.js"></script>
 </body>
 </html>
+
+<%--스트립트시작--%>
 <script
     src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c8936a5cd23e9343aaae775855cc0679&libraries=services,clusterer,drawing"></script>
 <script>
-<<<<<<< Updated upstream
-
-=======
   var mapContainer = document.getElementById('map'), // 지도를 표시할 div
       mapOption = {
         center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
@@ -110,7 +158,6 @@
       };
 
   var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
->>>>>>> Stashed changes
 
   var listData = JSON.parse('${json}');
   var deliver = JSON.parse('${deliver}');
@@ -231,12 +278,7 @@
     }
 
 
-<<<<<<< Updated upstream
-=======
 
-
-
->>>>>>> Stashed changes
     //프로덕트 마커 표시
     var MARKER_WIDTH = 33, // 기본, 클릭 마커의 너비
         MARKER_HEIGHT = 36, // 기본, 클릭 마커의 높이
@@ -259,23 +301,6 @@
 
     var selectedMarker = null; // 클릭한 마커를 담을 변수
 
-<<<<<<< Updated upstream
-    for (let i = 0; i < listData.length; i++) {// 제품의 마커 생성
-      var product = listData[i];
-      var buyer = buyerListData[i];
-      console.log(product);
-      console.log(buyer);
-      var locationList = product.sellLocation.split("/");
-      var buyerLocationList = buyer.location.split("/");
-      console.log(locationList);
-      var roadAddress = locationList[0];
-      var detailAddress = locationList[2];
-      var adress = roadAddress + " " + detailAddress;
-
-      var buyerRoadAddress = locationList[0];
-      var buyerDetailAddress = locationList[2];
-      var buyerAdress = buyerRoadAddress + " " + buyerDetailAddress;
-=======
     function createMarkerForAddress(listDatum, buyerListDatum, i) {
       var product = listDatum;
       var buyer = buyerListDatum;
@@ -297,7 +322,6 @@
       detailAddress = locationList[2];
       var buyerAddress = roadAddress + " " + detailAddress;
 
->>>>>>> Stashed changes
       // 주소를 위도와 경도로 변환
       geocoder.addressSearch(productAddress, function (result, status) {
         if (status === kakao.maps.services.Status.OK) {
@@ -305,22 +329,6 @@
           var lat1 = result[0].y;
           var lon1 = result[0].x
           var latlng = new kakao.maps.LatLng(result[0].y, result[0].x);
-<<<<<<< Updated upstream
-          geocoder.addressSearch(buyerRoadAddress + ' ' + buyerDetailAddress, function (result, status) {
-            if (status === kakao.maps.services.Status.OK) {
-              var buyerLatlng = new kakao.maps.LatLng(result[0].y, result[0].x);
-              var gapX = (MARKER_WIDTH + SPRITE_GAP), // 스프라이트 이미지에서 마커로 사용할 이미지 X좌표 간격 값
-                  originY = (MARKER_HEIGHT + SPRITE_GAP) * i, // 스프라이트 이미지에서 기본, 클릭 마커로 사용할 Y좌표 값
-                  overOriginY = (OVER_MARKER_HEIGHT + SPRITE_GAP) * i, // 스프라이트 이미지에서 오버 마커로 사용할 Y좌표 값
-                  normalOrigin = new kakao.maps.Point(0, originY), // 스프라이트 이미지에서 기본 마커로 사용할 영역의 좌상단 좌표
-                  clickOrigin = new kakao.maps.Point(gapX, originY), // 스프라이트 이미지에서 마우스오버 마커로 사용할 영역의 좌상단 좌표
-                  overOrigin = new kakao.maps.Point(gapX * 2, overOriginY); // 스프라이트 이미지에서 클릭 마커로 사용할 영역의 좌상단 좌표
-              console.log(i);
-              // 마커를 생성하고 지도위에 표시합니다
-              addMarker(latlng, buyerLatlng,adress,buyerAdress, normalOrigin, overOrigin, clickOrigin);
-            }
-          });
-=======
           bounds.extend(latlng);
 
           var gapX = (MARKER_WIDTH + SPRITE_GAP), // 스프라이트 이미지에서 마커로 사용할 이미지 X좌표 간격 값
@@ -356,7 +364,6 @@
             }
           });
 
->>>>>>> Stashed changes
         }
       });
     }
@@ -374,11 +381,7 @@
 
 
     // 마커를 생성하고 지도 위에 표시하고, 마커에 mouseover, mouseout, click 이벤트를 등록하는 함수입니다
-<<<<<<< Updated upstream
-    function addMarker(position,buyerPosition,adress,buyerAdress, normalOrigin, overOrigin, clickOrigin) {
-=======
     function addMarker(position,  buyerPosition,normalOrigin, overOrigin, clickOrigin, productAddress, buyerAddress, deliveryFee) {
->>>>>>> Stashed changes
 
       // 기본 마커이미지, 오버 마커이미지, 클릭 마커이미지를 생성합니다
       var normalImage = createMarkerImage(markerSize, markerOffset, normalOrigin),
@@ -441,15 +444,6 @@
 
 
         // 인포윈도우에 표시할 내용
-<<<<<<< Updated upstream
-        // var content = '<div>배달료 : ' + data.estimatedCost + '</div>' +
-
-        var content = '<div>배달료 : 3900원</div>' +
-            '<div>픽업 : ' + adress + '</div>' +
-            '<div>전달 : ' + buyerAdress + '</div>' +
-            '<button onclick="infowindow.close();">거절</button>'
-            // '<button onclick="acceptDelivery();">배차 수락</button>';
-=======
         var content = document.createElement('div');
         content.innerHTML = '<div>배달료 : ' + deliveryFee + '원</div>' +
             '<div>픽업 : ' + productAddress + '</div>' +
@@ -466,10 +460,11 @@
         acceptDeliveryButton.textContent = '배달수락';
         acceptDeliveryButton.addEventListener('click', function () {
           acceptDelivery(position, buyerPosition, productAddress, buyerAddress, deliveryFee);
+            var newStatus = 3; // data-status 속성 값 가져오기
+            updateDeliveryStatus(${user.no}, newStatus); // 상태 업데이트 함수 호출
         });
 
         content.appendChild(acceptDeliveryButton);
->>>>>>> Stashed changes
         infowindow.setContent(content);
         infowindow.open(map, marker);
       });
@@ -737,33 +732,35 @@
 
 
 
-  //상태전환 모달창 구현
-  $(document).ready(function() {
+    // 상태 전환 버튼 클릭 이벤트
     $('#status-toggle').on('click', function() {
-      // 모달 창을 표시하는 코드 (여기서는 단순화를 위해 prompt 사용)
-      var newStatus = prompt("상태를 입력해 주세요 (0: 오프라인, 1: 휴식, 2: 대기, 3: 배송중): ");
-      if (newStatus !== null && newStatus !== "") {
-        updateDeliveryStatus(${user.no},newStatus);
-      }
+      $('#statusModal').modal('show'); // 모달 창 표시
     });
-  });
 
-  function updateDeliveryStatus(no,newStatus) {
-    $.ajax({
-      url: 'DeliverStatus.do', // DeliverStatusController로의 실제 경로
-      type: 'POST',
-      data: { status: newStatus,
-              no : no
-      },
-      success: function(response) {
-        alert("상태가 업데이트 되었습니다.");
-        $('#user-status').text("상태 : " + response); // 상태 업데이트
-      },
-      error: function() {
-        alert("상태 업데이트에 실패하였습니다.");
-      }
+    // 모달 내 상태 버튼 클릭 이벤트
+    $('.status-button').on('click', function() {
+      var newStatus = $(this).data('status'); // data-status 속성 값 가져오기
+      updateDeliveryStatus(${user.no}, newStatus); // 상태 업데이트 함수 호출
+      $('#statusModal').modal('hide'); // 모달 창 숨기기
     });
-  }
+
+    // 상태 업데이트 함수
+    function updateDeliveryStatus(no, newStatus) {
+      $.ajax({
+        url: 'deliverStatus.do', // DeliverStatusController로의 실제 경로
+        type: 'POST',
+        data: {
+          no: no,
+          status: newStatus
+        },
+        success: function(response) {
+          $('#user-status').text("상태 : " + response); // 응답 받은 새로운 상태로 업데이트
+        },
+        error: function(xhr, status, error) {
+          alert("상태 업데이트에 실패하였습니다.");
+        }
+      });
+    }
 
   function panTo() {//지도좌표 이동
     // 이동할 위도 경도 위치를 생성합니다
