@@ -52,18 +52,7 @@ td{
 	width:300px;
 	height:100px;
 }
-  .list-container {
-        display: flex;
-    justify-content: center; 
-    align-items: center; 
-    position: fixed;
-    bottom: 0;
-    width: 50%; 
-    background-color: #f1f1f1;
-    padding: 5px;
-    text-align: center;
-	height: 100px;
-      }
+ 
    img{
  width:50px;
  height:50px;
@@ -71,7 +60,7 @@ td{
 .list {
 margin-right: 10px;
 	width:100px;
-	height:300px;
+	height:200px;
 	border:1px;
 
 }
@@ -85,16 +74,23 @@ margin-right: 10px;
 	cursor: pointer;
 }
 .fixed {
- display: flex;
-    background-color: #f1f1f1;
-    padding: 5px;
-    text-align: center;
-      justify-content: center; 
-    align-items: center; 
-    position: fixed;
-    bottom: 0;
-    width: 50%;
-}
+        position: fixed;
+        bottom: 0;
+        left: 25%; /* 가운데 정렬을 위한 조정 값 */
+        width: 50%;
+        height:200px;
+        background-color: #fff; /* 배경색을 필요에 따라 지정하세요. */
+        border: 1px solid #ccc; /* 테두리를 필요에 따라 지정하세요. */
+        padding: 0px; /* 내용과의 여백을 필요에 따라 지정하세요. */
+    }
+
+    .list-container {
+    	display:flex;
+        text-align: center; /* 내용 가운데 정렬을 위한 스타일 */
+
+    align-items: center; /* 내용을 가운데 정렬하기 위한 스타일 추가 */
+    }
+
 
 </style>
 
@@ -115,8 +111,8 @@ margin-right: 10px;
 
 
 <!-- 옥션이 아닐 경우 -->
+<div class="s">
 <c:if test="${auction ne true }">
-<c:forEach var="vo" items="${vo}">
 	<h3 align="center">상품 : ${vo.title}</h3>
 	<form action="${ctx}/productUpdate.do" method="post">
 		<table align="center" border=1>
@@ -133,6 +129,13 @@ margin-right: 10px;
 				 <end><input type="button" value="채팅하기" onclick=""></end>
 				</td>
 			</tr>
+				<tr>
+				<td class="space">판매자 : 
+				 
+				 <end>판매자위치: ${vo.sellLocation}</end>
+				</td>
+			</tr>
+			
 			<tr>
 				<td>거래방법 :
 				<c:if test="${vo.productMethod == 0 }">
@@ -142,7 +145,7 @@ margin-right: 10px;
 						택배	
 						</c:if>
 				<c:if test="${vo.productMethod == 2 }">
-					다른 서비스
+					퀵서비스
 						</c:if>
 			<c:if test="${vo.productMethod == 3 }">
 					상관없음
@@ -165,36 +168,32 @@ margin-right: 10px;
 			</tr>
 		</table>
 	</form>
-	<hr>
 <div class="fixed">
 
 <div class="list-container">
-<h5>네이버 최저가 연관검색어 ${query}</h5>
+<h5>네이버 최저가 연관검색어</h5>
 <c:forEach var="na" items="${naver.items}">
-<a href="${na.link}" target="_blank">
+
 <table class="list">
+<a href="${na.link}" target="_blank">
 <tr>
    <td><img src="${na.image}"></td>
 </tr>
 <tr>
  <td>${na.lprice}원</td>
 </tr>
-</table>
 </a>
+</table>
+
 </c:forEach>
 </div>
 </div>
-	</c:forEach>
 	</c:if>
-	
+</div>	
 	
 <!-- 옥션일 경우 -->	
 	<c:if test="${auction eq true}">
-
-	
-	<c:forEach var="vo" items="${vo}">
-	<c:forEach var="au" items="${au}">
-	
+<div class="t">	
 	<h3 align="center">상품 : ${vo.title}</h3>
 	<form action="${ctx}/productUpdate.do" method="post">
 		<table align="center" border=1>
@@ -208,12 +207,18 @@ margin-right: 10px;
 				 ${au.lastPrice}원
 				</td>
 				<td id="expectation">입찰가격예상 : 원</td>
+	
 			</tr>
 			
 			<tr class="space">
 	<td id="remainingTime">
-
-				</td>
+			<!--  밑에 if문 주기 -->
+	<c:if test="${au.lastBidderNo == 0 }">
+			<td>현재 입찰자 없음</td> 
+				</c:if>
+	<c:if test="${au.lastBidderNo != 0 }">			
+	<td>현재 입찰자:${au.lastBidderNo}</td> 
+				</c:if>		
 			</tr>
 			<tr>
 				<td><input type="button" class="prevent"  id="btn10" value="+10% 입찰하기" onclick="bidmoney(10)"> 
@@ -241,11 +246,12 @@ margin-right: 10px;
 					<h4>판매자 본인은 입찰이 불가능합니다.</h4>
  					<input type="button" value="메인으로" onclick="location.href='${ctx}/main.do'"></td>
 			</if> --%>
-			
 			<script>
 			const recentBid = Number('${au.lastPrice}');
 			const lastBidDate = new Date("${au.lastBidDate}");
-			const endDate = new Date(lastBidDate.getTime() + 3 * 60 * 60 * 1000);
+			let  lastBidNo = Number('${au.lastBidderNo}');
+			let cash=Number('${user.cash}');
+			let endDate;
 			const elementsToRemove = document.querySelectorAll('.prevent');
 			const resultElement = document.querySelector('#expectation');
 			const no = ('${vo.no}');
@@ -280,7 +286,11 @@ margin-right: 10px;
 			        alert('입찰 금액을 선택해주세요.');
 			        return;
 			    }
-				console.log(selectedBidAmount);
+			    if(Number(selectedBidAmount)>cash){
+			    	alert('현재 소지하신 금액이 입찰금액보다 적습니다');
+			    	return
+			    }
+			
 			        fetch('auctionBid.do', {
 			            method: 'POST',
 			            headers: {
@@ -304,9 +314,12 @@ margin-right: 10px;
 			const updateCurrentDate = () => {
 				// 현재 시간
 			  const currentDate = new Date();
-
-			  // 남은 시간 계산
-			  const timeDifference = endDate - currentDate;
+				if(lastBidNo == 0){
+				endDate = new Date(lastBidDate.getTime() + 24 * 60 * 60 * 1000); // 초기
+				}else {
+				endDate = new Date(lastBidDate.getTime() + 3 * 60 * 60 * 1000); // 초기
+				}
+				const timeDifference = endDate - currentDate;
 			  var hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
 			  var minutesDifference = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
 			  var secondsDifference = Math.floor((timeDifference % (1000 * 60)) / 1000);
@@ -335,9 +348,60 @@ margin-right: 10px;
 		
 			</script>
 		</table>
+<div class="fixed">
+<div class="list-container">
+<h5>경매 관련 카테고리</h5>
+	<c:forEach var="list" items="${list}">
+ 	<c:forEach var="auList" items="${auList}">
+ 	<c:forEach var="imgList" items="${imageList}">
+ 	<c:if test="${list.no==auList.productNo && imgList.productNo == list.no}">
+ <form action="${ctx}/productContent.do"  method="post" class="myForm">
+<input type="hidden" value="${list.no}" name="productNo">
+<input type="hidden" value="${list.auction}" name="auction">
+<input type="hidden" value="${list.title}" name="query">
+<table class= "list">
+<tr>
+<c:if test="${list.no == imgList.productNo}"> 
+<c:choose>
+    <c:when test="${not empty imgList.imageUrl}">
+        <script>
+            // 이미지 URL
+            var card = "img/${imgList.imageUrl}";
+
+            // URL에서 파일 이름 추출
+            var parts = card.split(",");
+            var fileName = parts[parts.length - 1];
+
+            if (parts && parts.length > 0) {
+                var fileName = parts[parts.length - 1];
+                document.write('<tr><td><img src="' + parts[0] + '" alt="이미지" width="110" height="80" /></td></tr>');
+            }
+        </script>
+    </c:when>
+    <c:otherwise>
+        <script>
+            document.write('<tr><td><img src="img/unnamed.jpg" alt="이미지" width="110" height="80" /></td></tr>');
+        </script>
+    </c:otherwise>
+</c:choose>
+</c:if>
+</tr>
+<tr>
+<c:if test="${list.no == auList.productNo}" >
+<td>현재입찰가 : ${auList.lastPrice }</td>
+</c:if>
+</tr>
+</table>            
+</form>
+</c:if>
+</c:forEach>
+</c:forEach>
+</c:forEach>
+</div>
+</div>
+		
 	</form>
-	</c:forEach>
-	</c:forEach>
+</div>	
 	</c:if>
 	
 </body>
@@ -345,7 +409,8 @@ margin-right: 10px;
 <c:forEach var="img" items="${img}">
 <script type="text/javascript">
 var imageUrl = "${img.imageUrl}";
-	if(imageUrl){
+let aus = '${auction}';
+if(imageUrl){
 		var parts = imageUrl.split(",");
 		var fileName = parts[parts.length - 1];
 		for(var i=0; i<parts.length; i++){
@@ -391,6 +456,30 @@ var imageUrl = "${img.imageUrl}";
 	image.src= "img/unnamed.jpg";
 	myTd.appendChild(image);
 	}
+	
+	
+	
+
+        if (aus == false) {
+            document.querySelector('.s').style.paddingBottom = '200px';
+        } else {
+            document.querySelector('.t').style.paddingBottom = '200px';
+        }
+	
+	
+        var formElementsArray = document.querySelectorAll('.myForm');
+
+     // 클릭 이벤트에 대한 핸들러 등록
+     formElementsArray.forEach(function(myform) {
+         myform.addEventListener("click", function(event) {
+             // 기본 동작 막기
+             event.preventDefault();
+
+             // 서브밋
+             myform.submit();
+         });
+     });
+	
 	
 </script>
 </c:forEach>

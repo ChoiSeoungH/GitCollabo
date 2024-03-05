@@ -34,9 +34,9 @@ public class AuctionDAO {
 	
 
 	//하나의 옥션 가져오기
-	public List<Auction> getOneAuction(int no){
+	public Auction getOneAuction(int no){
 		SqlSession session = MybatisConfig.getInstance().openSession();
-		List<Auction> list = session.selectList("mapper.product.getOneAuction",no);
+		Auction list = session.selectOne("mapper.product.getOneAuction",no);
 		session.close();
 		return list;
 	}
@@ -45,6 +45,13 @@ public class AuctionDAO {
 		SqlSession session = MybatisConfig.getInstance().openSession();
 		List<Auction> list = session.selectList("mapper.product.addBidAuction",vo);
 		session.commit();
+		session.close();
+		return list;
+	}
+
+	public List<Auction> auctionLatestThree(){
+		SqlSession session = MybatisConfig.getInstance().openSession();
+		List<Auction> list = session.selectList("mapper.product.auctionLatestThree");
 		session.close();
 		return list;
 	}

@@ -33,6 +33,8 @@ public class ProductListController implements Controller {
 	
 		request.setAttribute("imgList", imgList);
 		List<Product> latestList = ProductDAO.getInstance().getLatestProduct();
+		List<Auction> auLatestList = AuctionDAO.getInstance().auctionLatestThree(); // 옥션 최신상품가져오기
+		
 		System.out.println(request.getParameter("auction"));
 		//전체 상품 불러오기
 		if(request.getParameter("auction") == null || request.getParameter("auction").equals("")) {
@@ -43,7 +45,7 @@ public class ProductListController implements Controller {
 		// 옥션 상품들만 불러오기
 		}else if (request.getParameter("auction").equals("2")) {
 			request.setAttribute("au", auList);
-			request.setAttribute("latest", latestList);	
+			request.setAttribute("latest", auLatestList);
 			request.setAttribute("list", list);
 			
 		return "product/productList";

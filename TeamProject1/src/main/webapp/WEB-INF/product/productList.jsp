@@ -294,12 +294,14 @@ form{
 <h3>경매최신상품리스트</h3>
 <div class="list-container">
  <c:forEach var="latest" items="${latest}">
-        <c:forEach var="img" items="${imgList}">
-            <c:if test="${latest.no == img.productNo && latest.endDate eq null} ">
+ <c:forEach var="c"  items="${list}">
+<c:forEach var="img" items="${imgList}">
+            <c:if test="${latest.productNo == img.productNo && latest.productNo == c.no && c.endDate eq null} ">
             	<form action="${ctx}/productContent.do"  method="post" class="myForm">
-            	<input type="hidden" value="${latest.no}" name="productNo">
-              <input type="hidden" value="${latest.title}" name="query">
-              <input type="hidden" value="${latest.auction}" name="auction">
+            	<input type="hidden" value="${latest.prductNo}" name="productNo">
+            	    	<input type="hidden" value="${c.title}" name="query">
+              <input type="hidden" value="${c.category}" name="category">
+              <input type="hidden" value="${c.auction}" name="auction">
                 <table class="list" align="center" border="1">
 <c:choose>
     <c:when test="${not empty img.imageUrl}">
@@ -329,8 +331,10 @@ form{
                 </table>
                 </form>
             </c:if>
+            </c:forEach>
         </c:forEach>
     </c:forEach>
+ 
 </div>
 <hr>
 <h3>경매 디지털상품리스트</h3>
@@ -341,7 +345,8 @@ form{
            <c:if test="${c.category == 1 && c.no == img.productNo && c.no == au.productNo && c.endDate eq null}">
             <form action="${ctx}/productContent.do"  method="post" class="myForm">
             	<input type="hidden" value="${c.no}" name="productNo">
-            	<input type="hidden" value="${c.title}" name="query">
+            	    	<input type="hidden" value="${c.title}" name="query">
+            	<input type="hidden" value="${c.category}" name="category">
               <input type="hidden" value="${c.auction}" name="auction">
                 <table class="list" align="center">
 <c:choose>
@@ -387,7 +392,8 @@ form{
             <c:if test="${c.category == 2 && c.no == img.productNo && c.no == au.productNo && c.endDate eq null}">
                             <form action="${ctx}/productContent.do"  method="post" class="myForm">
             	<input type="hidden" value="${c.no}" name="productNo">
-            	<input type="hidden" value="${c.title}" name="query">
+            	    	<input type="hidden" value="${c.title}" name="query">
+            	<input type="hidden" value="${c.category}" name="category">
             	 <input type="hidden" value="${c.auction}" name="auction">
              
                 <table class="list" align="center">
@@ -434,6 +440,8 @@ form{
         <c:if test="${c.category == 3 && c.no == img.productNo && c.no == au.productNo && c.endDate eq null}">
                         <form action="${ctx}/productContent.do"  method="post" class="myForm">
             	<input type="hidden" value="${c.no}" name="productNo">
+            	    	<input type="hidden" value="${c.title}" name="query">
+            	<input type="hidden" value="${c.category}" name="category">
             	  <input type="hidden" value="${c.auction}" name="auction">
               
                 <table class="list" align="center">
@@ -481,6 +489,7 @@ form{
                         <form action="${ctx}/productContent.do"  method="post" class="myForm">
             	<input type="hidden" value="${c.no}" name="productNo">
             	<input type="hidden" value="${c.title}" name="query">
+            	<input type="hidden" value="${c.category}" name="category">
              <input type="hidden" value="${c.auction}" name="auction">
                 <table class="list" align="center">
 <c:choose>

@@ -55,7 +55,6 @@ public class ProductContentController implements Controller {
 		    
 		    response.setContentType("text/html;charset=UTF-8");
 		    response.getWriter().write(responseBody); // API 응답 결과 출력
-		    System.out.println(responseBody);
 		    ObjectMapper objectMapper = new ObjectMapper();
 		    Map<String, Object> responseMap=null;
 	        try {
@@ -68,14 +67,21 @@ public class ProductContentController implements Controller {
 		
 		
 		//옥션 리스트 가져오기
-		List<Auction> au = AuctionDAO.getInstance().getOneAuction(ProductNo);
+	     Auction au = AuctionDAO.getInstance().getOneAuction(ProductNo);
 		//이미지 파일 가져오기
 		List<ProductImg> image = ProductImgDAO.getInstance().getOneProductImg(ProductNo);
 		if(isAuction.equals("true")) {
+			Product vo = ProductDAO.getInstance().getProductNoContent(ProductNo);
+			// 밑에느 경매 연관카테고리 5개 가져오기
+			List<Product> list = ProductDAO.getInstance().getAboutCategory(ProductNo);
+			System.out.println(list.toString());
+			List<Auction> auList =AuctionDAO.getInstance().getAllAuction();
+			List<ProductImg> imageList = ProductImgDAO.getInstance().getAllProductImg();
 			request.setAttribute("au", au);
 	 		request.setAttribute("img", image);
-	 		System.out.println(image.toString());
-			List<Product> vo = ProductDAO.getInstance().getProductNoContent(ProductNo);
+	 		request.setAttribute("list", list);
+	 		request.setAttribute("auList", auList);
+	 		request.setAttribute("imageList", imageList);
 			request.setAttribute("auction", isAuction);
 			request.setAttribute("vo", vo);
 			return "product/productContent";
@@ -83,8 +89,8 @@ public class ProductContentController implements Controller {
 		}
 		request.setAttribute("au", au);
  		request.setAttribute("img", image);
- 		System.out.println(image.toString());
-		List<Product> vo = ProductDAO.getInstance().getProductNoContent(ProductNo);
+ 		
+		Product vo = ProductDAO.getInstance().getProductNoContent(ProductNo);
 		request.setAttribute("auction", isAuction); // 옥션 값던지기
 		request.setAttribute("vo", vo);
 		request.setAttribute("naver", responseMap); //네이버 최저가

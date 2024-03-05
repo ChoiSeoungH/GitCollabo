@@ -17,6 +17,7 @@ import java.util.Map;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import dao.AuctionDAO;
 import dao.ProductDAO;
 import dao.ProductImgDAO;
 import frontcontorller.Controller;
@@ -24,6 +25,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import util.MybatisConfig;
+import vo.Auction;
 import vo.Product;
 import vo.ProductImg;
 
@@ -68,10 +70,14 @@ public class ProductSearchListController implements Controller {
 	    
         	jakarta.servlet.http.HttpSession session = request.getSession();
 	    	List<Product> list = ProductDAO.getInstance().getSearchListImg(request.getParameter("query"));
+	    	List<Auction> auList = AuctionDAO.getInstance().getAllAuction();
 	    	session.setAttribute("query", request.getParameter("query"));
 	    	List<ProductImg> imgList = ProductImgDAO.getInstance().getAllProductImg();
+	    	System.out.println("auList"+auList.toString());
+	    	System.out.println("list"+list);
 	    	request.setAttribute("img", imgList);
 		    request.setAttribute("vo", list);
+		    request.setAttribute("au", auList);
 		    request.setAttribute("naver", responseMap);
 		    return "product/productSearchList";  
 	 

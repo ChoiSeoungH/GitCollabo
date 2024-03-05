@@ -137,6 +137,7 @@ SELECT * FROM product WHERE title LIKE CONCAT('%', #{title}, '%')
     )
     </insert>
     
+    
     <!-- 경매 추가입찰자 -->
     <update id="addBidAuction" parameterType="auction">
     update auction 
@@ -147,8 +148,21 @@ SELECT * FROM product WHERE title LIKE CONCAT('%', #{title}, '%')
  
     <!-- 경매상품 최신리스트 가져오기 -->
     <select id="auctionLatestThree" resultMap="auction">
-    select * from auction ORDER BY no DESC LIMIT 3
+    select * from auction ORDER BY product_no DESC LIMIT 3
     </select>
+    
+    <!-- 경매 관련된 상품 5개 가져오기  -->
+    <select id="getAboutCategory" parameterType="Integer" resultMap="product">
+    SELECT *
+FROM product
+WHERE category = (SELECT category FROM product WHERE no=#{no})
+  AND no != #{no}
+  AND is_auction = 1
+  AND end_date IS NULL
+ORDER BY no DESC LIMIT 5;
+    </select>
+    
+    
     <!--경매 자동종료 -->
         <update id="autoAuctionEnd" parameterType="product">
     update product

@@ -3,6 +3,7 @@ package product;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import dao.AuctionDAO;
 import frontcontorller.Controller;
@@ -24,6 +25,13 @@ public class ProductAuctionBidController implements Controller {
 		Date current = new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String now = formatter.format(current);
+		// 기존옥션 값 다시 유저한테 넘겨주기 
+		Auction ret = AuctionDAO.getInstance().getOneAuction(productNo);
+		int money = ret.getLastPrice();
+		int userNo= ret.getLastBidderNo();
+		//유저값넘기기 
+		
+		
 		
 		//public Auction(int productNo, int lastPrice, String lastBidDate, int lastBidderNo)
 		Auction vo = new Auction(productNo,bid,now,lastBidNo);

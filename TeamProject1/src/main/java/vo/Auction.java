@@ -5,6 +5,11 @@ public class Auction {
 	private int lastPrice; // 마지막 입찰가
 	private String lastBidDate; //마지막입찰일
 	private int  lastBidderNo;  //마지막입찰자 유저
+	@Override
+	public String toString() {
+		return "Auction [productNo=" + productNo + ", lastPrice=" + lastPrice + ", lastBidDate=" + lastBidDate
+				+ ", lastBidderNo=" + lastBidderNo + "]";
+	}
 	public Auction(int productNo, int lastPrice, String lastBidDate, int lastBidderNo) {
 		super();
 		this.productNo = productNo;

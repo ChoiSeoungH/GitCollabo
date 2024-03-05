@@ -95,8 +95,10 @@ input.img {
 	<h1 align="center">상품추가하기</h1>
 	<form action="${ctx}/productAdd.do" enctype="multipart/form-data"	method="post">
 		<table align="center" border=1>
-		<input type="hidden" name="no" value="1" > 
-
+	<%-- 	<input type="hidden" name="no" value="${user.no}" >
+		<input type="hidden" name="sellLocation" value="${user.location}">  --%>
+		<input type="hidden" name="no" value="1" >
+		<input type="hidden" name="sellLocation" value="강남시 역삼역"> 
 			<tr>
 				<td>상품제목 : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <input
 					class="input" type="text" name="productName"></td>
@@ -104,14 +106,14 @@ input.img {
 			<tr>
 				<td>상품가격 : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 					&nbsp; &nbsp; &nbsp; <input class="inputPrice" type="number"
-					name="productPrice">원
+					name="productPrice" min="1000" max="">원
 				</td>
 			</tr>
 			<tr>
 				<td>거래방법 : &nbsp; &nbsp; &nbsp; <input type="radio"
 					name="method" value="0">직거래 <input type="radio"
 					name="method" value="1">택배 <input type="radio"
-					name="method" value="2">다른 서비스 <input type="radio"
+					name="method" value="2">퀵서비스 <input type="radio"
 					name="method" value="3">상관없음
 				</td>
 			</tr>
@@ -155,6 +157,7 @@ input.img {
 </body>
 </html>
 <script>
+	const userLocation = '${user.location}';
 	function validCheck(form) {
 		if (!form.productName.value.trim()) {
 			alert("상품 이름을 입력하세요")
@@ -187,12 +190,16 @@ input.img {
 			form.productContent.focus();
 			return false;
 		} 
-	/* 	if (Number(form.productPrice.value.trim()) < 1000) {
+		if (Number(form.productPrice.value.trim()) < 1000) {
 				alert("상품 가격을 1000원 이상 입력해주세요");
 				form.productPrice.focus();
 				return false;
-			} */
-
+			}
+	/* 	if(!userLocation.trim()){
+			alert("위치설정을 해주세요");
+			return false;
+		}
+ */
 		// 최대 3개의 파일만 허용
 		form.submit();
 	}
