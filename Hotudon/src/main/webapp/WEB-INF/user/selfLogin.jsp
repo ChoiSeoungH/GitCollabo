@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../Main.jsp" %>
+    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>    
 <html>
 <head>
 <meta charset="UTF-8">
@@ -25,12 +26,11 @@
 			</tr>
 			<tr height="40">
 				<td align="center" colspan="2">
-					<input type="submit" value="로그인" />
+					<input type="submit" value="Sign In" />
 				</td>
 			</tr>
 		</table>
 	</form>
 </div>
-<%@ include file="../parts/footer.jsp" %>
 </body>
 </html>

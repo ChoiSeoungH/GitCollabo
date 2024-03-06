@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
         <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>  
+<c:set var="user" value="${user}"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -67,6 +68,7 @@ form{
         <c:forEach var="img" items="${imgList}">
             <c:if test="${latest.no == img.productNo && latest.buyerNo eq 0  && latest.endDate == null}">
             	<form action="${ctx}/productContent.do"  method="post" class="myForm">
+            	<input type="hidden" value="${user.no}" name="no">
             	<input type="hidden" value="${latest.title}" name="query">
             	<input type="hidden" value="${latest.no}" name="productNo">
               <input type="hidden" value="${latest.auction}" name="auction">
@@ -109,6 +111,7 @@ form{
         <c:forEach var="img" items="${imgList}">
             <c:if test="${c.category == 1 && c.no == img.productNo && c.buyerNo == 0 && c.endDate == null}">
             <form action="${ctx}/productContent.do"  method="post" class="myForm">
+            	<input type="hidden" value="${user.no}" name="no">
             	<input type="hidden" value="${c.no}" name="productNo">
             	<input type="hidden" value="${c.title}" name="query">
               <input type="hidden" value="${c.auction}" name="auction">
@@ -153,6 +156,7 @@ form{
         <c:forEach var="img" items="${imgList}">
             <c:if test="${c.category == 2 && c.no == img.productNo && c.buyerNo == 0 && c.endDate == null }">
                             <form action="${ctx}/productContent.do"  method="post" class="myForm">
+            	            	<input type="hidden" value="${user.no}" name="no">
             	<input type="hidden" value="${c.title}" name="query">
             	<input type="hidden" value="${c.no}" name="productNo">
             	 <input type="hidden" value="${c.auction}" name="auction">
@@ -201,6 +205,7 @@ form{
         <c:forEach var="img" items="${imgList}">
             <c:if test="${c.category == 3 && c.no == img.productNo  && c.buyerNo == 0 && c.endDate == null}">
                         <form action="${ctx}/productContent.do"  method="post" class="myForm">
+            	            	<input type="hidden" value="${user.no}" name="no">
             	<input type="hidden" value="${c.title}" name="query">
             	<input type="hidden" value="${c.no}" name="productNo">
             	  <input type="hidden" value="${c.auction}" name="auction">
@@ -246,7 +251,8 @@ form{
         <c:forEach var="img" items="${imgList}">
             <c:if test="${c.category == 0 && c.no == img.productNo && c.buyerNo == 0 && c.endDate == null}">
                         <form action="${ctx}/productContent.do"  method="post" class="myForm">
-            	<input type="hidden" value="${c.no}" name="productNo">
+                        	<input type="hidden" value="${user.no}" name="no">
+            <input type="hidden" value="${c.no}" name="productNo">
              <input type="hidden" value="${c.auction}" name="auction">
              <input type="hidden" value="${c.title}" name="query">
                 <table class="list" align="center">
@@ -298,8 +304,9 @@ form{
 <c:forEach var="img" items="${imgList}">
             <c:if test="${latest.productNo == img.productNo && latest.productNo == c.no && c.endDate eq null} ">
             	<form action="${ctx}/productContent.do"  method="post" class="myForm">
+            	            	<input type="hidden" value="${user.no}" name="no">
             	<input type="hidden" value="${latest.prductNo}" name="productNo">
-            	    	<input type="hidden" value="${c.title}" name="query">
+            	    <input type="hidden" value="${c.title}" name="query">
               <input type="hidden" value="${c.category}" name="category">
               <input type="hidden" value="${c.auction}" name="auction">
                 <table class="list" align="center" border="1">
@@ -344,6 +351,7 @@ form{
         <c:forEach var="img" items="${imgList}">
            <c:if test="${c.category == 1 && c.no == img.productNo && c.no == au.productNo && c.endDate eq null}">
             <form action="${ctx}/productContent.do"  method="post" class="myForm">
+            	            	<input type="hidden" value="${user.no}" name="no">
             	<input type="hidden" value="${c.no}" name="productNo">
             	    	<input type="hidden" value="${c.title}" name="query">
             	<input type="hidden" value="${c.category}" name="category">
@@ -391,6 +399,7 @@ form{
         <c:forEach var="img" items="${imgList}">
             <c:if test="${c.category == 2 && c.no == img.productNo && c.no == au.productNo && c.endDate eq null}">
                             <form action="${ctx}/productContent.do"  method="post" class="myForm">
+            	            	<input type="hidden" value="${user.no}" name="no">
             	<input type="hidden" value="${c.no}" name="productNo">
             	    	<input type="hidden" value="${c.title}" name="query">
             	<input type="hidden" value="${c.category}" name="category">
@@ -439,6 +448,7 @@ form{
         <c:forEach var="img" items="${imgList}">
         <c:if test="${c.category == 3 && c.no == img.productNo && c.no == au.productNo && c.endDate eq null}">
                         <form action="${ctx}/productContent.do"  method="post" class="myForm">
+            	            	<input type="hidden" value="${user.no}" name="no">
             	<input type="hidden" value="${c.no}" name="productNo">
             	    	<input type="hidden" value="${c.title}" name="query">
             	<input type="hidden" value="${c.category}" name="category">
@@ -487,6 +497,7 @@ form{
         <c:forEach var="img" items="${imgList}">
         <c:if test="${c.category == 0 && c.no == img.productNo && c.no == au.productNo && c.endDate eq null}">
                         <form action="${ctx}/productContent.do"  method="post" class="myForm">
+            	            	<input type="hidden" value="${user.no}" name="no">
             	<input type="hidden" value="${c.no}" name="productNo">
             	<input type="hidden" value="${c.title}" name="query">
             	<input type="hidden" value="${c.category}" name="category">

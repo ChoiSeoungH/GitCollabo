@@ -37,9 +37,9 @@ public class UpdateEndDateJob implements Job {
                 calendar.setTime(lastBidDate);
 
                 if (auction.getLastBidderNo() == 0) {
-                    calendar.add(Calendar.HOUR_OF_DAY, 24);
+                    calendar.add(Calendar.HOUR_OF_DAY, 2);  //24 시로 나중에 바꾸기
                 } else {
-                    calendar.add(Calendar.HOUR_OF_DAY, 3);
+                    calendar.add(Calendar.HOUR_OF_DAY, 1);  //3시간으로 바꾸기
                 }
                 Date threeHoursAgoDate = calendar.getTime();
 

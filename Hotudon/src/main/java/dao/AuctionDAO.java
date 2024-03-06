@@ -48,12 +48,19 @@ public class AuctionDAO {
 		session.close();
 		return list;
 	}
-
+	//옥션 최신상품 3개 가져오기
 	public List<Auction> auctionLatestThree(){
 		SqlSession session = MybatisConfig.getInstance().openSession();
 		List<Auction> list = session.selectList("mapper.product.auctionLatestThree");
 		session.close();
 		return list;
+	}
+	// 해당 경매중이거나 경매종료된 유저 가져오기
+	public List<Auction> getAllBidUserNo(int no){
+	SqlSession session = MybatisConfig.getInstance().openSession();
+	List<Auction> list = session.selectList("mapper.product.getAllBidUserNo", no);
+	session.close();
+	return list;
 	}
 	
 	

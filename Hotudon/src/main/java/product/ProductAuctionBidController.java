@@ -20,8 +20,8 @@ public class ProductAuctionBidController implements Controller {
 			throws ServletException, IOException {
 		int bid = Integer.parseInt(request.getParameter("bidAmount"));
 		System.out.println("bid "+ bid);
-		int productNo = Integer.parseInt(request.getParameter("no"));
-		int lastBidNo = Integer.parseInt(request.getParameter("id"));
+		int productNo = Integer.parseInt(request.getParameter("product"));
+		int lastBidNo = Integer.parseInt(request.getParameter("no"));
 		Date current = new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String now = formatter.format(current);

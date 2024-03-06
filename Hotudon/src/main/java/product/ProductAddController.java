@@ -48,7 +48,7 @@ public class ProductAddController implements Controller {
 			int no =ProductDAO.getInstance().getselectAucton();
 			ProductImg Img = new ProductImg(0,no, image, null);
 			ProductImgDAO.getInstance().addOneProductImg(Img);
-			return "main";
+			return "user/MyPage";
 		
 		}else { 
 			// 경매일떄  일단
@@ -59,7 +59,7 @@ public class ProductAddController implements Controller {
 			ProductImg Img = new ProductImg(0,no, image, null);
 			ProductImgDAO.getInstance().addOneProductImg(Img);
 			AuctionDAO.getInstance().addAuction(au);
-			return "main";
+			return "user/MyPage";
 			
 		}
 		

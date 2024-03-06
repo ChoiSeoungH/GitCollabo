@@ -70,12 +70,36 @@ public class ProductDAO {
 			return list;
 		
 		}
+		//경매상품에 관한 연관된 카테고리 제품들 가져오기
 		public List<Product> getAboutCategory(int no){
 			SqlSession session = MybatisConfig.getInstance().openSession();
 			List<Product> list =session.selectList("mapper.product.getAboutCategory", no);
 			session.close();
 			return list;
 		}
+		// 나의 판매 상품 다가져오기		
+		public List<Product> getAllMyProduct(int no){
+		SqlSession session = MybatisConfig.getInstance().openSession();
+		List<Product> list = session.selectList("mapper.product.getSellUserProductList",no);
+		session.close();
+		return list;
+		}
+		//내가 구매한 상품들 가져오기
+		public List<Product> getAllBuyProduct(int no){
+			SqlSession session = MybatisConfig.getInstance().openSession();
+			List<Product> list =session.selectList("mapper.product.getBuyUserProductList",no); 
+			session.close();
+			return list;
+		}
+		// 판매하는 제품 삭제하기		
+		public int sellerRemoveOne(int no) {
+			SqlSession session = MybatisConfig.getInstance().openSession();
+			int check = session.update("mapper.product.SellproductDelete",no);
+			session.commit();
+			session.close();
+			return check;
+		}
+		
 
 		
 

@@ -58,7 +58,7 @@ SELECT * FROM product
 
 
 <!--카테고리 상품 조회리스트 -->
-<select id="getCateProductList" resultMap="product" parameterType="InTeger">
+<select id="getCateProductList" resultMap="product" parameterType="Integer">
 	select * from product where category=#{category}
 </select>
 <!-- 상품 검색 조회 -->
@@ -73,17 +73,20 @@ SELECT * FROM product WHERE title LIKE CONCAT('%', #{title}, '%')
     	</select>
  	
    			<!-- 판매자 상품유저 가져오기 -->
-    	<select id="getSellUserProductList" parameterType="String" resultMap="product">
-    	 SELECT * FROM product where seller_no=#{sellerNo} 
+    	<select id="getSellUserProductList" parameterType="Integer" resultMap="product">
+    	 SELECT * FROM product where seller_no=#{no}
     	</select>
-   
-   
+  		 <!-- 구매한 상품들 가져오기 -->
+   		<select id="getBuyUserProductList" parameterType="Integer" resultMap="product">
+   		select * from product where buyer_no=#{no}
+   		</select>
    <!-- 상품수정 -->  	
   		<update id="productUpdate" parameterType="product" >
     	update product 
     	set price=#{price} , category=#{category} , title=#{title}, description=#{description} ,product_method=#{productMethod}
     	where no=#{no}
     	</update>
+    
     
     <!--  거래완료 -->
     	<update id="productUpdateEnd" parameterType="product" >
@@ -115,9 +118,14 @@ SELECT * FROM product WHERE title LIKE CONCAT('%', #{title}, '%')
     </select>
     
      <!-- 상품삭제 본인-->
-      <delete id="productDelete" parameterType="String">  
-        delete from user where no=#{no} 
-    </delete>
+      <update id="SellproductDelete" parameterType="Integer">  
+       	 update product
+    <set>
+        numeric_field = 0,
+        <!-- 다른 필드들에 대한 조건 추가 -->
+    </set>
+    where no = #{no};
+    </update>
     
     <!-- 경매리스트 불러오기 -->
 	<select id="selectAllAuction" resultMap="auction">
@@ -126,7 +134,8 @@ SELECT * FROM product WHERE title LIKE CONCAT('%', #{title}, '%')
 	<!--경매상품넘버가져오기 -->
      	<select id="getOneAuction" parameterType="Integer" resultMap="auction">
     	 SELECT * FROM auction where product_no=#{no} 
-    	</select>
+    </select>
+    	
 	
 	<!-- 경매선택추가 -->
     <insert id="addOneAuction" parameterType="auction">
@@ -144,7 +153,11 @@ SELECT * FROM product WHERE title LIKE CONCAT('%', #{title}, '%')
     set last_price=#{lastPrice}, last_bid_date=#{lastBidDate}, last_bidder_no=#{lastBidderNo}
    	where product_no=#{productNo} 
     </update>
- 
+ 	<!-- 경매입찰자 가져오기 -->
+ 	<select id="getAllBidUserNo" parameterType="Integer" resultMap="auction">
+  	SELECT * FROM auction where last_bidder_no=#{no} 
+ 	
+ 	</select>
  
     <!-- 경매상품 최신리스트 가져오기 -->
     <select id="auctionLatestThree" resultMap="auction">
@@ -164,11 +177,20 @@ ORDER BY no DESC LIMIT 5;
     
     
     <!--경매 자동종료 -->
-        <update id="autoAuctionEnd" parameterType="product">
+   <update id="autoAuctionEnd" parameterType="product">
+    <!-- auction 테이블에서 해당 정보 가져오기 -->
+    <selectKey keyProperty="lastBidderNo" resultType="java.lang.Integer">
+        SELECT COALESCE(lastBidderNo, 0) AS lastBidderNo
+        FROM auction
+        WHERE product_no=#{productNo}
+    </selectKey>
+
+    <!-- product 테이블 업데이트 -->
     update product
-    set  end_date=#{endDate}
-   	where	no=#{no}; 
-    </update>
+    set end_date=#{endDate},
+        buyer_no=#{lastBidderNo}
+    where no=#{productNo};
+</update>
     
     
     <!-- 상품이미지리스트 전체불러오기 -->

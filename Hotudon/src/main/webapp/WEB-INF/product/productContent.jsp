@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
+<c:set var="user" value="${user}"/>
 <!DOCTYPE html>
 <html>
 <style>
@@ -116,7 +117,8 @@ margin-right: 10px;
 	<h3 align="center">상품 : ${vo.title}</h3>
 	<form action="${ctx}/productUpdate.do" method="post">
 		<table align="center" border=1>
-		<input type="hidden" name="no" value="${vo.no }" >
+		<input type="hidden" name="ProductNo" value="${vo.no}" >
+	            	<input type="hidden" value="${user.no}" name="no">
 	<tr>	
 		<td id="myTd">
 		</td>
@@ -173,18 +175,17 @@ margin-right: 10px;
 <div class="list-container">
 <h5>네이버 최저가 연관검색어</h5>
 <c:forEach var="na" items="${naver.items}">
-
-<table class="list">
 <a href="${na.link}" target="_blank">
+<table class="list">
 <tr>
-   <td><img src="${na.image}"></td>
+  <td><img src="${na.image}"></td>
 </tr>
 <tr>
  <td>${na.lprice}원</td>
 </tr>
-</a>
-</table>
 
+</table>
+</a>
 </c:forEach>
 </div>
 </div>
@@ -251,18 +252,19 @@ margin-right: 10px;
 			const lastBidDate = new Date("${au.lastBidDate}");
 			let  lastBidNo = Number('${au.lastBidderNo}');
 			let cash=Number('${user.cash}');
+			let user=('${user.no}');
 			let endDate;
 			const elementsToRemove = document.querySelectorAll('.prevent');
 			const resultElement = document.querySelector('#expectation');
-			const no = ('${vo.no}');
+			const product = ('${vo.no}');
 			let selectedBidAmount;
 			
 			function bidmoney(money){
 				var  w = money / 100;	
 				const bid =w*(recentBid) +recentBid
-				selectedBidAmount = bid;
+				selectedBidAmount = Math.round(bid);
 				
-				 resultElement.innerHTML = '입찰가격예상 : '+ bid +'원'
+				 resultElement.innerHTML = '입찰가격예상 : '+ selectedBidAmount +'원'
 				var buttonId = "btn" + money; 
 			    var clickedButton = document.getElementById(buttonId);
 
@@ -296,7 +298,7 @@ margin-right: 10px;
 			            headers: {
 			                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
 			            },
-			            body: "bidAmount=" + selectedBidAmount +"&no=" + no + "&id=" + "1",  //아이디값 넘기기
+			            body: "bidAmount=" + selectedBidAmount +"&product=" + product  + "&no=" + user,  //아이디값 넘기기
 			        })
 			        .then(response => response.text())
 			        .then(() => {
@@ -356,6 +358,7 @@ margin-right: 10px;
  	<c:forEach var="imgList" items="${imageList}">
  	<c:if test="${list.no==auList.productNo && imgList.productNo == list.no}">
  <form action="${ctx}/productContent.do"  method="post" class="myForm">
+             	<input type="hidden" value="${user.no}" name="no">
 <input type="hidden" value="${list.no}" name="productNo">
 <input type="hidden" value="${list.auction}" name="auction">
 <input type="hidden" value="${list.title}" name="query">

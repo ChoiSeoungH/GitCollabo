@@ -23,6 +23,14 @@
 <br>
 
 <a href="${ctx}/productAdd.do">상품추가하기</a>
+<br>
+
+<a href="${ctx}/selfJoin.do">유저회원가입</a>
+<br>
+<a href="${ctx}/selfLogin.do">유저로그인</a>
+<br>
+<a href="${ctx}/productAdd.do">마이페이지</a>
+
 </table>
 </body>
 </html>

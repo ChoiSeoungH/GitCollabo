@@ -9,6 +9,7 @@
 		<typeAlias type="vo.Category" alias="category" />
 		<typeAlias type="vo.Auction" alias="auction" />
 		<typeAlias type="vo.ProductImg" alias="productImg" />
+		<typeAlias type="vo.User" alias="user" />
 	</typeAliases>
 
 	<environments default="development">
@@ -24,5 +25,6 @@
 	</environments>
 		<mappers>
 		<mapper resource="mybatis/ProductMapper.xml" />
+			<mapper resource="mybatis/UserMapper.xml" />
 	</mappers>
 </configuration>
