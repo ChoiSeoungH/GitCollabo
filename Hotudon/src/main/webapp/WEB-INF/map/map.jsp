@@ -184,7 +184,7 @@
   // '동'을 추출하는 함수
   function extractDong(address) {
     // 주소에서 '동'에 해당하는 부분을 정규식을 사용하여 추출합니다.
-    var dongRegex = /.*동/;
+    var dongRegex = /[^ ]+동/;
     var match = address.match(dongRegex);
     return match ? match[0] : '동을 찾을 수 없음';
   }

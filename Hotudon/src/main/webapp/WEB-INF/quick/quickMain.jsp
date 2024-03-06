@@ -102,13 +102,14 @@
   </div>
   <!-- Financial information -->
   <div id="financial-info">
-    <span id="cash">현금 : ${user.cash}</span>
+    <span id="cash">현금 : ${user.cash}원</span>
 
     <span id="weekly-income">이번주 수입 : </span>
   </div>
   <!-- Delivery and navigation buttons -->
-  <button id="delivery-details">배달 내용</button>
-  <button id="arrival">도착</button>
+  <!-- 배달 내용 및 도착 버튼, 초기에는 숨김 처리 -->
+  <button id="delivery-details" style="display: none;">배달 내용</button>
+  <button id="arrival" style="display: none;">도착</button>
   <button id="main-screen" onclick="location.href='main.do'">메인 화면</button>
 </div>
 
@@ -151,6 +152,24 @@
 <script
     src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c8936a5cd23e9343aaae775855cc0679&libraries=services,clusterer,drawing"></script>
 <script>
+
+  // 사용자 상태에 따라 버튼 표시를 토글하는 함수
+  function toggleButtonsBasedOnStatus(status) {
+    if (status === '배송중') {
+      // 배송중 상태일 때 버튼 표시
+      $('#delivery-details').show();
+      $('#arrival').show();
+    } else {
+      // 그 외의 상태일 때 버튼 숨김
+      $('#delivery-details').hide();
+      $('#arrival').hide();
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', toggleButtonsBasedOnStatus);
+
+
+  //지도부분
   var mapContainer = document.getElementById('map'), // 지도를 표시할 div
       mapOption = {
         center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
@@ -174,6 +193,8 @@
   var lon;
   var locPosition;
   var distance;
+  var productNo = 0;
+  var price = 0;
 
   var roadAddress = deliver.location.split("/")[0];
   var detailAddress = deliver.location.split("/")[2];
@@ -197,16 +218,17 @@
   }
 
 
-
   function acceptDelivery(position, buyerPosition, productAddress, buyerAddress, deliveryFee) {
     drawRoute(locPosition, position, buyerPosition);
     // 마커 움직임 시작
-    var marker =  addDeliveryMarker(locPosition, '배달원 위치',position, buyerPosition); // 배달원 위치 주소 정보 필요 시 추가 로직 구현
+    var marker = addDeliveryMarker(locPosition, '배달원 위치', position, buyerPosition); // 배달원 위치 주소 정보 필요 시 추가 로직 구현
 
     addDeliveryMarker(position, '픽업 : ' + productAddress, position, buyerPosition);
     addDeliveryMarker(buyerPosition, '전달 : ' + buyerAddress, position, buyerPosition);
-    startMarkerMovement(position, buyerPosition,marker);
+    startMarkerMovement(position, buyerPosition, marker);
   }
+
+
 
   geocoder.addressSearch(roadAddress + ' ' + detailAddress, function (result, status) {//배달기사 위치확인
     if (status === kakao.maps.services.Status.OK) {
@@ -278,7 +300,6 @@
     }
 
 
-
     //프로덕트 마커 표시
     var MARKER_WIDTH = 33, // 기본, 클릭 마커의 너비
         MARKER_HEIGHT = 36, // 기본, 클릭 마커의 높이
@@ -305,7 +326,6 @@
       var product = listDatum;
       var buyer = buyerListDatum;
       var deliveryFee;
-
 
 
       // console.log(product);
@@ -348,27 +368,25 @@
               distance = getDistance(lat1, lon1, lat2, lon2);
               // 거리에 따른 배달비 계산
               // 기본배달료는 3,000원으로 고정돼 있다. 내비게이션 기준으로 배달거리 645m를 초과하면 3,500원이 주어지고, 배달거리 1.9km를 초과하면 100m당 80원이 추가된다.
-              if (distance>645) {
+              if (distance > 645) {
                 deliveryFee = 3500;
-              }else if(distance > 1900){
+              } else if (distance > 1900) {
                 deliveryFee = 3500 + (distance - 1900) * 80;
                 // 100원 단위로 정수로 나오게 처리
                 deliveryFee = Math.round(deliveryFee / 100) * 100;
-              }else{
+              } else {
                 deliveryFee = 3000;
               }
 
               console.log("distance : " + distance);
               console.log("deliveryFee : " + deliveryFee);
-              addMarker(latlng, latlng2,normalOrigin, overOrigin, clickOrigin, productAddress, buyerAddress, deliveryFee);
+              addMarker(product.no ,latlng, latlng2, normalOrigin, overOrigin, clickOrigin, productAddress, buyerAddress, deliveryFee);
             }
           });
 
         }
       });
     }
-
-
 
 
     for (let i = 0; i < listData.length; i++) {
@@ -378,10 +396,8 @@
     }
 
 
-
-
     // 마커를 생성하고 지도 위에 표시하고, 마커에 mouseover, mouseout, click 이벤트를 등록하는 함수입니다
-    function addMarker(position,  buyerPosition,normalOrigin, overOrigin, clickOrigin, productAddress, buyerAddress, deliveryFee) {
+    function addMarker(no, position, buyerPosition, normalOrigin, overOrigin, clickOrigin, productAddress, buyerAddress, deliveryFee) {
 
       // 기본 마커이미지, 오버 마커이미지, 클릭 마커이미지를 생성합니다
       var normalImage = createMarkerImage(markerSize, markerOffset, normalOrigin),
@@ -456,12 +472,20 @@
 
         content.appendChild(closeButton);
 
+
         var acceptDeliveryButton = document.createElement('button');
         acceptDeliveryButton.textContent = '배달수락';
+        acceptDeliveryButton.setAttribute('data-product-no', no);
+        acceptDeliveryButton.setAttribute('data-delivery-fee', deliveryFee);
+        acceptDeliveryButton.classList.add('accept-delivery-button'); // 클래스 추가
+
         acceptDeliveryButton.addEventListener('click', function () {
+          productNo = $(this).data('product-no');
+          price = $(this).data('delivery-fee');
           acceptDelivery(position, buyerPosition, productAddress, buyerAddress, deliveryFee);
-            var newStatus = 3; // data-status 속성 값 가져오기
-            updateDeliveryStatus(${user.no}, newStatus); // 상태 업데이트 함수 호출
+          var newStatus = 3;
+          setDelivery(productNo,${user.no},deliveryFee,productAddress);
+          updateDeliverStatus(${user.no}, newStatus, 0); // 상태 업데이트 함수 호출
         });
 
         content.appendChild(acceptDeliveryButton);
@@ -490,6 +514,7 @@
     // 이동할 위도 경도 위치를 생성합니다
     map.panTo(locPosition);
   }
+
   // 전역 변수로 선을 관리하기 위해 변수 선언
   var dtoSline, stoBline;
 
@@ -542,7 +567,7 @@
 
     if (!address.includes("배달원")) {
       var infowindow = new kakao.maps.InfoWindow({
-        content : '<div style="padding:5px;" >' + address + '</div>' // 인포윈도우에 표시할 내용
+        content: '<div style="padding:5px;" >' + address + '</div>' // 인포윈도우에 표시할 내용
       });
       infowindow.open(map, marker); // 마커 클릭 시 인포윈도우 표시
 
@@ -598,6 +623,7 @@
   // 전역 변수로 이동할 마커와 인터벌 관리를 위한 변수 선언
   var movingMarker;
   var movementInterval;
+
   function interpolate(lat1, lng1, lat2, lng2, fraction) {
     return {
       lat: lat1 + (lat2 - lat1) * fraction,
@@ -617,8 +643,10 @@
 
 
   function startMarkerMovement(position, buyerPosition, marker) {
-    var pathToPickup = generatePathPoints(locPosition, position, 10);
-    var pathToDelivery = generatePathPoints(position, buyerPosition, 10);
+    // var pathToPickup = generatePathPoints(locPosition, position, 5);
+    // var pathToDelivery = generatePathPoints(position, buyerPosition, 5);
+    var pathToPickup = generatePathPoints(locPosition, position, 2);
+    var pathToDelivery = generatePathPoints(position, buyerPosition, 2);
     var completePath = pathToPickup.concat(pathToDelivery); // 두 경로를 합칩니다.
 
     var currentStep = 0; // 현재 경로 포인트 인덱스
@@ -640,6 +668,7 @@
         if (getDistance(locPosition.getLat(), locPosition.getLng(), position.getLat(), position.getLng()) < 5) {
           isPickUp = true;
           dtoSline.setMap(null);
+          updateDeliveryStatus(productNo, 1);
         }
 
         if (!isPickUp) {
@@ -647,7 +676,7 @@
         }
 
         // 구매자 위치와의 거리가 0이 아닐 때만 stoBline 선을 다시 그립니다
-        if (getDistance(locPosition.getLat(),locPosition.getLng(),buyerPosition.getLat(),buyerPosition.getLng())< 5) {
+        if (getDistance(locPosition.getLat(), locPosition.getLng(), buyerPosition.getLat(), buyerPosition.getLng()) < 5) {
           isDeliveryComplete = true;
           stoBline.setMap(null);
         }
@@ -731,37 +760,109 @@
   }
 
 
+  // 상태 전환 버튼 클릭 이벤트
+  $('#status-toggle').on('click', function () {
+    $('#statusModal').modal('show'); // 모달 창 표시
+  });
 
-    // 상태 전환 버튼 클릭 이벤트
-    $('#status-toggle').on('click', function() {
-      $('#statusModal').modal('show'); // 모달 창 표시
+  // 모달 내 상태 버튼 클릭 이벤트
+  $('.status-button').on('click', function () {
+    var newStatus = $(this).data('status'); // data-status 속성 값 가져오기
+    updateDeliverStatus(${user.no}, newStatus , 0); // 상태 업데이트 함수 호출
+    $('#statusModal').modal('hide'); // 모달 창 숨기기
+  });
+
+
+
+
+  //도착버튼
+  $('#arrival').on('click', function () {
+    var newStatus = 1; // 휴식
+
+    console.log(productNo)
+    updateEndDate(productNo);
+
+    // Java의 ProductDAO 클래스 내 updateEndDate 메소드 호출 (서버사이드 코드에서 처리 필요)
+    var fee = price;
+    updateDeliverStatus(${user.no}, newStatus , fee); // 상태 업데이트 함수 호출
+    updateDeliveryStatus(productNo, 2);
+    // 클라이언트 사이드에서는 AJAX 호출을 통해 서버에 요청을 보내야 합니다.
+    // 예시:
+    productNo =0;
+  });
+
+
+  // 배달원 상태 업데이트 함수
+  function updateDeliverStatus(no, newStatus, fee) {
+    $.ajax({
+      url: 'deliverStatus.do', // DeliverStatusController로의 실제 경로
+      type: 'POST',
+      data: {
+        no: no,
+        status: newStatus,
+        cash : fee
+      },
+      success: function (response) {
+        $('#user-status').text("상태 : " + response.status); // 응답 받은 새로운 상태로 업데이트
+        $('#cash').text("현금 : " + response.cash+"원");
+        toggleButtonsBasedOnStatus(response);
+      },
+      error: function () {
+        alert("상태 업데이트에 실패하였습니다.");
+      }
     });
+  }
 
-    // 모달 내 상태 버튼 클릭 이벤트
-    $('.status-button').on('click', function() {
-      var newStatus = $(this).data('status'); // data-status 속성 값 가져오기
-      updateDeliveryStatus(${user.no}, newStatus); // 상태 업데이트 함수 호출
-      $('#statusModal').modal('hide'); // 모달 창 숨기기
+  // 딜리버리 상태 업데이트 함수
+  function updateDeliveryStatus(no, newStatus) {
+    $.ajax({
+      url: 'deliveryStatus.do', // DeliverStatusController로의 실제 경로
+      type: 'POST',
+      data: {
+        no: no,
+        status: newStatus
+      },
+      success: function (response) {
+        $('#user-status').text("상태 : " + response); // 응답 받은 새로운 상태로 업데이트
+        toggleButtonsBasedOnStatus(response);
+      },
+      error: function () {
+        alert("상태 업데이트에 실패하였습니다.");
+      }
     });
+  }
 
-    // 상태 업데이트 함수
-    function updateDeliveryStatus(no, newStatus) {
-      $.ajax({
-        url: 'deliverStatus.do', // DeliverStatusController로의 실제 경로
-        type: 'POST',
-        data: {
-          no: no,
-          status: newStatus
-        },
-        success: function(response) {
-          $('#user-status').text("상태 : " + response); // 응답 받은 새로운 상태로 업데이트
-        },
-        error: function(xhr, status, error) {
-          alert("상태 업데이트에 실패하였습니다.");
-        }
-      });
-    }
+  function updateEndDate(productNo) {
+    $.ajax({
+      url: 'quickEnd.do',
+      method: 'POST',
+      data: { no: productNo }, // endDate를 제외하고 no만 전송
+      success: function(response) {
+        console.log("날짜 업데이트 완료");
+      },
+      error: function(xhr, status, error) {
+        console.error("날짜 업데이트 실패");
+      }
+    });
+  }
 
+  function setDelivery(productNo,deliverNo,deliveryFee,productAddress) {
+    $.ajax({
+      url: 'deliverySet.do',
+      method: 'POST',
+      data: { productNo: productNo ,
+        deliverNo: deliverNo,
+        deliveryFee : deliveryFee,
+        productAddress : productAddress,
+      },
+      success: function(response) {
+        console.log("딜리버리 셋팅 완료");
+      },
+      error: function(xhr, status, error) {
+        console.error("딜리버리 셋팅 실패");
+      }
+    });
+  }
   function panTo() {//지도좌표 이동
     // 이동할 위도 경도 위치를 생성합니다
     var moveLatLon = new kakao.maps.LatLng(lat, lon);

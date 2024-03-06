@@ -94,8 +94,12 @@
 
     <update id="updateUserStatus" parameterType="user">
         UPDATE user
-        SET status=#{status}
-        WHERE no=#{no}
+        SET status = #{status}
+        <if test="cash != 0">
+            , cash = cash + #{cash}
+        </if>
+        WHERE no = #{no}
     </update>
+
 
 </mapper>

@@ -5,6 +5,8 @@ import org.apache.ibatis.session.SqlSession;
 import util.MybatisConfig;
 import vo.Product;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class ProductDAO {
@@ -91,6 +93,17 @@ public class ProductDAO {
     List<Product> list = session.selectList("getDeliveryProductsByLocation", location);
     session.close();
     return list;
+  }
+
+  public void updateEndDate(int productNo, Date newEndDate) {
+    SqlSession session = MybatisConfig.getInstance().openSession();
+    HashMap<String, Object> params = new HashMap<>();
+    params.put("no", productNo);
+    params.put("endDate", newEndDate);
+    System.out.println(params);
+    session.update("productEnd", params);
+    session.commit();
+    session.close();
   }
 }
 
