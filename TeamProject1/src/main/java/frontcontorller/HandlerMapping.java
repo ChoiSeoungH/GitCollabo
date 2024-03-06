@@ -2,17 +2,18 @@ package frontcontorller;
 
 
 
+import controller.Quick.DeliverStatusController;
 import controller.User.*;
 import controller.main.MainController;
 import controller.map.InsertAddressController;
 import controller.map.MapController;
-import controller.map.QuickMainController;
+import controller.Quick.QuickMainController;
 
 import java.util.HashMap;
 import controller.Product.ProductAddController;
 import controller.Product.ProductContentController;
 import controller.Product.ProductListController;
-import product.ProductSearchListController;
+import controller.search.ProductSearchListController;
 import controller.Product.ProductMainController;
 
 public class HandlerMapping {
@@ -22,6 +23,7 @@ public class HandlerMapping {
 		mappings = new HashMap<String, Controller>();
 		//quick
 		mappings.put("/quickMain.do", new QuickMainController());
+		mappings.put("/deliverStatus.do", new DeliverStatusController());
 
 		//map
 		mappings.put("/map.do", new MapController());
@@ -33,10 +35,8 @@ public class HandlerMapping {
 		//상품등록
 		mappings.put("/productAdd.do", new ProductAddController());
 
-
 		//검색체크
 		mappings.put("/productSearch.do", new ProductSearchListController());
-
 
 		//상품리스트
 		mappings.put("/productList.do" ,new ProductListController());
