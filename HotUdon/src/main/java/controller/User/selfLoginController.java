@@ -44,7 +44,7 @@ public class selfLoginController implements Controller {
 			session.setAttribute("user", user);
 			System.out.println("user : "+user);
 //			return "redirect:" + ctx + "/main.do";
-			return "user/MyPage";
+			return "Main";
 		}
 	}
 
