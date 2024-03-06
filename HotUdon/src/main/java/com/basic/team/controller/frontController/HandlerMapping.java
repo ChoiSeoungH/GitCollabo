@@ -15,6 +15,7 @@ import com.basic.team.controller.User.selfJoinController;
 import com.basic.team.controller.User.selfLoginController;
 import com.basic.team.controller.User.userCashUpdateController;
 import com.basic.team.controller.User.userContentController;
+import com.basic.team.controller.User.userDeleteController;
 import com.basic.team.controller.User.userLogOutController;
 import com.basic.team.controller.User.userUpdateController;
 import com.basic.team.controller.admin.userListController;
@@ -45,6 +46,7 @@ public class HandlerMapping {
 		mappings.put("/userUpdate.do", new userUpdateController());
 		mappings.put("/userMyPage.do", new myPageController());
 		mappings.put("/userLogOut.do", new userLogOutController());
+		mappings.put("/userDelete.do", new userDeleteController());
 		mappings.put("/cashUpdate.do", new userCashUpdateController());
 		mappings.put("/purHistory.do", new PurchaseHistoryController());
 		mappings.put("/saleHistory.do", new SalesHistoryController());
