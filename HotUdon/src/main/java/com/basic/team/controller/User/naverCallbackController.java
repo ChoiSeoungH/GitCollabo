@@ -77,7 +77,7 @@ public class naverCallbackController implements Controller {
 	      System.out.println(e);
 	    }
 		
-	    return "user/MyPage";
+	    return "Main";
 	}
 	
 	public static void setToken(String Atoken, HttpServletRequest req) throws UnsupportedEncodingException {
