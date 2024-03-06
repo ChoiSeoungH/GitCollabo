@@ -1,10 +1,5 @@
 package vo;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-
 public class Product {
 	private int no;
 	private int category;
@@ -117,4 +112,14 @@ public class Product {
 		this.endDate = endDate;
 	}
 	public Product() {}
+	
+	public Product(int no, String endDate) {
+
+		this.no = no;
+		this.endDate =endDate;// TODO Auto-generated constructor stub
+	}
+	//autoend check용
+
+
+
 }
