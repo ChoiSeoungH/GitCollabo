@@ -36,7 +36,7 @@ public class selfLoginController implements Controller {
 			HttpSession session = req.getSession();
 			session.setAttribute("user", user);
 //			return "redirect:" + ctx + "/main.do";
-			return "user/MyPage";
+			return "Main";
 		}
 	}
 

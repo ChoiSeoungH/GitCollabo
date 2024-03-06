@@ -8,6 +8,7 @@ import com.basic.team.controller.User.SalesHistoryController;
 import com.basic.team.controller.User.VaildIdAjaxController;
 import com.basic.team.controller.User.googleLoginContoller;
 import com.basic.team.controller.User.kakaoLoginController;
+import com.basic.team.controller.User.myPageController;
 import com.basic.team.controller.User.naverCallbackController;
 import com.basic.team.controller.User.naverLoginController;
 import com.basic.team.controller.User.selfJoinController;
@@ -42,6 +43,7 @@ public class HandlerMapping {
 		mappings.put("/vaildIdAjax.do", new VaildIdAjaxController());
 		mappings.put("/userContent.do", new userContentController());
 		mappings.put("/userUpdate.do", new userUpdateController());
+		mappings.put("/userMyPage.do", new myPageController());
 		mappings.put("/userLogOut.do", new userLogOutController());
 		mappings.put("/cashUpdate.do", new userCashUpdateController());
 		mappings.put("/purHistory.do", new PurchaseHistoryController());

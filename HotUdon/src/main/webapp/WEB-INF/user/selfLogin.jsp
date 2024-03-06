@@ -17,11 +17,11 @@
 			</tr>
 			<tr height="40">
 				<td width="120" align="center"> 이메일 </td>
-				<td width="180"> <input type="text" name="id" size="15" /> </td>
+				<td width="180"> <input type="text" name="id" size="15" required /> </td>
 			</tr>
 			<tr height="40">
 				<td width="120" align="center"> 패스워드 </td>
-				<td width="180"> <input type="password" name="pw" size="15" /> </td>
+				<td width="180"> <input type="password" name="pw" size="15" required /> </td>
 			</tr>
 			<tr height="40">
 				<td align="center" colspan="2">

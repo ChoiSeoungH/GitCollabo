@@ -46,14 +46,14 @@
  	<tr>
 		<td>비밀번호</td>
 		<td class="left"><c:if test="${ user.pw ne 'SNSPw' }">
-		<input class="col-12"  type="password" name="pw" required/ ></c:if>
+		<input class="col-12"  type="password" name="pw" required /></c:if>
 		<c:if test="${ user.pw eq 'SNSPw' }">SNS 회원은 비밀번호를 수정할 수 없습니다.
 		<input type="hidden" name="pw" value="SNSPw"></c:if></td>
  	</tr>  
 	<tr>
 		<td>비밀번호 확인</td>
 		<td class="left"><c:if test="${ user.pw ne 'SNSPw' }">
-		<input class="col-12"  type="password" name="pw1" required/></c:if>
+		<input class="col-12"  type="password" name="pw1" required /></c:if>
 		<c:if test="${ user.pw eq 'SNSPw' }">SNS 회원은 비밀번호를 수정할 수 없습니다.
 		<input type="hidden" name="pw" value="SNSPw"></c:if></td>
 	</tr>  

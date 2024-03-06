@@ -115,18 +115,7 @@
 				<div class="mid"> ${ user.regDate } </div>
 			</div>
 		</div>
-		<!-- <table border="1">
-		<tr>
-		<td colspan="2"> <img src="./img/seolak.png"> 닉네임 </td>
-		<td>
-		</td>
-		</tr>
-		<tr>
-		<td> 캐시 </td>
-		<td> 회원 상태 </td>
-		<td> 가입 일자 </td>
-		</tr>
-		</table> -->
+		
 	</div class="mypage_menu">
 	<a href="${ctx}/userInfo.do"> - 내 동네 설정 </a><br>
 	<a href="${ctx}/saleHistory.do?no=${user.no}"> - 판매 내역 </a><br>
