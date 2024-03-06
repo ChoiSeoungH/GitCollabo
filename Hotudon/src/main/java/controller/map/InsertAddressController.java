@@ -35,6 +35,7 @@ public class InsertAddressController implements Controller {
 //    System.out.println("user : "+uDao.userList().get(no));
 //    User vo = uDao.userList().get(no + 1);
     User vo = (User) session.getAttribute("user");
+    System.out.println(vo);
     String combinedAddress = null;
 
     try {

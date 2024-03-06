@@ -19,28 +19,24 @@
         <result property="status" column="status"/>
     </resultMap>
 
-    <select id="userList" resultType="user">
+    <select id="selectAllUsers" resultMap="user">
         SELECT * FROM user
     </select>
 
     <insert id="userInsert" parameterType="user">
-        INSERT INTO user (id, pw, name, nickname, cash, phone, location, img_url, reg_date)
-        VALUES (
-                   #{id},
-                   #{pw},
-                   #{name},
-                   #{nickname},
-                   #{cash},
-                   #{phone},
-                   #{location},
-                   #{imgUrl},
-                   #{regDate}
-               )
+        INSERT INTO user (id, pw, name, phone, nickname)
+        VALUES (#{id},
+                #{pw},
+                #{name},
+                #{phone},
+                #{nickname})
     </insert>
 
 
-    <select id="validUserId" parameterType="String" resultType="Integer">
-        SELECT COUNT(*) FROM user WHERE id=#{id}
+    <select id="validId" parameterType="String" resultType="String">
+        select id
+        from user
+        where id = #{id}
     </select>
 
     <select id="checkLogin" parameterType="user" resultMap="user">
@@ -59,14 +55,15 @@
         SELECT * FROM user WHERE no=#{no}
     </select>
 
-    <select id="getOneUser" parameterType="Integer" resultMap="user">
-        SELECT * FROM user where no=#{no}
-    </select>
 
     <update id="userUpdate" parameterType="user">
-        UPDATE user
-        SET nickname=#{nickname}, phone=#{phone}, location=#{location}, img_url=#{imgUrl}
-        WHERE no=#{no}
+        update user
+        set pw=#{pw},
+            name=#{name},
+            nickname=#{nickname},
+            phone=#{phone},
+            deliver=#{deliver}
+        where no =#{no}
     </update>
 
     <update id="locationUpdate" parameterType="user">
@@ -79,11 +76,31 @@
         UPDATE user SET img_url=#{imgUrl} WHERE no=#{no}
     </update>
 
-    <select id="userLogin" parameterType="user" resultType="String">
-        SELECT name FROM user WHERE id=#{id} AND pw=#{pw}
+    <select id="userLogin" parameterType="user" resultMap="user">
+        select *
+        from user
+        where id = #{id}
+          and pw = #{pw}
     </select>
 
+    <update id="cashUpdate" parameterType="user">
+        update user
+        set cash=#{cash}
+        where no =#{no}
+    </update>
 
+    <update id="penaltyUpdate" parameterType="user">
+        update user
+        set penalty=#{penalty},
+            status=#{status}
+        where no =#{no}
+    </update>
+
+    <select id="getOneUser" parameterType="Integer" resultMap="user">
+        SELECT *
+        FROM user
+        where no =#{no}
+    </select>
 
     <select id="getUserByLocation" parameterType="String" resultType="user">
         SELECT *

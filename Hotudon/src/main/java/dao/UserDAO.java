@@ -1,15 +1,12 @@
 package dao;
 
 
-
 import org.apache.ibatis.session.SqlSession;
 import util.MybatisConfig;
-import vo.Product;
 import vo.User;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class UserDAO {
 
@@ -23,16 +20,16 @@ public class UserDAO {
   }
 
 
-  public List<User> userList() {
-    // 컨넥션 객체 + sql 쿼리문 실행해주는 객체
-    SqlSession session = MybatisConfig.getInstance().openSession();
-    List<User> list = session.selectList("userList");
+  public ArrayList<User> getUserList() {
+    SqlSession session = MybatisConfig.getInstance().openSession(true);
+    ArrayList<User> list = (ArrayList) session.selectList("selectAllUsers");
     session.close();
     return list;
   }
 
   public int userInsert(User vo) {
-    SqlSession session = MybatisConfig.getInstance().openSession();
+    System.out.println(vo);
+    SqlSession session = MybatisConfig.getInstance().openSession(true);
     int cnt = session.insert("userInsert", vo);
     session.commit();
     session.close();
@@ -40,10 +37,10 @@ public class UserDAO {
   }
 
   public boolean isValidId(String id) {
-    SqlSession session = MybatisConfig.getInstance().openSession();
-    int cnt = session.selectOne("validuserId", id);
+    SqlSession session = MybatisConfig.getInstance().openSession(true);
+    String checkId = session.selectOne("validId", id);
     session.close();
-    return cnt == 0? true : false;
+    return checkId == null;
   }
 
   public User checkLogin(String id, String pw) {
@@ -86,11 +83,34 @@ public class UserDAO {
   }
 
   public int userUpdate(User vo) {
-    SqlSession session = MybatisConfig.getInstance().openSession();
+    SqlSession session = MybatisConfig.getInstance().openSession(true);
     int cnt = session.update("userUpdate", vo);
     session.commit();
     session.close();
     return cnt;
+  }
+
+  public int cashUpdate(int no, int cash) {
+    SqlSession session = MybatisConfig.getInstance().openSession(true);
+    User vo = new User();
+    vo.setNo(no);
+    vo.setCash(cash);
+    int cnt = session.update("cashUpdate", vo);
+    session.commit();
+    session.close();
+    return 1;
+  }
+
+  public int setPenalty(int no, int penalty, int status) {
+    SqlSession session = MybatisConfig.getInstance().openSession(true);
+    User vo = new User();
+    vo.setNo(no);
+    vo.setPenalty(penalty);
+    vo.setStatus(status);
+    int cnt = session.update("penaltyUpdate", vo);
+    session.commit();
+    session.close();
+    return 1;
   }
 
   public int locationUpdate(User vo) {

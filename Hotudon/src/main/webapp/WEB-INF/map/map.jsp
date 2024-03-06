@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%--강남구 역삼동 831-3--%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="ctx" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -72,6 +74,8 @@
   var marker;
   var lat;
   var lon;
+  var ctx = "${ctx}";
+
   var mapContainer = document.getElementById('map'), // 지도를 표시할 div
       mapOption = {
         center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
@@ -79,6 +83,7 @@
       };
 
   var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
 
   // HTML5의 geolocation으로 사용할 수 있는지 확인합니다
   if (navigator.geolocation) {
@@ -222,7 +227,7 @@
         // 성공적으로 응답을 받았을 때의 처리
         console.log("응답:", response);
         alert('주소가 성공적으로 저장되었습니다.');
-        location.href = "/selfLogin.do"
+        location.href = ctx+"/selfLogin.do"
       },
       error: function(xhr, status, error) {
         // 에러가 발생했을 때의 처리

@@ -1,13 +1,13 @@
 package controller.User;
 
-import java.io.IOException;
-
 import dao.UserDAO;
 import frontcontorller.Controller;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import vo.User;
+
+import java.io.IOException;
 
 public class selfJoinController implements Controller {
 

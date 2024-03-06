@@ -173,18 +173,18 @@ margin-right: 10px;
 <div class="list-container">
 <h5>네이버 최저가 연관검색어</h5>
 <c:forEach var="na" items="${naver.items}">
-
+	<a href="${na.link}" target="_blank">
 <table class="list">
-<a href="${na.link}" target="_blank">
+
 <tr>
    <td><img src="${na.image}"></td>
 </tr>
 <tr>
  <td>${na.lprice}원</td>
 </tr>
-</a>
-</table>
 
+</table>
+	</a>
 </c:forEach>
 </div>
 </div>

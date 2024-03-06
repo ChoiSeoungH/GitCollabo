@@ -1,17 +1,17 @@
 package frontcontorller;
 
 
-
 import controller.Product.*;
 import controller.Quick.*;
 import controller.User.*;
+import controller.admin.userListController;
+import controller.admin.userPenaltyController;
 import controller.main.MainController;
 import controller.map.InsertAddressController;
 import controller.map.MapController;
+import controller.search.ProductSearchListController;
 
 import java.util.HashMap;
-
-import controller.search.ProductSearchListController;
 
 public class HandlerMapping {
 	private HashMap<String, Controller> mappings;
@@ -49,11 +49,20 @@ public class HandlerMapping {
 		mappings.put("/selfLogin.do", new selfLoginController());
 		mappings.put("/selfJoin.do", new selfJoinController());
 		mappings.put("/naverLogin.do", new naverLoginController());
+		mappings.put("/naverCallback.do", new naverCallbackController());
 		mappings.put("/kakaoLogin.do", new kakaoLoginController());
 		mappings.put("/googleLogin.do", new googleLoginContoller());
 		mappings.put("/vaildIdAjax.do", new VaildIdAjaxController());
 		mappings.put("/userContent.do", new userContentController());
 		mappings.put("/userUpdate.do", new userUpdateController());
+		mappings.put("/userLogOut.do", new userLogOutController());
+		mappings.put("/cashUpdate.do", new userCashUpdateController());
+		mappings.put("/purHistory.do", new PurchaseHistoryController());
+		mappings.put("/saleHistory.do", new SalesHistoryController());
+
+		// admin
+		mappings.put("/userList.do", new userListController());
+		mappings.put("/userPenalty.do", new userPenaltyController());
 
 
 		//경매

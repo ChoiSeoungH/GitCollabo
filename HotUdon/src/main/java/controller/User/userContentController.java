@@ -1,14 +1,13 @@
-package com.basic.team.controller.User;
+package controller.User;
 
-import java.io.IOException;
-
-import com.basic.team.DAO.UserDAO;
-import com.basic.team.VO.User;
-import com.basic.team.controller.frontController.Controller;
-
+import dao.UserDAO;
+import frontcontorller.Controller;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import vo.User;
+
+import java.io.IOException;
 
 public class userContentController implements Controller {
 
