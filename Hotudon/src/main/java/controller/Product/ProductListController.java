@@ -10,7 +10,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import vo.Product;
-import vo.ProductImage;
+import vo.ProductImg;
 
 public class ProductListController implements Controller {
 
@@ -24,7 +24,7 @@ public class ProductListController implements Controller {
 		//최신상품 3개 가져오기
 		List<Product> latestList = ProductDAO.getInstance().getLatestProduct();
 		//이미지 파일 불러오기
-		List<ProductImage> imgList = ProductImgDAO.getInstance().getAllProductImg();
+		List<ProductImg> imgList = ProductImgDAO.getInstance().getAllProductImg();
 		System.out.println(imgList.toString());
 		System.out.println(latestList.toString());
 		request.setAttribute("latest", latestList);

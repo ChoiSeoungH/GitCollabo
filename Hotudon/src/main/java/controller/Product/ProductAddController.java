@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import vo.Auction;
 import vo.Product;
-import vo.ProductImage;
+import vo.ProductImg;
 
 public class ProductAddController implements Controller {
 
@@ -42,7 +42,7 @@ public class ProductAddController implements Controller {
 			Product vo = new Product(0, category, sellerNo, title, price, productContent,null, false, null, method,0,null); 
 			ProductDAO.getInstance().insertOneProduct(vo);
 			int no =ProductDAO.getInstance().getselectAucton();
-			ProductImage Img = new ProductImage(0,no, image, null);
+			ProductImg Img = new ProductImg(0,no, image, null);
 			ProductImgDAO.getInstance().addOneProductImg(Img);
 			return "main";
 		
@@ -52,7 +52,7 @@ public class ProductAddController implements Controller {
 			ProductDAO.getInstance().insertOneProduct(vo);
 			int no =ProductDAO.getInstance().getselectAucton();
 			Auction au = new Auction(no, price, null, 0);
-			ProductImage Img = new ProductImage(0,no, image, null);
+			ProductImg Img = new ProductImg(0,no, image, null);
 			ProductImgDAO.getInstance().addOneProductImg(Img);
 			AuctionDAO.getInstance().addAuction(au);
 			return "main";

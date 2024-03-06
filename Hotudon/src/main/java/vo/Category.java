@@ -8,17 +8,20 @@ public class Category {
 		this.no = no;
 		this.name = name;
 	}
-	public int getCategory_no() {
+
+	public int getNo() {
 		return no;
 	}
-	public void setCategory_no(int no) {
+
+	public void setNo(int no) {
 		this.no = no;
 	}
-	public String getCategory_name() {
+
+	public String getName() {
 		return name;
 	}
-	public void setCategory_name(String name) {
+
+	public void setName(String name) {
 		this.name = name;
 	}
-
 }

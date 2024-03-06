@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import vo.Auction;
 import vo.Product;
-import vo.ProductImage;
+import vo.ProductImg;
 
 public class ProductContentController implements Controller {
 
@@ -26,13 +26,13 @@ public class ProductContentController implements Controller {
 		
 		
 		//옥션 리스트 가져오기
-		List<Auction> au = AuctionDAO.getInstance().getOneAuction(ProductNo);
+		List<Auction> au = (List<Auction>) AuctionDAO.getInstance().getOneAuction(ProductNo);
 		//이미지 파일 가져오기
-		List<ProductImage> image = ProductImgDAO.getInstance().getOneProductImg(ProductNo);
+		List<ProductImg> image = ProductImgDAO.getInstance().getOneProductImg(ProductNo);
  		request.setAttribute("au", au);
  		request.setAttribute("img", image);
  		System.out.println(image.toString());
-		List<Product> vo = ProductDAO.getInstance().getProductNoContent(ProductNo);
+		List<Product> vo = (List<Product>) ProductDAO.getInstance().getProductNoContent(ProductNo);
 		request.setAttribute("auction", isAuction); // 옥션 값던지기
 		request.setAttribute("vo", vo);
 		return "product/productContent";

@@ -1,6 +1,6 @@
 package vo;
 
-public class ProductImage {
+public class ProductImg {
 	private int no;
 	private int productNo;
 	private String imageUrl;
@@ -10,8 +10,8 @@ public class ProductImage {
 		return "ProductImg [no=" + no + ", productNo=" + productNo + ", imageUrl=" + imageUrl + ", regDate=" + regDate
 				+ "]";
 	}
-	public ProductImage() {}
-	public ProductImage(int no, int productNo, String imageUrl, String regDate) {
+	public ProductImg() {}
+	public ProductImg(int no, int productNo, String imageUrl, String regDate) {
 		super();
 		this.no = no;
 		this.productNo = productNo;

@@ -22,7 +22,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import vo.Product;
-import vo.ProductImage;
+import vo.ProductImg;
 
 public class ProductSearchListController implements Controller {
 
@@ -66,7 +66,7 @@ public class ProductSearchListController implements Controller {
         	jakarta.servlet.http.HttpSession session = request.getSession();
 	    	List<Product> list = ProductDAO.getInstance().getSearchListImg(request.getParameter("query"));
 	    	session.setAttribute("query", request.getParameter("query"));
-	    	List<ProductImage> imgList = ProductImgDAO.getInstance().getAllProductImg();
+	    	List<ProductImg> imgList = ProductImgDAO.getInstance().getAllProductImg();
 	    	request.setAttribute("img", imgList);
 		    request.setAttribute("vo", list);
 		    request.setAttribute("naver", responseMap);
