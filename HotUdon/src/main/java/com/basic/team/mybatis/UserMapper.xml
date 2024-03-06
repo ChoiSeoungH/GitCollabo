@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.user">
+  
+  <resultMap id="user" type="com.basic.team.VO.User">
+  <id property="no" column="no"/>
+  <result property="id" column="id"/>
+  <result property="imgUrl" column="img_url"/>
+  <result property="pw" column="pw"/>
+  <result property="name" column="name"/>
+  <result property="nickname" column="nickname"/>
+  <result property="cash" column="cash"/>
+  <result property="phone" column="phone"/>
+  <result property="location" column="location"/>
+  <result property="regDate" column="reg_date"/>
+  <result property="penalty" column="penalty"/>
+  <result property="deliver" column="deliver"/>
+  <result property="status" column="status"/>
+</resultMap>
+  
+	<select id="selectAllUsers" resultMap="user">
+  		SELECT * FROM user
+	</select>
+  
+    <select id="userLogin" parameterType="user" resultMap="user">
+        select * from user where id=#{id} and pw=#{pw}       
+    </select>
+    
+	<select id="validId" parameterType="String" resultType="String">
+        select id from user where id=#{id}        
+    </select>
+    
+	<insert id="userInsert" parameterType="user">
+        INSERT INTO user (id, pw, name, phone, nickname)
+       VALUES(
+        #{id},
+        #{pw},
+        #{name},
+        #{phone},
+        #{nickname}
+        )       
+	</insert>
+    
+     <update id="userUpdate" parameterType="user">
+         update user
+         set pw=#{pw}, name=#{name}, nickname=#{nickname}, phone=#{phone}, deliver=#{deliver} 
+         where no=#{no} 	 
+    </update>
+    
+     <update id="cashUpdate" parameterType="user">
+         update user
+         set cash=#{cash} 
+         where no=#{no} 	 
+    </update>
+    
+     <update id="penaltyUpdate" parameterType="user">
+         update user
+         set penalty=#{penalty} , status=#{status}
+         where no=#{no} 	 
+    </update>
+    
+	<select id="getOneUser" parameterType="Integer" resultMap="user">
+    	 SELECT * FROM user where no=#{no} 
+   	</select>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      <delete id="userDelete" parameterType="String">  
+        delete from user where id=#{id} 
+    </delete>
+    
+</mapper>
