@@ -1,15 +1,15 @@
-package com.basic.team.controller.User;
+package controller.User;
 
 import java.io.IOException;
 
-import com.basic.team.DAO.UserDAO;
-import com.basic.team.VO.User;
-import com.basic.team.controller.frontController.Controller;
 
+import dao.UserDAO;
+import frontcontorller.Controller;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import vo.User;
 
 public class myPageController implements Controller {
 
@@ -18,7 +18,7 @@ public class myPageController implements Controller {
 		
 		int no = Integer.parseInt(req.getParameter("no"));
 		
-		User user = UserDAO.getInstance().getOneUser(no); 
+		User user = UserDAO.getInstance().getOneUser(no);
 		
 		user.setRegDate(user.getRegDate().substring(0,10));
 		String temp = user.getLocation().split("/")[0];

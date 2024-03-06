@@ -9,7 +9,7 @@ import vo.Delivery;
 
 import java.io.IOException;
 
-public class DeliverySetController implements Controller {
+public class DeliveryUpdateController implements Controller {
   @Override
   public String requestHandler(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     int productNo = Integer.parseInt(request.getParameter("productNo"));
@@ -26,7 +26,7 @@ public class DeliverySetController implements Controller {
     DeliveryDAO ddao = DeliveryDAO.getInstance();
 
 
-    ddao.insertDelivery(vo);
+    ddao.updateDelivery(vo);
 
 
     return null;

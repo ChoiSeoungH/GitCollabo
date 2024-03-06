@@ -23,7 +23,8 @@ public class HandlerMapping {
 		mappings.put("/deliverStatus.do", new DeliverStatusController());
 		mappings.put("/deliveryStatus.do", new DeliveryStatusController());
 		mappings.put("/quickEnd.do", new QuickEndController());
-		mappings.put("/deliverySet.do", new DeliverySetController());
+		mappings.put("/deliveryUpdate.do", new DeliveryUpdateController());
+		mappings.put("/quickRefresh.do", new QuickRefreshController());
 
 		//map
 		mappings.put("/map.do", new MapController());
@@ -59,6 +60,7 @@ public class HandlerMapping {
 		mappings.put("/cashUpdate.do", new userCashUpdateController());
 		mappings.put("/purHistory.do", new PurchaseHistoryController());
 		mappings.put("/saleHistory.do", new SalesHistoryController());
+		mappings.put("/myPage.do", new myPageController());
 
 		// admin
 		mappings.put("/userList.do", new userListController());

@@ -15,11 +15,7 @@ public class selfLoginController implements Controller {
 	@Override
 	public String requestHandler(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		HttpSession session = req.getSession();
-		User vo = (User) session.getAttribute("user");
 
-		if (vo!=null) {
-			return "user/MyPage";
-		}
 
 		if (req.getParameter("id") == null) {
 			return "user/selfLogin";

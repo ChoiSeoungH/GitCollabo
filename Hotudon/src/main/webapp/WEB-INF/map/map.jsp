@@ -1,71 +1,72 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%--강남구 역삼동 831-3--%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:set var="ctx" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>뜨끈한 우동</title>
-  <!-- Add your CSS file link here -->
+  <!-- 부트스트랩 CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <style>
-      body {
-          margin: 0;
-          padding: 0;
-          display: flex;
-          flex-direction: column; /* Children to stack vertically */
-      }
-      #search-form {
-          margin-top: 20px; /* Spacing from the map */
-          text-align: center;
-      }
-
       #map-container {
-          width: 1200px;
-          height: 600px;
           position: relative; /* For absolute positioning of the buttons */
       }
-
-      #address-form {
-          margin-top: 20px; /* Spacing from the map */
-          text-align: center;
+      #map {
+          width: 100%;
+          height: 600px;
       }
 
-      .address-input {
-          margin: 10px 0; /* Spacing between inputs */
-          width: 50%;
+      /* 인포윈도우 디자인 커스텀 */
+      .custom-infowindow .card-body {
+          padding: 0.5rem;
+      }
+      .custom-infowindow .card-title {
+          margin-bottom: 0.5rem;
+      }
+      .custom-infowindow .card-text:last-child {
+          margin-bottom: 0;
       }
   </style>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-<div id="search-form">
-  <input type="text" id="search" class="address-input" placeholder="검색할 주소를 입력하세요">
-  <button onclick="searchAndMoveTo()">검색</button>
-</div>
-
-
-<div id="main-content">
-  <!-- Map container -->
-  <div id="map-container">
-    <div id="map" style="width:1200px;height:600px;"></div>
+<div class="container mt-4">
+  <div id="search-form" class="input-group mb-3">
+    <input type="text" id="search" class="form-control" placeholder="검색할 주소를 입력하세요">
+    <div class="input-group-append">
+      <button onclick="searchAndMoveTo()" class="btn btn-outline-secondary">검색</button>
+    </div>
   </div>
-  <!-- Map control buttons -->
-  <button id="center-map" onclick="panTo()">내 중심좌표</button>
+
+  <div id="main-content">
+    <!-- Map container -->
+    <div id="map-container" class="mb-3">
+      <div id="map"></div>
+    </div>
+  </div>
+
+  <!-- Address form -->
+  <div id="address-form">
+    <input type="text" id="basic-address" class="form-control mb-2" placeholder="기본 주소" readonly>
+    <input type="text" id="detail-address" class="form-control mb-2" placeholder="상세 주소">
+    <!-- '내 중심좌표'와 '주소 저장' 버튼을 왼쪽에 나란히 배치 -->
+    <div id="buttons-container" class="d-flex justify-content-start mb-2">
+      <button id="center-map" onclick="panTo()" class="btn btn-info mr-2">내 중심좌표</button>
+      <button onclick="saveAddress()" class="btn btn-primary">주소 저장</button>
+    </div>
+  </div>
 </div>
 
-<!-- Address form -->
-<div id="address-form">
-  <input type="text" id="basic-address" class="address-input" placeholder="기본 주소" readonly>
-  <input type="text" id="detail-address" class="address-input" placeholder="상세 주소">
-  <div id="user-dong" class="address-input"> </div> <!-- 여기에 '동'을 표시할 div를 추가합니다 -->
-  <button onclick="saveAddress()">주소 저장</button>
-</div>
-</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- 부트스트랩 JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
+
+<!-- Daum 지도 API -->
 <script
     src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c8936a5cd23e9343aaae775855cc0679&libraries=services,clusterer,drawing"></script>
 <script>
@@ -169,17 +170,17 @@
       roadAddress = result[0].road_address ? result[0].road_address.address_name : '';
       jibunAddress = result[0].address.address_name;
 
-      var content = '<div class="bAddr">' +
-          '<span class="title">법정동 주소정보</span>' +
-          detailAddr
-      // Update the basic address input field with the road address
-      if (roadAddress=='') {//도로명주소가 없을시 지번주소를 기본주소로
-        document.getElementById('basic-address').value = jibunAddress;
-      }else{
-        document.getElementById('basic-address').value = roadAddress;
-      }
-      document.getElementById('user-dong').innerText = '현재 위치는 '+dong+' 내에 있어요.';
+      // 부트스트랩 카드 스타일 적용
+      var content = '<div class="card custom-infowindow" style="width: 18rem;">' +
+          '<div class="card-body">' +
+          '<h5 class="card-title">주소 정보</h5>' +
+          '<p class="card-text">' + detailAddr + '</p>' +
+          '<p class="card-text">현재 위치는 ' + dong + ' 내에 있어요.</p>' +
+          '</div>' +
+          '</div>';
 
+      // 기본 주소 입력 필드 업데이트
+      document.getElementById('basic-address').value = roadAddress ? roadAddress : jibunAddress;
 
       infowindow.setContent(content);
       infowindow.open(map, marker);
@@ -227,7 +228,7 @@
         // 성공적으로 응답을 받았을 때의 처리
         console.log("응답:", response);
         alert('주소가 성공적으로 저장되었습니다.');
-        location.href = ctx+"/selfLogin.do"
+        location.href = ctx+"/myPage.do"
       },
       error: function(xhr, status, error) {
         // 에러가 발생했을 때의 처리
@@ -260,5 +261,13 @@
       }
     });
   }
+
+  // 엔터 키로 주소 검색 활성화
+  document.getElementById('search').addEventListener('keyup', function(event) {
+    if (event.key === "Enter") {
+      searchAndMoveTo();
+    }
+  });
+
 
 </script>

@@ -187,7 +187,8 @@ ORDER BY no DESC LIMIT 5;
         FROM product
         WHERE sell_location LIKE CONCAT('%', #{location}, '%')
           AND buyer_no IS NOT NULL
-          AND end_date IS NULL
+          AND end_date IS NOT NULL
+          AND product_method = 2
     </select>
 
     <insert id="insertProductImg" parameterType="productImg">

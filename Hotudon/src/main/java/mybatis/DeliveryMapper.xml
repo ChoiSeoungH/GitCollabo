@@ -21,4 +21,11 @@
         SET status = #{newStatus}
         WHERE product_no = #{productNo}
     </update>
+
+    <update id="updateDelivery" parameterType="delivery">
+        UPDATE delivery
+        SET price = #{price}
+        WHERE no = #{no}
+    </update>
+
 </mapper>

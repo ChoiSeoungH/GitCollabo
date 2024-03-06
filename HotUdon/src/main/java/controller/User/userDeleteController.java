@@ -1,4 +1,4 @@
-package com.basic.team.controller.User;
+package controller.User;
 
 public class userDeleteController {
 

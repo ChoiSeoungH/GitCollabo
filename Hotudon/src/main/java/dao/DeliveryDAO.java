@@ -27,6 +27,7 @@ public class DeliveryDAO {
     return cnt;
   }
 
+
   public int updateDeliveryStatus(int productNo, int newStatus) {
     SqlSession session = MybatisConfig.getInstance().openSession();
     HashMap<String, Object> params = new HashMap<>();
@@ -38,4 +39,12 @@ public class DeliveryDAO {
     return cnt;
   }
 
+  public int updateDelivery(Delivery vo) {
+    SqlSession session = MybatisConfig.getInstance().openSession();
+
+    int cnt = session.update("updateDelivery", vo);
+    session.commit();
+    session.close();
+    return cnt;
+  }
 }
