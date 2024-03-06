@@ -28,7 +28,7 @@ public class selfJoinController implements Controller {
 		
 		int cnt = UserDAO.getInstance().userInsert(u);
 		if(cnt>0) {
-			return "user/MyPage";
+			return "Main";
 //			req.removeAttribute("center");
 		} else {
 			return "user/selfJoin";
