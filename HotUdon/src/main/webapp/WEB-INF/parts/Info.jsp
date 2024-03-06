@@ -15,10 +15,7 @@
 		visibility: hidden;
     	opacity: 0;
 	}
-	.info_nickname{
-		text-decoration: none;
-      	color: black;
-	}
+	.info_nickname{}
 	.info_cash{}
 	.info_notify{
 		width: 95%;
@@ -38,7 +35,7 @@
 </head>
 <body>
  <div class="info hidden">
- 	<a class="info_nickname" href='${ctx}/userMyPage.do?no=${ user.no }'> ${ user.nickname } (${ user.name }) </a>
+ 	<div class="info_nickname" onclick=""> ${ user.nickname } (${ user.name }) </div>
  	<div class="info_cash" onclick=""> ${ user.cash } </div>
  	<div class="info_notify" > 알림 </div>
  	<button class="info_chat" onclick="">채팅</button>
