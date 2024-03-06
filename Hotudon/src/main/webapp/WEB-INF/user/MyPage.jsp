@@ -103,7 +103,7 @@
 			<div class="cash">
 				<h3>보유 캐시</h3> 
 				<div class="mid"> ${ user.cash }원 </div>
-				<a class="foot" href="#">상세내역 ></a>
+				<a class="foot" href="#" onclick="cashModal()">상세내역 ></a>
 			</div>
 			<div class="status">
 				<h3>회원 상태</h3> 
@@ -127,14 +127,13 @@
 		<td> 가입 일자 </td>
 		</tr>
 		</table> -->
-	</div>
-	<ul class="mypage_menu">
-	<li> <a href="${ctx}/map.do"> - 내 동네 설정 </a></li>
-	<li> <a href="${ctx}/userInfo.do"> - 판매 내역 </a></li>
-	<li> <a href="${ctx}/userInfo.do"> - 구매 내역 </a></li>
-	<li> <a href="${ctx}/userInfo.do"> - 라이더 신청 </a></li>
-	<c:if test="${ user.id ne 'admin' }"> <li> <a href="${ctx}/userInfo.do"> - 탈퇴 하기 </a></li> </c:if>
-	<c:if test="${ user.id eq 'admin' }"> <li> <a href="${ctx}/userList.do"> - 전체 회원 보기 </a></li> </c:if>
-	</ul>
-	
+	</div class="mypage_menu">
+	<a href="${ctx}/userInfo.do"> - 내 동네 설정 </a><br>
+	<a href="${ctx}/saleHistory.do?no=${user.no}"> - 판매 내역 </a><br>
+	<a href="${ctx}/purHistory.do?no=${user.no}"> - 구매 내역 </a><br>
+	<c:if test="${ user.id ne 'admin' }"> <a href="${ctx}/userInfo.do"> - 라이더 신청 </a><br> </c:if>
+	<c:if test="${ user.id ne 'admin' }"> <a href="${ctx}/userInfo.do"> - 탈퇴 하기 </a><br> </c:if>
+	<c:if test="${ user.id eq 'admin' }"> <a href="${ctx}/userList.do"> - 전체 회원 보기 </a><br> </c:if>
+
+<%@ include file="./cashModal.jsp" %>	
 <%@ include file="../parts/footer.jsp" %>	

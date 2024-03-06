@@ -6,28 +6,25 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-    .container {
-        height: 100vh;
-        width: 100vw;
-        margin: 0;
-        padding: 0;
-    	position: relative;
-    }
-    .main {
-        height: 100%;
-        width: 100%;
-    }
-    td, th {
-        border: 1px solid black;
-    }
-    h3,h4{
-    	margin-bottom: 30px;
-    }
+
+	header .logo{
+		width: 20%;
+		heigth: 100px;
+	}
+	header .search{
+		width: 70%;
+		heigth: 100px;
+	}
+	header .userImg{
+		width: 10%;
+		heigth: 100px;
+	}
+	
     .modal{
     	/* border: 1px solid black; */
     	border-radius: 10px;
     	width: 400px;
-    	hight: 1000px;
+     	height: 600px;
     	margin: auto;
     	text-align: center;
     	background-color: #fff;
@@ -117,17 +114,17 @@
 <body>
 
  	<header>
-	<div class="logo" onclick=""><img src="./img/logo.png"> </div>
-	<div class="search">
-	<input type="text" name="search" width="400px" height="200px">
-	
-	</div>
-	<div class="userImg"> 
-	<c:if test="${ user eq null }"> <a onclick="clickLogin()"> <img class="userImg" src="https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg" ></a></c:if>
-	<c:if test="${ user ne null }"> <a onclick="openInfo()"> <img class="userImg" src="./img/${ user.imgUrl }" ></a></c:if>
-	</div>
+		<div class="logo" onclick=""><img src="./img/logo.png"> </div>
+		<div class="search">
+			
+			<input type="text" name="search" width="400px" height="200px">
+		</div>
+		<div class="userImg"> 
+			<c:if test="${ user eq null }"> <a onclick="clickLogin()"> <img class="userImg" src="https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg" ></a></c:if>
+			<c:if test="${ user ne null }"> <a onclick="openInfo()"> <img class="userImg" src="./img/${ user.imgUrl }" ></a></c:if>
+		</div>
  	</header>
  	
  	
-
+<div class="overlay hidden" onclick="unclickLogin()"></div>
 <%@ include file="./LoginModal.jsp" %>

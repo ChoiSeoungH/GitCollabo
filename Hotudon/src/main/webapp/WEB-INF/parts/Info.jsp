@@ -35,16 +35,18 @@
 </head>
 <body>
  <div class="info hidden">
- 	<div class="info_nickname" onclick=""> ${ user.nickname } </div>
+ 	<div class="info_nickname" onclick=""> ${ user.nickname } (${ user.name }) </div>
  	<div class="info_cash" onclick=""> ${ user.cash } </div>
  	<div class="info_notify" > 알림 </div>
  	<button class="info_chat" onclick="">채팅</button>
  	<button class="info_pay" onclick="">결제</button>
  	<button class="info_quick" onclick="">퀵 서비스</button>
- 	<input type="button" class="info_logout" onclick="location.href='${ctx}/userLogOut.do'" value="로그아웃"/>
+ 	<input type="button" class="info_logout" onclick="location.href='${ctx}/userLogOut.do'"
+ 	<c:if test="${ user.pw eq 'SNSPw' }"> onclick="kakaoLogout()" </c:if> value="로그아웃"/>
  </div>
 </body>
 </html>
+ <%@ include file="../user/kakaoLogin.jsp" %>
 <script>
 	const $info = document.querySelector(".info");
 	let clicked = false;

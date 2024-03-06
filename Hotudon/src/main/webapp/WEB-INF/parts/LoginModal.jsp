@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<!-- //네이버 로그인  -->    
+<%@ page import="java.net.URLEncoder" %>
+<%@ page import="java.security.SecureRandom" %>
+<%@ page import="java.math.BigInteger" %>
 <!DOCTYPE html>
+
 <html>
 <head>
 <meta charset="UTF-8">
@@ -43,11 +48,11 @@
 	</tr>
 	</table>
 	<br>
-		<button class="btn kakao" onclick="location.href='${ctx}/kakaoLogin.do'">
+		<button class="btn kakao" onclick="kakaoLogin()"<%-- "location.href='${ctx}/kakaoLogin.do'" --%>>
 			<svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="#3C1E1E" viewBox="0 0 21 21">
 			<path fill="current" d="M10.5 3.217c4.514 0 8 2.708 8 6.004 0 3.758-4.045 6.184-8 5.892-1.321-.093-1.707-.17-2.101-.23-1.425.814-2.728 2.344-3.232 2.334-.325-.19.811-2.896.533-3.114-.347-.244-3.157-1.329-3.2-4.958 0-3.199 3.486-5.928 8-5.928Z"></path>
 			</svg> 카카오로 시작하기 </button>
-		<button class="btn naver" onclick="location.href='${ctx}/naverLogin.do'"> 
+		<button class="btn naver" id="naverIdLogin_loginButton" onclick="naverLogin()<!-- javascript:void(0) -->"<%-- "location.href='${ctx}/naverLogin.do'" --%>> 
 			<svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="none" viewBox="0 0 21 21">
 			<path fill="#00C73C" d="M4 16.717h4.377V9.98l4.203 6.737H17v-13h-4.377v6.737l-4.16-6.737H4v13Z"></path>
 	     	</svg> 네이버로 시작하기 </button>
@@ -66,18 +71,16 @@
 		<path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path>
 		</svg> 이메일로 시작하기 </button>
 	</div>
-	
 	<div id="modal_login">
 	    <button class="btn email" onclick="location.href='${ctx}/selfLogin.do'" >
     	<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" class="text-sm sm:text-base me-1.5" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
 		<path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path>
 		</svg> 이메일로 로그인하기 </button>
 	</div>
-	
-	<br><hr width="350px">	
+	<br><hr width="350px"><br>	
 	<p> 도움이 필요하시면 고객센터 또는 02-000-0000으로 문의 주시기 바랍니다.</p>	                                                                              
 </div>
-<div class="overlay hidden" onclick="unclickLogin()"></div>
+ <%@ include file="../user/kakaoLogin.jsp" %>
 </body>
 </html>
 
@@ -90,17 +93,15 @@
 		$modal.classList.remove("hidden");
 		$overlay.classList.remove("hidden");
 	}
-	
 	 function unclickLogin(){
 	    $modal.classList.add("hidden");
 	    $overlay.classList.add("hidden");
+	    $cash.classList.add("hidden");
 	 }
-	 
 	let $kakao = document.querySelector(".kakao");			  
 	let $naver = document.querySelector(".naver");			  
 	let $google = document.querySelector(".google");			  
-	let $email = document.querySelector(".email");
-	
+	let $email = document.querySelector(".email");	
 	let $join = document.querySelector(".join"); 	
 	let $login = document.querySelector(".login"); 	
 	
@@ -124,5 +125,20 @@
   		$login.classList.remove("underBar");
   		document.getElementById("modal_join").style.display = "block";
   		document.getElementById("modal_login").style.display = "none";
+	}
+	function naverLogin(){
+		fetch("naverLogin.do", {
+			method : "POST",
+			headers : {"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",},
+			/* body : "id="+id.value.trim(), */
+		})
+		
+		.then(response => response.text())
+		.then(getResult)
+		.catch(error => console.log(error));
+		
+		function getResult(apiURL) {
+			location.href=apiURL;
+		}
 	}
 </script>

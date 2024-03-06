@@ -25,7 +25,7 @@
 			</tr>
 			<tr height="40">
 				<td align="center" colspan="2">
-					<input type="submit" value="로그인" />
+					<input type="submit" value="Sign In" />
 				</td>
 			</tr>
 		</table>
