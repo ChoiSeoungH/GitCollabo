@@ -57,7 +57,7 @@ SELECT * FROM product
 
 
 <!--카테고리 상품 조회리스트 -->
-<select id="getCateProductList" resultMap="product" parameterType="InTeger">
+<select id="getCateProductList" resultMap="product" parameterType="Integer">
 	select * from product where category=#{category}
 </select>
 <!-- 상품 검색 조회 -->

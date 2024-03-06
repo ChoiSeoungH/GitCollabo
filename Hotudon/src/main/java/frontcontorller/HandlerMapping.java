@@ -59,9 +59,6 @@ public class HandlerMapping {
 		//경매
 		mappings.put("/auctionBid.do", new ProductAuctionBidController());  //  << 옥션이랑 구매할떄 이쪽으로 넘김
 	}
-
-
-
 	public Controller getController(String key) {
 		return mappings.get(key);
 	}
