@@ -32,7 +32,7 @@ public class ProductContentController implements Controller {
  		request.setAttribute("au", au);
  		request.setAttribute("img", image);
  		System.out.println(image.toString());
-		List<Product> vo = (List<Product>) ProductDAO.getInstance().getProductNoContent(ProductNo);
+		Product vo = ProductDAO.getInstance().getProductNoContent(ProductNo);
 		request.setAttribute("auction", isAuction); // 옥션 값던지기
 		request.setAttribute("vo", vo);
 		return "product/productContent";
