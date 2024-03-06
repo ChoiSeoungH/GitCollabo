@@ -55,6 +55,12 @@
          where no=#{no} 	 
     </update>
     
+     <update id="penaltyUpdate" parameterType="user">
+         update user
+         set penalty=#{penalty} , status=#{status}
+         where no=#{no} 	 
+    </update>
+    
 	<select id="getOneUser" parameterType="Integer" resultMap="user">
     	 SELECT * FROM user where no=#{no} 
    	</select>

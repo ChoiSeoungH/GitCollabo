@@ -31,6 +31,8 @@ public class selfLoginController implements Controller {
 			return "redirect:" + ctx + "/main.do";
 		} else {
 			user.setRegDate(user.getRegDate().substring(0,10));
+			String temp = user.getLocation().split("/")[0];
+			user.setLocation(temp);
 			HttpSession session = req.getSession();
 			session.setAttribute("user", user);
 //			return "redirect:" + ctx + "/main.do";

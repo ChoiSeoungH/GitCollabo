@@ -19,10 +19,16 @@ public class userCashUpdateController implements Controller {
 		
 		HttpSession session = req.getSession();
 		User user = (User)session.getAttribute("user");
+		String type = (String)req.getParameter("type");
 		
 		int no = Integer.parseInt(req.getParameter("no"));
-		int cash = user.getCash() + Integer.parseInt(req.getParameter("cash_update"));
+		int cash = 0;
 		
+		if(type.equals("deposit")) {
+			cash = user.getCash() + Integer.parseInt(req.getParameter("cash_update"));
+		} else if(type.equals("withdraw")) {
+			cash = user.getCash() - Integer.parseInt(req.getParameter("cash_update"));
+		}
 		System.out.println(cash);
 		
 		int cnt = UserDAO.getInstance().cashUpdate(no,cash);

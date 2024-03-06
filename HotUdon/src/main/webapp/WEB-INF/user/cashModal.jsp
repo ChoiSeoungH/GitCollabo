@@ -51,7 +51,7 @@
     	justify-content: center; /* 가운데 정렬을 위해 추가 */
 		
 	}
-	#cash_num #cash_input{
+	#cash_num #cash_deposit, #cash_num #cash_withdraw{
 		border: none;
 		border-bottom: 1px solid black;
 		width: 50%;
@@ -77,7 +77,7 @@
 	#payment .payment{
 		width: 30%;
 		height: 40px;
-		margin: 40px 3px;
+		margin: 20px 3px;
 		border: none;
 	}
 	.selected{
@@ -90,7 +90,7 @@
 		display: none;
 	}
 	#total{
-		width: 70%;
+		width: 60%;
 		display: flex;
 		margin: 0 auto;
 		flex-direction: row;
@@ -100,11 +100,11 @@
 		align-items: center;		
 		width: 40%;
 	}
-	#total .total_cash{
+	#total .total_cash1, #total .total_cash2{
 		width: 60%;
-		text-align: center;
+		text-align: right;
 	}
-	#submit{
+	.submit{
 		margin-top: 10px;
 		width: 100%;
 		height: 40px;
@@ -113,7 +113,7 @@
  		bottom: 0;
  		left: 0;
 	}
-	#submit:hover{
+	.submit:hover{
 		background-color: #ccc;
 	}
 </style>
@@ -127,14 +127,15 @@
 	</tr>
 	</table>
     <div id="modal_deposit">
-    <form action="${ ctx }/cashUpdate.do" method="post">
+    <form id="submit_form" action="${ ctx }/cashUpdate.do" method="post">
     	<input type="hidden" name="no" value="${ user.no }"/>
+    	<input type="hidden" name="type" value="deposit"/>
       <div id="modal_header">
-        <br><h3> 우동 캐시 충전 </h3><br><br>
+        <br><h3> 우동 캐시 충전 </h3><br>
       </div>
       <div id="cash_num">
       <h4 id="modal_header_h4">충전할 캐시</h4>
-      <input id="cash_input" type="number" min="0" name="cash_update" value=0 step="1000" onchange="addCash()"/><br>
+      <input id="cash_deposit" type="number" min="0" name="cash_update" value=0 step="1000" onchange="addCash()"/><br>
       </div>
       <div id="add_btn">
       <input class="add_btn" type="button" value="+ 1,000" onclick="add1000()"/>
@@ -143,38 +144,45 @@
       </div>
       <div id="total">
         <h4 id="modal_header_h4">충전 후 내 캐시</h4>
-        <h4 class="total_cash">${ user.cash }</h4>
+        <h4 class="total_cash1">${ user.cash }</h4>
       </div>
-      <br>
       <hr width="300px">
+    <h4>결제 수단 선택</h4>
     <div id="payment">
       <input class="payment" type="button" value="계좌이체">
       <input class="payment" type="button" value="신용카드">
       <input class="payment" type="button" value="기타">
     </div>
     <div id="modal_footer">
-      <input class="" type="checkbox"/>[필수]충전에 동의합니다.<br>
-      <input id="submit" type="submit" value="충전하기"/> 
+      <input type="checkbox" id="agree_checkbox"/>[필수]충전에 동의합니다.<br>
+      <input class="submit" type="button" value="충전하기" onclick="formSubmit()"/> 
     </div>  
-    </div>
    </form>
+    </div>
     
     <div id="modal_withdraw">
+   	<form action="${ ctx }/cashUpdate.do" method="post">
+   	<input type="hidden" name="no" value="${ user.no }"/>
+   	<input type="hidden" name="type" value="withdraw"/>
       <div id="modal_header">
         <br><h3> 우동 캐시 출금 </h3><br>
       </div>
       <div id="cash_num">
       <h4 id="modal_header_h4">출금할 캐시</h4>
-      <input id="cash_input" type="number" min="0" name="cash_update" value="0" step="1000" onchange="minusCash()"/>
+      <input id="cash_withdraw" type="number" min="0" name="cash_update" value="0" onchange="minusCash()"/>
+      </div>
+      <div id="add_btn">
+      <input class="add_btn" type="button" value="전액 출금" onclick="withdrawAll()"/>
       </div>
       <div id="total">
         <h4 id="modal_header_h4">출금 후 내 캐시</h4>
-        <h4 class="total_cash">${ user.cash }</h4>
+        <h4 class="total_cash2">${ user.cash }</h4>
       </div>
     <div id="modal_footer">
-      <input id="submit" type="button" value="출금하기"/> 
+      <input class="submit" type="submit" value="출금하기"/> 
     </div>
-    </div>  
+     </form> 
+    </div> 
   	</div>
 </body>
 </html>
@@ -182,10 +190,28 @@
 	const $cash = document.querySelector(".cash_modal");
 	let $deposit = document.querySelector(".deposit"); 	
 	let $withdraw = document.querySelector(".withdraw"); 
-	let $cash_input = document.querySelector("#cash_input");
-	let $total_cash = document.querySelector(".total_cash");
-	let cur_cash = parseInt($total_cash.textContent);
+	let $cash_deposit = document.querySelector("#cash_deposit");
+	let $cash_withdraw = document.querySelector("#cash_withdraw");
+	let $total_cash1 = document.querySelector(".total_cash1");
+	let cur_cash1 = parseInt($total_cash1.textContent);
+	let $total_cash2 = document.querySelector(".total_cash2");
+	let cur_cash2 = parseInt($total_cash2.textContent);
+	let $submit_form = document.querySelector("#submit_form");
 	
+	function formSubmit(){
+	    // 필수 체크박스 엘리먼트 가져오기
+	    var agreeCheckbox = document.getElementById('agree_checkbox');
+	    
+	    // 체크박스가 선택되었는지 확인
+	    if (!agreeCheckbox.checked) {
+	      // 체크박스가 선택되지 않았다면 제출을 막음
+	      alert('필수 항목에 동의해주세요.');
+	      return false; // submit을 막기 위해 false 반환
+	    } else {
+	      // 체크박스가 선택된 경우에는 폼을 서버로 제출
+	      document.getElementById('submit_form').submit();
+	    }
+	}
 	function cashModal() {
 		$cash.classList.remove("hidden");
 		$overlay.classList.remove("hidden");
@@ -203,36 +229,38 @@
   		document.getElementById("modal_withdraw").style.display = "none";
 	}
 	function add1000(){
-		$cash_input.value = parseInt($cash_input.value) + 1000;
-		let cur_cash = parseInt($total_cash.textContent);
-		$total_cash.textContent = cur_cash + 1000;
+		$cash_deposit.value = parseInt($cash_deposit.value) + 1000;
+		let cur_cash1 = parseInt($total_cash1.textContent);
+		$total_cash1.textContent = cur_cash1 + 1000;
 	}
 	function add5000(){
-		$cash_input.value = parseInt($cash_input.value) + 5000;
-		let cur_cash = parseInt($total_cash.textContent);
-		$total_cash.textContent = cur_cash + 5000;
+		$cash_deposit.value = parseInt($cash_deposit.value) + 5000;
+		let cur_cash1 = parseInt($total_cash1.textContent);
+		$total_cash1.textContent = cur_cash1 + 5000;
 	}
 	function add10000(){
-		$cash_input.value = parseInt($cash_input.value) + 10000;
-		let cur_cash = parseInt($total_cash.textContent);
-		$total_cash.textContent = cur_cash + 10000;
+		$cash_deposit.value = parseInt($cash_deposit.value) + 10000;
+		let cur_cash1 = parseInt($total_cash1.textContent);
+		$total_cash1.textContent = cur_cash1 + 10000;
 	}
+	function withdrawAll(){
+		$cash_withdraw.value = parseInt($total_cash2.textContent);
+		$total_cash2.textContent = cur_cash2 - parseInt($cash_withdraw.value);
+	}
+	
 	function addCash(){
-		$total_cash.textContent = cur_cash + parseInt($cash_deposit.value);
+		$total_cash1.textContent = cur_cash1 + parseInt($cash_deposit.value);
 	}
 	function minusCash(){
-		$total_cash.textContent = cur_cash - parseInt($cash_withdraw.value);
+		$total_cash2.textContent = cur_cash2 - parseInt($cash_withdraw.value);
 	}
+	
 	const $paybtn = document.querySelectorAll('.payment');
-
-	// 각 버튼에 대해 클릭 이벤트를 추가합니다.
 	$paybtn.forEach(button => {
 	  button.addEventListener('click', () => {
-	    // 모든 버튼의 선택 상태를 초기화합니다.
 	    $paybtn.forEach(btn => {
 	      btn.classList.remove('selected');
 	    });
-	    // 클릭된 버튼의 선택 상태를 변경합니다.
 	    button.classList.add('selected');
 	  });
 	});

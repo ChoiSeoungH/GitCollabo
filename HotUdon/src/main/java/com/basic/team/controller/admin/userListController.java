@@ -20,6 +20,9 @@ public class userListController implements Controller {
 		
 		for(User user : list) {
 			user.setRegDate(user.getRegDate().substring(0,10));
+			if(user.getLocation() != null) {
+				user.setLocation(user.getLocation().split("/")[0]);
+			}
 		}
 		req.setAttribute("list", list);
 		

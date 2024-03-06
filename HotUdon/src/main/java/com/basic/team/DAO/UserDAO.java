@@ -80,4 +80,15 @@ public class UserDAO {
 		return 1;
 	}
 
+	public int setPenalty(int no, int penalty, int status) {
+		SqlSession session= MybatisConfig.getInstance().openSession(true);
+		User vo = new User();
+		vo.setNo(no);
+		vo.setPenalty(penalty);
+		vo.setStatus(status);
+		int cnt = session.update("penaltyUpdate", vo);
+		session.commit();
+		session.close();
+		return 1;
+	}
 }

@@ -2,7 +2,7 @@ package com.basic.team.controller.frontController;
 
 import java.util.HashMap;
 
-import com.basic.team.controller.User.ApiExamMemberProfile;
+
 import com.basic.team.controller.User.PurchaseHistoryController;
 import com.basic.team.controller.User.SalesHistoryController;
 import com.basic.team.controller.User.VaildIdAjaxController;
@@ -17,6 +17,7 @@ import com.basic.team.controller.User.userContentController;
 import com.basic.team.controller.User.userLogOutController;
 import com.basic.team.controller.User.userUpdateController;
 import com.basic.team.controller.admin.userListController;
+import com.basic.team.controller.admin.userPenaltyController;
 
 
 
@@ -36,7 +37,6 @@ public class HandlerMapping {
 		mappings.put("/selfJoin.do", new selfJoinController());
 		mappings.put("/naverLogin.do", new naverLoginController());
 		mappings.put("/naverCallback.do", new naverCallbackController());
-		mappings.put("/naverProfile.do", new ApiExamMemberProfile());
 		mappings.put("/kakaoLogin.do", new kakaoLoginController());
 		mappings.put("/googleLogin.do", new googleLoginContoller());
 		mappings.put("/vaildIdAjax.do", new VaildIdAjaxController());
@@ -49,6 +49,7 @@ public class HandlerMapping {
 
 		// admin
 		mappings.put("/userList.do", new userListController());
+		mappings.put("/userPenalty.do", new userPenaltyController());
 		
 	}
 	

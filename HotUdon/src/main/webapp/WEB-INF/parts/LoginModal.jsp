@@ -81,7 +81,6 @@
 	<p> 도움이 필요하시면 고객센터 또는 02-000-0000으로 문의 주시기 바랍니다.</p>	                                                                              
 </div>
  <%@ include file="../user/kakaoLogin.jsp" %>
- <%@ include file="../user/naverLogin.jsp" %>
 </body>
 </html>
 

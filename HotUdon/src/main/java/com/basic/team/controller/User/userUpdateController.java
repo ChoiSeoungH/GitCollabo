@@ -21,6 +21,7 @@ public class userUpdateController implements Controller {
 	    }
 		int no = Integer.parseInt(req.getParameter("no"));
 		String pw = req.getParameter("pw");
+		
 		String name = req.getParameter("name");
 		String phone = req.getParameter("phone");
 		String nickname = req.getParameter("nickname");
@@ -39,6 +40,7 @@ public class userUpdateController implements Controller {
 			User user = UserDAO.getInstance().getOneUser(no);
 			
 			user.setRegDate(user.getRegDate().substring(0,10));
+			user.setLocation(user.getLocation().split("/")[0]);
 			HttpSession session = req.getSession();
 			session.setAttribute("user", user);
 			//return "redirect:"+ctx+"/List.do";
