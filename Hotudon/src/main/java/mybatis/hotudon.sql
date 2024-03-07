@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS user (
     reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP, # 가입일
     penalty INT NOT NULL DEFAULT 0, # 패널티
     deliver BOOLEAN NOT NULL DEFAULT FALSE, # 배달 기사 여부
-    status INT NOT NULL DEFAULT 0 # 0 : 오프라인, 1 : 휴식, 2 : 대기, 3 : 배송중, 4 : 비활성화(탈퇴)
+    status INT NOT NULL DEFAULT 0 # 0 : 오프라인, 1 : 휴식, 2 : 대기, 3 : 배송중, 4 : 이용제한, 5 : 배달기사신청중
     );
 DESC user;
 SELECT * FROM user;

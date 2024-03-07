@@ -1,0 +1,283 @@
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: 'GmarketSansMedium', sans-serif !important;
+    text-underline-position: under;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    height: 100vh;
+}
+
+#navigation-bar {
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    z-index: 1000;
+    background-color: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.btn-group-vertical > .btn {
+    width: 100%;
+}
+
+.btn-warning {
+    color: #FFFFFF !important;
+}
+
+.card {
+    width: 100%;
+    margin: auto;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+    transition: 0.3s; /* 부드러운 전환 효과 */
+    border-radius: 15px; /* 둥근 모서리 */
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2); /* 마우스 호버 시 그림자 효과 */
+}
+
+.card-body {
+    padding: 15px; /* 내부 여백 */
+}
+
+.card-title {
+    color: #007bff; /* 부트스트랩 기본 색상 */
+    font-weight: bold; /* 글씨 굵기 */
+}
+
+.card-text {
+    font-size: 16px; /* 글씨 크기 */
+    color: #333; /* 글씨 색상 */
+}
+
+#main-content {
+    margin-left: 250px;
+    flex-grow: 1;
+    padding: 20px;
+    /* Rest of your styles */
+}
+
+#map-container {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+
+.infowindow-content {
+    width: auto; /* 너비를 자동으로 설정하여 내용물에 맞게 조정 */
+    max-width: 400px; /* 최대 너비를 설정하여 너무 크게 확장되는 것을 방지 */
+    white-space: nowrap; /* 텍스트를 줄바꿈 없이 한 줄로 표시 */
+    color: #333; /* 글자 색상 */
+    padding: 10px; /* 패딩 설정 */
+    border-radius: 5px; /* 모서리 둥글게 */
+    background-color: #fff; /* 배경색 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+}
+
+.location-infowindow-content {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    text-align: center;
+    background-color: #fff;
+}
+
+.location-infowindow-title {
+    margin: 0;
+    padding: 0;
+    color: #007bff;
+}
+
+.bAddr {
+    margin: 0;
+    padding: 10px;
+    border-radius: 5px;
+    background: #fff;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+.title {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold; /* 글씨 굵게 */
+    color: #007bff; /* 부트스트랩 기본 색상 */
+}
+
+.detailAddr {
+    font-size: 14px; /* 글자 크기 */
+    line-height: 1.5; /* 줄 간격 */
+}
+
+.infowindow-wrapper {
+    color: #333;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 300px;
+}
+
+.infowindow-detail {
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.infowindow-detail:last-child {
+    margin-bottom: 0;
+}
+
+.infowindow-button {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    text-align: center;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.infowindow-button:hover {
+    background-color: #0056b3;
+}
+
+.accept-delivery-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.accept-delivery-button:hover {
+    background-color: #218838;
+}
+
+.modal-dialog {
+    display: flex;
+    align-items: center;
+    min-height: calc(100% - .5rem);
+}
+
+/* 모달 창 기본 스타일 */
+.modal-content {
+    border-radius: 15px; /* 모달 창의 모서리를 둥글게 */
+    overflow: hidden; /* 내용이 넘치지 않도록 처리 */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, .5); /* 모달 창에 그림자 추가 */
+}
+
+/* 배달 내용 모달 스타일 */
+#deliveryModal .modal-body {
+    background-color: #f8f9fa; /* 배경색 설정 */
+    padding: 20px; /* 패딩 설정 */
+}
+
+#deliveryModal .modal-body p {
+    margin-bottom: 10px; /* 단락 간격 */
+    padding: 10px; /* 패딩 설정 */
+    background-color: #ffffff; /* 배경색 설정 */
+    border-radius: 10px; /* 모서리 둥글게 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+}
+
+#deliveryModal .modal-title {
+    color: #007bff; /* 모달 타이틀 색상 */
+    font-weight: bold; /* 타이틀 글씨 굵게 */
+}
+
+.modal-footer .btn-secondary {
+    background-color: #6c757d; /* 닫기 버튼 색상 변경 */
+    border-color: #6c757d;
+}
+
+.modal-footer .btn-secondary:hover {
+    background-color: #5a6268; /* 닫기 버튼 호버 색상 변경 */
+    border-color: #545b62;
+}
+
+/* 섹션 스타일 */
+.delivery-section {
+    background-color: #eff0f1;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
+}
+
+.delivery-section:last-child {
+    margin-bottom: 0;
+}
+
+.delivery-section-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #17a2b8;
+    margin-bottom: 10px;
+}
+
+.pickup-section {
+    /*color: #007bff;*/
+    color: #ffc107; /* 글씨색 */
+}
+
+.arrival-section {
+    /*color: #007bff;*/
+    color: #007bff; /* 글씨색 */
+}
+
+.delivery-detail {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.delivery-detail:last-child {
+    margin-bottom: 0;
+}
+
+.status-modal-body {
+    text-align: center; /* 버튼들을 중앙에 배치 */
+}
+
+.status-button {
+    margin-bottom: 10px; /* 버튼 간의 간격 */
+    font-weight: bold; /* 글씨 굵게 */
+    color: white; /* 버튼 글자 색상 */
+}
+
+.btn.status-button[data-status="1"] {
+    background-color: #28a745;
+}
+
+/* 휴식: 녹색 */
+.btn.status-button[data-status="2"] {
+    background-color: #ffc107;
+}
+
+/* 대기: 노랑색 */
+.btn.status-button[data-status="0"] {
+    background-color: #dc3545;
+}
+
+/* 오프라인: 빨간색 */
+
+.btn.status-button:hover {
+    opacity: 0.8;
+}

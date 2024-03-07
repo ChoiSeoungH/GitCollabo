@@ -8,65 +8,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>뜨끈한 우동</title>
   <!-- Add your CSS file link here -->
-  <style>
-      body {
-          margin: 0;
-          padding: 0;
-          display: flex;
-          height: 100vh;
-      }
-
-      #navigation-bar {
-          width: 250px;
-          height: 100vh;
-          position: fixed;
-          z-index: 1000;
-          background-color: #f8f9fa;
-          /* Rest of your styles */
-      }
-
-      #main-content {
-          margin-left: 250px;
-          flex-grow: 1;
-          padding: 20px;
-          /* Rest of your styles */
-      }
-
-      #map-container {
-          width: 100%;
-          height: calc(100% - 30px);
-          margin-bottom: 10px;
-      }
-
-
-      .infowindow-content {
-          width: auto; /* 너비를 자동으로 설정하여 내용물에 맞게 조정 */
-          max-width: 400px; /* 최대 너비를 설정하여 너무 크게 확장되는 것을 방지 */
-          white-space: nowrap; /* 텍스트를 줄바꿈 없이 한 줄로 표시 */
-      }
-
-      .bAddr {
-          margin: 0;
-          padding: 10px;
-          border-radius: 5px;
-          background: #fff;
-          box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
-      }
-
-      .title {
-          display: block;
-          margin-bottom: 5px;
-          font-weight: bold;
-      }
-  </style>
-  <!-- Add Bootstrap for Modal -->
+  <link href="./css/quickMain.css" rel="stylesheet">
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Add Bootstrap for Modal -->
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 </head>
-
 
 
 <body>
@@ -77,8 +26,27 @@
     <div class="card-body">
       <h5 class="card-title">사용자 정보</h5>
       <p class="card-text">이름: ${user.name}</p>
-      <p class="card-text">상태: ${user.status}</p>
-      <p class="card-text">현금: ${user.cash}원</p>
+      <p class="card-text" id="user-status"><c:choose>
+        <c:when test="${user.status eq 0}">
+          상태 : 오프라인
+        </c:when>
+        <c:when test="${user.status eq 1}">
+          상태 : 휴식
+        </c:when>
+        <c:when test="${user.status eq 2}">
+          상태 : 대기
+        </c:when>
+        <c:when test="${user.status eq 3}">
+          상태 : 배송중
+        </c:when>
+        <c:when test="${user.status eq 4}">
+          상태 : 비활성화(탈퇴)
+        </c:when>
+        <c:otherwise>
+          상태 : 알 수 없음
+        </c:otherwise>
+      </c:choose></p>
+      <p class="card-text" id="cash">현금: ${user.cash}원</p>
     </div>
   </div>
   <!-- Control buttons -->
@@ -105,27 +73,23 @@
 </div>
 
 
-<!-- 상태전환 Modal -->
-<div class="modal fade" id="statusModal" tabindex="-1" role="dialog" aria-labelledby="statusModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+<!-- 상태전환 Modal (디자인 수정) -->
+<div class="modal fade" id="statusModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="statusModalLabel">상태 전환</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <button type="button" class="btn btn-secondary status-button" data-status="1">휴식</button>
-        <button type="button" class="btn btn-secondary status-button" data-status="2">대기</button>
-        <button type="button" class="btn btn-secondary status-button" data-status="0">오프라인</button>
+      <div class="modal-body status-modal-body">
+        <button type="button" class="btn status-button btn-lg btn-block" data-status="1">휴식</button>
+        <button type="button" class="btn status-button btn-lg btn-block" data-status="2">대기</button>
+        <button type="button" class="btn status-button btn-lg btn-block" data-status="0">오프라인</button>
       </div>
     </div>
   </div>
 </div>
 
+
 <!-- 배달내용 Modal -->
-<div class="modal fade" id="deliveryModal" tabindex="-1" role="dialog" aria-labelledby="deliveryModalLabel" aria-hidden="true">
+<div class="modal fade" id="deliveryModal" tabindex="-1" role="dialog" aria-labelledby="deliveryModalLabel"
+     aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -135,17 +99,24 @@
         </button>
       </div>
       <div class="modal-body">
-        <p id="pName">아이폰 </p>
-        <p id="timeDistance">예상 소요시간 및 이동거리: </p>
-        <p id="fee">배달료 : </p>
-
-        <p id="pAddress">우리 집</p>
-        <p id="pDistance">거리 : </p>
-        <p id="pTime">픽업 예상시간 : </p>
-
-        <p id="aAddress">우리 집</p>
-        <p id="aDistance">거리 : </p>
-        <p id="aTime">도착 예상시간 : </p>`
+        <div class="delivery-section">
+          <div class="delivery-section-title">배달 정보</div>
+          <p class="delivery-detail" id="pName">아이폰</p>
+          <p class="delivery-detail" id="timeDistance">예상 소요시간 및 이동거리:</p>
+          <p class="delivery-detail" id="fee">배달료:</p>
+        </div>
+        <div class="delivery-section">
+          <div class="delivery-section-title pickup-section">픽업 정보</div>
+          <p class="delivery-detail" id="pAddress">우리 집</p>
+          <p class="delivery-detail" id="pDistance">거리:</p>
+          <p class="delivery-detail" id="pTime">픽업 예상시간:</p>
+        </div>
+        <div class="delivery-section">
+          <div class="delivery-section-title arrival-section">도착 정보</div>
+          <p class="delivery-detail" id="aAddress">우리 집</p>
+          <p class="delivery-detail" id="aDistance">거리:</p>
+          <p class="delivery-detail" id="aTime">도착 예상시간:</p>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
@@ -155,7 +126,6 @@
 </div>
 
 
-<script src="path_to_your_javascript_file.js"></script>
 </body>
 </html>
 
@@ -207,9 +177,9 @@
   var price = 0;
   var pDistance;
   var aDistance;
-  var productName ;
+  var productName;
   var pAddress;
-  var aAddress ;
+  var aAddress;
   var deliveryDate;
 
   var roadAddress = deliver.location.split("/")[0];
@@ -235,6 +205,7 @@
 
 
   function acceptDelivery(position, buyerPosition, productAddress, buyerAddress, deliveryFee) {
+
     drawRoute(locPosition, position, buyerPosition);
     // 마커 움직임 시작
     var marker = addDeliveryMarker(locPosition, '배달원 위치', position, buyerPosition); // 배달원 위치 주소 정보 필요 시 추가 로직 구현
@@ -249,11 +220,14 @@
   }
 
   function displayMarker(locPosition) {
-
+    var imageUrl = './img/marker/deliver.png';
+    var imageSize = new kakao.maps.Size(75, 75);
+    var markerImage = new kakao.maps.MarkerImage(imageUrl, imageSize);
     // 마커를 생성합니다
     marker = new kakao.maps.Marker({
       map: map,
       position: locPosition,
+      image: markerImage
     });
     // 지도 중심좌표를 접속위치로 변경합니다
     map.setCenter(locPosition);
@@ -275,14 +249,12 @@
 
   function displayInfowindow(result, status) {
     if (status === kakao.maps.services.Status.OK && result[0]) {
-      var detailAddr = !!result[0].road_address ? '<div style="width: 100%;">도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
-      detailAddr += '<div style="width: 100%;">지번 주소 : ' + result[0].address.address_name + '</div>';
+      var detailAddr = !!result[0].road_address ? '<div class="detailAddr">도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
+      detailAddr += '<div class="detailAddr">지번 주소 : ' + result[0].address.address_name + '</div>';
 
-      var content = '<div class="infowindow-content">' + // 이 클래스에 스타일 적용
-          '<div class="bAddr">' +
-          '<span class="title">내위치</span>' +
-          detailAddr +
-          '</div></div>';
+      var content = '<div class="infowindow-content">' +
+          '<span class="title">내 위치</span>' + detailAddr +
+          '</div>';
 
       infowindow.setContent(content);
     }
@@ -369,7 +341,7 @@
 
             console.log("distance : " + distance);
             console.log("deliveryFee : " + deliveryFee);
-            addMarker(product.no ,product.title, latlng,latlng2, normalOrigin, overOrigin, clickOrigin, productAddress, buyerAddress, deliveryFee);
+            addMarker(product.no, product.title, latlng, latlng2, normalOrigin, overOrigin, clickOrigin, productAddress, buyerAddress, deliveryFee);
           }
         });
 
@@ -378,9 +350,9 @@
   }
 
   // 마커를 생성하고 지도 위에 표시하고, 마커에 mouseover, mouseout, click 이벤트를 등록하는 함수입니다
-  function addMarker(no, name ,position, buyerPosition, normalOrigin, overOrigin, clickOrigin, productAddress, buyerAddress, deliveryFee) {
+  function addMarker(no, name, position, buyerPosition, normalOrigin, overOrigin, clickOrigin, productAddress, buyerAddress, deliveryFee) {
 
-    // 기본 마커이미지, 오버 마커이미지, 클릭 마커이미지를 생성합니다
+    // 기본 마커이미지, 오버 마커이미지, 클릭 마커F이미지를 생성합니다
     var normalImage = createMarkerImage(markerSize, markerOffset, normalOrigin),
         overImage = createMarkerImage(overMarkerSize, overMarkerOffset, overOrigin),
         clickImage = createMarkerImage(markerSize, markerOffset, clickOrigin);
@@ -440,19 +412,24 @@
       selectedMarker = marker;
 
 
-      // 인포윈도우에 표시할 내용
+      // 인포윈도우에 표시할 내용을 담은 div를 생성합니다.
       var content = document.createElement('div');
-      content.innerHTML = '<div>배달료 : ' + deliveryFee + '원</div>' +
-          '<div>픽업 : ' + productAddress + '</div>' +
-          '<div>전달 : ' + buyerAddress + '</div>';
+      content.className = 'infowindow-wrapper';
+
+      content.innerHTML = '<div class="infowindow-detail">배달료 : ' + deliveryFee + '원</div>' +
+          '<div class="infowindow-detail" ">픽업 : ' + productAddress + '</div>' +
+          '<div class="infowindow-detail">전달 : ' + buyerAddress + '</div>';
+
+      // 닫기 버튼을 생성하고 이벤트 리스너를 추가합니다.
       var closeButton = document.createElement('button');
       closeButton.textContent = '거절';
+      closeButton.className = 'infowindow-button';
       closeButton.addEventListener('click', function () {
         infowindow.close();
       });
 
+      // 생성한 버튼을 content div에 추가합니다.
       content.appendChild(closeButton);
-
 
       var acceptDeliveryButton = document.createElement('button');
       acceptDeliveryButton.textContent = '배달수락';
@@ -463,9 +440,9 @@
       acceptDeliveryButton.setAttribute('data-delivery-fee', deliveryFee);
       acceptDeliveryButton.classList.add('accept-delivery-button'); // 클래스 추가
 
-      distance = getDistance(position.getLat(),position.getLng(), buyerPosition.getLat(),buyerPosition.getLng());
-      pDistance = getDistance(position.getLat(),position.getLng(), locPosition.getLat(),locPosition.getLng());
-      aDistance = getDistance(buyerPosition.getLat(),buyerPosition.getLng(), locPosition.getLat(),locPosition.getLng());
+      distance = getDistance(position.getLat(), position.getLng(), buyerPosition.getLat(), buyerPosition.getLng());
+      pDistance = getDistance(position.getLat(), position.getLng(), locPosition.getLat(), locPosition.getLng());
+      aDistance = getDistance(buyerPosition.getLat(), buyerPosition.getLng(), locPosition.getLat(), locPosition.getLng());
 
       acceptDeliveryButton.addEventListener('click', function () {
         productNo = $(this).data('product-no');
@@ -476,8 +453,9 @@
         deliveryDate = new Date();
         acceptDelivery(position, buyerPosition, productAddress, buyerAddress, deliveryFee);
         var newStatus = 3;
-        setDelivery(productNo,${user.no},deliveryFee,productAddress);
+        setDelivery(productNo, ${user.no}, deliveryFee, productAddress);
         updateDeliverStatus(${user.no}, newStatus, 0); // 상태 업데이트 함수 호출
+        map.setCenter(locPosition);
       });
 
       content.appendChild(acceptDeliveryButton);
@@ -543,14 +521,14 @@
     if (dtoSline) dtoSline.setMap(null);
     if (stoBline) stoBline.setMap(null);
 
-
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
         mapOption = {
-          center: new kakao.maps.LatLng(lat, lon), // 지도의 중심좌표
+          center: new kakao.maps.LatLng(deliverLocation.getLat(), deliverLocation.getLng()), // 지도의 중심좌표
           level: 3 // 지도의 확대 레벨
         };
     document.getElementById('map').innerHTML = "";
     map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
 
     // 새로운 선을 그립니다
     dtoSline = new kakao.maps.Polyline({
@@ -575,20 +553,40 @@
   }
 
   function addDeliveryMarker(position, address, productPosition, buyerPosition) {
-    // var isPickUp = false;
-    // var isDeliveryComplete = false;
-    // address 변수를 검사하여 조건에 따라 div의 id 속성을 결정합니다.
+    // 픽업과 전달에 사용될 마커 이미지 URL
+    var pickupMarkerImageUrl = './img/marker/pickup.png';
+    var deliverMarkerImageUrl = './img/marker/deliver.png';
+    var arriveMarkerImageUrl = './img/marker/arrive.png';
+
+// 마커 이미지 크기 설정
+    var imageSize = new kakao.maps.Size(75, 75); // 가로 24px, 세로 35px
+
+// 주소에 따라 픽업 또는 전달 마커 이미지 결정
+    var markerImageUrl;
+    if (address.includes("픽업")) {
+      markerImageUrl = pickupMarkerImageUrl;
+    }else if (address.includes("전달")) {
+      markerImageUrl = arriveMarkerImageUrl;
+    } else {
+      markerImageUrl = deliverMarkerImageUrl;
+    }
+
+
+// 결정된 마커 이미지로 마커 이미지 객체 생성
+    var markerImage = new kakao.maps.MarkerImage(markerImageUrl, imageSize);
+
 
     var marker = new kakao.maps.Marker({
       map: map,
       position: position,
       draggable: address.includes("배달원"), // "배달원"이 포함된 주소의 마커에 대해 드래그 가능 설정
-      zIndex: address.includes("배달원") ? 10 : 5
+      zIndex: address.includes("배달원") ? 10 : 5,
+      image: markerImage // 마커이미지 설정
     });
 
     if (!address.includes("배달원")) {
       var infowindow = new kakao.maps.InfoWindow({
-        content: '<div style="padding:5px;" >' + address + '</div>' // 인포윈도우에 표시할 내용
+        content: '<div class="location-infowindow-content" style="min-width: 23rem; max-width: 25rem;">' + address + '</div>'
       });
       infowindow.open(map, marker); // 마커 클릭 시 인포윈도우 표시
 
@@ -652,22 +650,31 @@
     };
   }
 
-  function generatePathPoints(startPos, endPos, numPoints) {
+  // generatePathPoints 함수 내에서 경로 포인트 생성 로직 수정
+  function generatePathPoints(startPos, endPos, distance) {
     let pathPoints = [];
+    let totalDistance = getDistance(startPos.getLat(), startPos.getLng(), endPos.getLat(), endPos.getLng());
+    console.log(totalDistance)
+    let numPoints = Math.floor(totalDistance / distance); // 100미터 간격으로 포인트 수 결정
     for (let i = 1; i <= numPoints; i++) {
-      let fraction = i / numPoints;
+
+      let fraction = (i * distance) / totalDistance;
       let interpolated = interpolate(startPos.getLat(), startPos.getLng(), endPos.getLat(), endPos.getLng(), fraction);
       pathPoints.push(new kakao.maps.LatLng(interpolated.lat, interpolated.lng));
     }
+
+    // 마지막 포인트 추가 (종료 지점)
+    pathPoints.push(new kakao.maps.LatLng(endPos.getLat(), endPos.getLng()));
+
     return pathPoints;
   }
 
 
   function startMarkerMovement(position, buyerPosition, marker) {
-    // var pathToPickup = generatePathPoints(locPosition, position, 5);
-    // var pathToDelivery = generatePathPoints(position, buyerPosition, 5);
-    var pathToPickup = generatePathPoints(locPosition, position, 2);
-    var pathToDelivery = generatePathPoints(position, buyerPosition, 2);
+    var pathToPickup = generatePathPoints(locPosition, position, 100);
+    console.log(pathToPickup)
+    var pathToDelivery = generatePathPoints(position, buyerPosition, 100);
+    console.log(pathToDelivery)
     var completePath = pathToPickup.concat(pathToDelivery); // 두 경로를 합칩니다.
 
     var currentStep = 0; // 현재 경로 포인트 인덱스
@@ -678,7 +685,7 @@
 
     function moveMarker() {
       if (currentStep < completePath.length) {
-       deliverPosition = completePath[currentStep];
+        deliverPosition = completePath[currentStep];
         marker.setPosition(deliverPosition); // 마커 위치 업데이트
 
         // 인포윈도우 내용 업데이트 및 표시
@@ -698,7 +705,7 @@
         }
 
         // 구매자 위치와의 거리가 0이 아닐 때만 stoBline 선을 다시 그립니다
-        if (getDistance(deliverPosition.getLat(),deliverPosition.getLng(), buyerPosition.getLat(), buyerPosition.getLng()) < 5) {
+        if (getDistance(deliverPosition.getLat(), deliverPosition.getLng(), buyerPosition.getLat(), buyerPosition.getLng()) < 5) {
           isDeliveryComplete = true;
           stoBline.setMap(null);
         }
@@ -725,7 +732,6 @@
   }
 
 
-
   function setBounds() {
     console.log(bounds)
     map.setBounds(bounds);
@@ -740,10 +746,9 @@
   // 모달 내 상태 버튼 클릭 이벤트
   $('.status-button').on('click', function () {
     var newStatus = $(this).data('status'); // data-status 속성 값 가져오기
-    updateDeliverStatus(${user.no}, newStatus , 0); // 상태 업데이트 함수 호출
+    updateDeliverStatus(${user.no}, newStatus, 0); // 상태 업데이트 함수 호출
     $('#statusModal').modal('hide'); // 모달 창 숨기기
   });
-
 
 
   //도착버튼
@@ -755,11 +760,11 @@
 
     // Java의 ProductDAO 클래스 내 updateEndDate 메소드 호출 (서버사이드 코드에서 처리 필요)
     var fee = price;
-    updateDeliverStatus(${user.no}, newStatus , fee); // 상태 업데이트 함수 호출
+    updateDeliverStatus(${user.no}, newStatus, fee); // 상태 업데이트 함수 호출
     updateDeliveryStatus(productNo, 2);
     // 클라이언트 사이드에서는 AJAX 호출을 통해 서버에 요청을 보내야 합니다.
     // 예시:
-    productNo =0;
+    productNo = 0;
   });
 
 
@@ -771,11 +776,11 @@
       data: {
         no: no,
         status: newStatus,
-        cash : fee
+        cash: fee
       },
       success: function (response) {
         $('#user-status').text("상태 : " + response.status); // 응답 받은 새로운 상태로 업데이트
-        $('#cash').text("현금 : " + response.cash+"원");
+        $('#cash').text("현금 : " + response.cash + "원");
         toggleButtonsBasedOnStatus(response.status);
       },
       error: function () {
@@ -807,40 +812,41 @@
     $.ajax({
       url: 'quickEnd.do',
       method: 'POST',
-      data: { no: productNo }, // endDate를 제외하고 no만 전송
-      success: function(response) {
+      data: {no: productNo}, // endDate를 제외하고 no만 전송
+      success: function (response) {
         console.log("날짜 업데이트 완료");
       },
-      error: function(xhr, status, error) {
+      error: function (xhr, status, error) {
         console.error("날짜 업데이트 실패");
       }
     });
   }
 
-  function setDelivery(productNo,deliverNo,deliveryFee,productAddress) {
+  function setDelivery(productNo, deliverNo, deliveryFee, productAddress) {
     $.ajax({
       url: 'deliveryUpdate.do',
       method: 'POST',
-      data: { productNo: productNo ,
+      data: {
+        productNo: productNo,
         deliverNo: deliverNo,
-        deliveryFee : deliveryFee,
-        productAddress : productAddress,
+        deliveryFee: deliveryFee,
+        productAddress: productAddress,
       },
-      success: function(response) {
+      success: function (response) {
         console.log("딜리버리 셋팅 완료");
       },
-      error: function(xhr, status, error) {
+      error: function (xhr, status, error) {
         console.error("딜리버리 셋팅 실패");
       }
     });
   }
 
-  document.getElementById('refresh').addEventListener('click', function() {
+  document.getElementById('refresh').addEventListener('click', function () {
     $.ajax({
       url: 'quickRefresh.do', // 데이터를 가져올 서버의 엔드포인트
       type: 'GET', // 또는 'POST', 서버의 요구사항에 따라 결정
       dataType: 'json', // 받아올 데이터 타입
-      success: function(response) {
+      success: function (response) {
         listData = response.productList;
         deliver = response.deliver;
         buyerListData = response.buyerList;
@@ -860,7 +866,7 @@
           console.log(buyerListData[i]);
         }
       },
-      error: function(xhr, status, error) {
+      error: function (xhr, status, error) {
         // 데이터를 받아오는 데 실패한 경우
         console.error("Data fetch failed: ", error);
       }
@@ -869,32 +875,31 @@
   });
 
   // 배달 내용 버튼 클릭 이벤트 핸들러
-  $('#delivery-details-btn').click(function() {
+  $('#delivery-details-btn').click(function () {
     var totalDistance = pDistance + aDistance;
     var delayTime = 2; //건물을 오르는등 기타시간 고려
-    var tTime = getTime(totalDistance*2)+ delayTime*2;
-    var pTime = getTime(pDistance*2)+ delayTime;
-    var aTime = getTime(aDistance*2)+ delayTime;
+    var tTime = getTime(totalDistance * 2) + delayTime * 2;
+    var pTime = getTime(pDistance * 2) + delayTime;
+    var aTime = getTime(aDistance * 2) + delayTime;
 
     var dTime = new Date(deliveryDate.getTime());
 
 
-
     // 계산된 값들을 모달의 적절한 위치에 표시
     $('#pName').text(productName);
-    $('#timeDistance').text("예상 소요시간 및 이동거리: " + tTime+"분/" + Math.round(totalDistance)+"m");
+    $('#timeDistance').text("예상 소요시간 및 이동거리: " + tTime + "분/" + Math.round(totalDistance) + "m");
     $('#fee').text("배달료: " + price + "원");
 
 
     dTime.setMinutes(dTime.getMinutes() + pTime);
     $('#pAddress').text(pAddress);
-    $('#pDistance').text("거리 : " + Math.round(pDistance) +"m");
+    $('#pDistance').text("거리 : " + Math.round(pDistance) + "m");
     $('#pTime').text("픽업 예상시간: " + estimateTime(dTime));
 
 
-    dTime.setMinutes(dTime.getMinutes() + aTime );
+    dTime.setMinutes(dTime.getMinutes() + aTime);
     $('#aAddress').text(aAddress);
-    $('#aDistance').text("거리 : " + Math.round(aDistance)+"m");
+    $('#aDistance').text("거리 : " + Math.round(aDistance) + "m");
     $('#aTime').text("도착 예상시간: " + estimateTime(dTime));
 
     // 모달을 표시합니다.
@@ -925,7 +930,6 @@
 
     return formattedTime;
   }
-
 
 
   function panTo() {//지도좌표 이동

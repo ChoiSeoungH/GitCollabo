@@ -10,6 +10,28 @@
   <!-- 부트스트랩 CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <style>
+      @font-face {
+          font-family: 'GmarketSansMedium';
+          src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+          font-weight: normal;
+          font-style: normal;
+      }
+
+      body {
+          font-family: 'GmarketSansMedium', sans-serif;
+          text-underline-position: under;
+      }
+
+      .overlaybox {
+          position: relative;
+          display: inline-block;
+          background: #284a6e no-repeat;
+          padding: 10px;
+          border-radius: 10px;
+          color: #fff;
+      }
+
+
       #map-container {
           position: relative; /* For absolute positioning of the buttons */
       }
@@ -27,6 +49,10 @@
       }
       .custom-infowindow .card-text:last-child {
           margin-bottom: 0;
+      }
+
+      .no-wrap {
+          white-space: nowrap;
       }
   </style>
 </head>
@@ -61,6 +87,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- 부트스트랩 JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
@@ -132,6 +159,8 @@
       var position = marker.getPosition();
       // 드래그 끝난 위치에 대한 주소 정보를 조회합니다
       searchAddrFromCoords(position, displayInfowindow);
+      lat = position.getLat();
+      lon = position.getLng();
     });
 
     // 마커에 클릭 이벤트를 등록한다 (우클릭 : rightclick)
@@ -161,8 +190,8 @@
 
   function displayInfowindow(result, status) {
     if (status === kakao.maps.services.Status.OK && result[0]) {
-      var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
-      detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
+      var detailAddr = !!result[0].road_address ? '도로명주소 : ' + result[0].road_address.address_name : '';
+      detailAddr += '<br>지번 주소 : ' + result[0].address.address_name;
 
       // 도로명 주소 또는 지번 주소에서 '동'을 추출합니다.
       var dong = extractDong(result[0].address.address_name);
@@ -170,14 +199,16 @@
       roadAddress = result[0].road_address ? result[0].road_address.address_name : '';
       jibunAddress = result[0].address.address_name;
 
-      // 부트스트랩 카드 스타일 적용
-      var content = '<div class="card custom-infowindow" style="width: 18rem;">' +
+      var content =
+          '<div class="card custom-infowindow" style="min-width: 22rem; max-width: 25rem;">' +
+          '<div class="card-header bg-primary text-white">주소 정보</div>' +
           '<div class="card-body">' +
-          '<h5 class="card-title">주소 정보</h5>' +
-          '<p class="card-text">' + detailAddr + '</p>' +
-          '<p class="card-text">현재 위치는 ' + dong + ' 내에 있어요.</p>' +
+          '<h6 class="card-subtitle mb-2 text-muted">현재 위치</h6>' +
+          '<p class="card-text no-wrap">' + detailAddr + '</p>' +
+          '<p class="card-text no-wrap"><small class="text-muted">이 위치는 ' + dong + ' 내에 있습니다.</small></p>' +
           '</div>' +
           '</div>';
+
 
       // 기본 주소 입력 필드 업데이트
       document.getElementById('basic-address').value = roadAddress ? roadAddress : jibunAddress;
@@ -268,6 +299,32 @@
       searchAndMoveTo();
     }
   });
+
+  // JSON 파일 URL
+  const jsonFileUrl = './json/TL_SCCO_CTPRVN.json';
+  // jQuery를 사용하여 JSON 파일 로드
+  $.getJSON(jsonFileUrl, function(data) {
+    // 로드된 데이터를 바탕으로 폴리곤 생성
+    data.features.forEach(function(feature) {
+      var coordinates = feature.geometry.coordinates[0];
+      var path = coordinates.map(function(coord) {
+        return new kakao.maps.LatLng(coord[1], coord[0]);
+      });
+
+      var polygon = new kakao.maps.Polygon({
+        map: map,
+        path: path,
+        strokeWeight: 2,
+        strokeColor: '#004c80',
+        strokeOpacity: 0.8,
+        fillColor: '#fff',
+        fillOpacity: 0.7
+      });
+
+    });
+  });
+
+
 
 
 </script>
