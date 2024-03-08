@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../Main.jsp" %>
+    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
+<c:set var="user" value="${user}"/>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -128,12 +130,15 @@
 		</tr>
 		</table> -->
 	</div class="mypage_menu">
-	<a href="${ctx}/map.do"> - 내 동네 설정 </a><br>
-	<a href="${ctx}/saleHistory.do?no=${user.no}"> - 판매 내역 </a><br>
-	<a href="${ctx}/purHistory.do?no=${user.no}"> - 구매 내역 </a><br>
+	<a href="${ctx}/userInfo.do"> - 내 동네 설정 </a><br>
+	<a href="${ctx}/purHistory.do?no=${user.no}&myPage=1"> - 판매 내역 </a><br>
+	<a href="${ctx}/purHistory.do?no=${user.no}&myPage=2"> - 구매 내역 </a><br>
+		<a href="${ctx}/productAdd.do?no=${user.no}"> - 물건등록 </a><br>
+		<a href="${ctx}/productList.do?no=${user.no}"> - 물건구매하기 </a><br>
+	<a href="${ctx}/main.do?no=${user.no}">  메인화면 </a><br>
 	<c:if test="${ user.id ne 'admin' }"> <a href="${ctx}/userInfo.do"> - 라이더 신청 </a><br> </c:if>
 	<c:if test="${ user.id ne 'admin' }"> <a href="${ctx}/userInfo.do"> - 탈퇴 하기 </a><br> </c:if>
 	<c:if test="${ user.id eq 'admin' }"> <a href="${ctx}/userList.do"> - 전체 회원 보기 </a><br> </c:if>
 
 <%@ include file="./cashModal.jsp" %>	
-<%@ include file="../parts/footer.jsp" %>	
+<%@ include file="../parts/footer.jsp" %>
