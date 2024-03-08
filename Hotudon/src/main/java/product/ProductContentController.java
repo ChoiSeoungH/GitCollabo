@@ -17,6 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dao.AuctionDAO;
 import dao.ProductDAO;
 import dao.ProductImgDAO;
+import dao.UserDAO;
 import frontcontorller.Controller;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,6 +25,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import vo.Auction;
 import vo.Product;
 import vo.ProductImg;
+import vo.User;
 
 public class ProductContentController implements Controller {
 
@@ -77,15 +79,29 @@ public class ProductContentController implements Controller {
 			System.out.println(list.toString());
 			List<Auction> auList =AuctionDAO.getInstance().getAllAuction();
 			List<ProductImg> imageList = ProductImgDAO.getInstance().getAllProductImg();
+			if(AuctionDAO.getInstance().getOneAuctioBidNo(ProductNo) == null) {
+				request.setAttribute("au", au);
+		 		request.setAttribute("img", image);
+		 		request.setAttribute("list", list);
+		 		request.setAttribute("auList", auList);
+		 		request.setAttribute("imageList", imageList);
+				request.setAttribute("auction", isAuction);
+				request.setAttribute("vo", vo);	
+				return "product/productContent";
+			}
+			int getNo =Integer.parseInt(AuctionDAO.getInstance().getOneAuctioBidNo(ProductNo));
+			User bo = UserDAO.getInstance().getOneUser(getNo);  
+			System.out.println(getNo);
+			request.setAttribute("nick", bo);
 			request.setAttribute("au", au);
 	 		request.setAttribute("img", image);
 	 		request.setAttribute("list", list);
 	 		request.setAttribute("auList", auList);
 	 		request.setAttribute("imageList", imageList);
 			request.setAttribute("auction", isAuction);
-			request.setAttribute("vo", vo);
+			request.setAttribute("vo", vo);	
 			return "product/productContent";
-	
+			
 		}
 		request.setAttribute("au", au);
  		request.setAttribute("img", image);

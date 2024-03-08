@@ -134,13 +134,13 @@ a{
 
                                         if (parts && parts.length > 0) {
                                             var fileName = parts[parts.length - 1];
-                                            document.write('<a><img src="' + parts[0] + '" alt="이미지" width="100%" height="100%"/> </a>');
+                                            document.write('<a href="${ctx}/productContent.do?productNo=${vo.no}&query=${vo.title}&auction=${vo.auction}"><img src="' + parts[0] + '" alt="이미지" width="100%" height="100%"/> </a>');
                                         }
                                     </script>
                                 </c:when>
                                 <c:otherwise>
                                     <script>
-                                        document.write('<a><img src="img/unnamed.jpg" alt="이미지" width="100%" height="100%" /></a>');
+                                        document.write('<a href="${ctx}/productContent.do?productNo=${vo.no}&query=${vo.title}&auction=${vo.auction}"><img src="img/unnamed.jpg" alt="이미지" width="100%" height="100%" /></a>');
                                     </script>
                                 </c:otherwise>
                             </c:choose>
@@ -153,9 +153,6 @@ a{
                             <script>
                                 var lastBidDate = new Date("${au.lastBidDate}");
                                 var lastBidNo = Number('${au.lastBidderNo}');
-                                console.log('${au}');
-                                console.log('${img}');
-                                console.log('${vo}');
                                 var endDate;
                                 var remainingTimeElement = document.querySelector(`.remainingTime[data-auction-id="${au.productNo}"]`);
                                 console.log(remainingTimeElement);
@@ -163,9 +160,9 @@ a{
                                     // 현재 시간
                                     var currentDate = new Date();
                                     if (lastBidNo == 0) {
-                                        endDate = new Date(lastBidDate.getTime() + 1 * 60 * 60 * 1000); // 초기
+                                        endDate = new Date(lastBidDate.getTime() + 24 * 60 * 60 * 1000); // 초기
                                     } else {
-                                        endDate = new Date(lastBidDate.getTime() + 1 * 60 * 60 * 1000); // 초기
+                                        endDate = new Date(lastBidDate.getTime() + 3 * 60 * 60 * 1000); // 초기
                                     }
                                     var timeDifference = endDate - currentDate;
                                     var hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
@@ -180,9 +177,6 @@ a{
                                     // 경매가 종료되었을 때 처리
                                     if (timeDifference <= 0) {
                                         remainingTimeElement.innerHTML = "경매 낙찰"; // 종료 메시지 표시
-                                        elementsToRemove.forEach(element => {
-                                            element.remove();
-                                        });
 
                                         clearInterval(intervalId); // 1초마다 실행되는 함수 중지
                                     }

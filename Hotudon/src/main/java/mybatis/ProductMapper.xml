@@ -138,6 +138,14 @@ SELECT * FROM product WHERE title LIKE CONCAT('%', #{title}, '%')
      	<select id="getOneAuction" parameterType="Integer" resultMap="auction">
     	 SELECT * FROM auction where product_no=#{no} 
     </select>
+ 
+ <!-- 하나의 옥션번호 가지고오기 -->
+    <select id="getOneAuctionNo" parameterType="Integer" resultType="String">
+    SELECT a.last_bidder_no
+    FROM auction a
+    WHERE a.product_no = #{no}
+</select> 
+   	
     	
 	
 	<!-- 경매선택추가 -->
@@ -185,10 +193,10 @@ UPDATE product
 SET buyer_no = (
     SELECT last_bidder_no
     FROM auction
-    WHERE product_no = #{productNo}
+    WHERE product_no = #{no}
 ),
-end_date = #{endDate}
-WHERE no = #{productNo};
+end_date = NOW()
+WHERE no = #{no};
 	</update>
 
 <update id="auctionEndCash" parameterType="auction">
@@ -203,6 +211,7 @@ WHERE no = #{productNo};
         SELECT seller_no
         FROM product
         WHERE no = #{productNo}
+ 	AND	end_date IS NULL 
     );
 </update>
 

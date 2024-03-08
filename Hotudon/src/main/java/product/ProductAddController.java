@@ -38,10 +38,6 @@ public class ProductAddController implements Controller {
 		String sellLocation = request.getParameter("sellLocation");
 		String productContent = request.getParameter("productContent");
 		System.out.println("image" + image);
-		
-		
-
-
 		if(auction == 0 ) { // 경매 방법
 			Product vo = new Product(0, category, sellerNo, title, price, productContent,null, false, sellLocation, method,0,null); 
 			ProductDAO.getInstance().insertOneProduct(vo);

@@ -115,6 +115,18 @@ public class ProductDAO {
 			session.close();
 			return check;
 		}
+		public int buyProductOne(int productNo,int buyerNo,String endDate) {
+		SqlSession session =MybatisConfig.getInstance().openSession();
+		Product vo = new Product();
+		vo.setNo(productNo);
+		vo.setBuyerNo(buyerNo);
+		vo.setEndDate(endDate);
+		int check = session.update("mapper.product.productUpdateEnd",vo);
+		session.commit();
+		session.close();
+		return 1;	
+		}
+		
 	
 		
 

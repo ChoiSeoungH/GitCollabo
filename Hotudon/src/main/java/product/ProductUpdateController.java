@@ -59,7 +59,6 @@ public class ProductUpdateController implements Controller{
 		System.out.println("imgs"+images);
 		
 		String image = String.join(",", images);
-		System.out.println("check"+image);
 		String title = request.getParameter("title");	
 		int price =Integer.parseInt(request.getParameter("productPrice"));
 		int method = Integer.parseInt(request.getParameter("method"));

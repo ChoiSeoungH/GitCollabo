@@ -155,9 +155,9 @@ product_listitem li {
         // 현재 시간
         var currentDate = new Date();
         if (lastBidNo == 0) {
-            endDate = new Date(lastBidDate.getTime() + 1 * 60 * 60 * 1000); // 초기
+            endDate = new Date(lastBidDate.getTime() + 24 * 60 * 60 * 1000); // 초기
         } else {
-            endDate = new Date(lastBidDate.getTime() + 1 * 60 * 60 * 1000); // 초기
+            endDate = new Date(lastBidDate.getTime() + 3 * 60 * 60 * 1000); // 초기
         }
         var timeDifference = endDate - currentDate;
         var hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));

@@ -75,6 +75,12 @@ public class AuctionDAO {
 		session.close();
 		return 1;
 	}
+	public String getOneAuctioBidNo(int productNo) {
+		SqlSession session = MybatisConfig.getInstance().openSession();
+		String getNo = session.selectOne("mapper.product.getOneAuctionNo",productNo);
+		session.close();
+		return getNo;
+	}
 
 	
 	
