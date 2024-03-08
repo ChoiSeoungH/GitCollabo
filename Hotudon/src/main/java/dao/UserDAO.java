@@ -46,8 +46,8 @@ public class UserDAO {
     User vo = new User();
     vo.setId(id);
     vo.setPw(pw);
-    SqlSession session = MybatisConfig.getInstance().openSession();
-    User u = session.selectOne("checkLogin", vo);
+    SqlSession session = MybatisConfig.getInstance().openSession(true);
+    User u = session.selectOne("userLogin", vo);
     session.close();
     return u;
   }
@@ -55,14 +55,6 @@ public class UserDAO {
   public int getuserNo(String id) {
     SqlSession session = MybatisConfig.getInstance().openSession();
     int cnt = session.insert("getuserNo", id);
-    session.close();
-    return cnt;
-  }
-
-  public int userDelete(String id) {
-    SqlSession session = MybatisConfig.getInstance().openSession();
-    int cnt = session.delete("userDelete", id);
-    session.commit();
     session.close();
     return cnt;
   }
@@ -110,6 +102,13 @@ public class UserDAO {
     session.commit();
     session.close();
     return 1;
+  }
+
+  public int removeUser(String id) {
+    SqlSession session= MybatisConfig.getInstance().openSession(true);
+    int cnt=session.insert("userDelete", id);
+    session.close();
+    return cnt;
   }
 
   public int locationUpdate(User vo) {

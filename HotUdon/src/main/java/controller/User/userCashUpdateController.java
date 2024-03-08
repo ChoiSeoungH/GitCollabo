@@ -17,22 +17,23 @@ public class userCashUpdateController implements Controller {
     String ctx = req.getContextPath();
 
     HttpSession session = req.getSession();
-    User user = (User) session.getAttribute("user");
-    String type = req.getParameter("type");
+    User user = (User)session.getAttribute("user");
+    String type = (String)req.getParameter("type");
 
     int no = Integer.parseInt(req.getParameter("no"));
     int cash = 0;
 
-    if (type.equals("deposit")) {
+    if(type.equals("deposit")) {
       cash = user.getCash() + Integer.parseInt(req.getParameter("cash_update"));
-    } else if (type.equals("withdraw")) {
+    } else if(type.equals("withdraw")) {
       cash = user.getCash() - Integer.parseInt(req.getParameter("cash_update"));
     }
     System.out.println(cash);
 
-    int cnt = UserDAO.getInstance().cashUpdate(no, cash);
-    if (cnt > 0) {
-      return "redirect:" + ctx + "/userContent.do?no=" + no;
+    int cnt = UserDAO.getInstance().cashUpdate(no,cash);
+    if(cnt>0) {
+      return "redirect:" + ctx + "/userMyPage.do?no=" + no;
+//			return "user/MyPage";
 
 //			return "redirect:" + ctx + "/userContent.do";
 //			req.removeAttribute("center");

@@ -34,13 +34,14 @@ public class kakaoLoginController implements Controller {
       User u = new User(id, pw, name, phone, nickname);
 
       int cnt = UserDAO.getInstance().userInsert(u);
-      if (cnt == 0) {
-        nextPage = "user/selfJoin";
-//				req.setAttribute("center", "user/join");
+      if(cnt == 0) {
+        nextPage = "Main";
       }
+
+      user = UserDAO.getInstance().checkLogin(id, pw);
     }
 
-    user.setRegDate(user.getRegDate().substring(0, 10));
+    user.setRegDate(user.getRegDate().substring(0,10));
     HttpSession session = req.getSession();
     session.setAttribute("user", user);
 

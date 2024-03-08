@@ -9,16 +9,20 @@
 <title>Insert title here</title>
 </head>
 <style>
-	.mypage{
+	#wrap{
+		width: 900px;
+		
+	}
+	#mypage{
 		border: 2px solid black;
 		border-radius: 10px;
 		margin: 0px auto 30px; 
-		width: 900px;
+		width: 100%;
 		height: 300px;
 		display: flex;
 		flex-direction: column;
 	}
-	.container{
+	#container{
 		display: flex;
 		width: 100%
 	}
@@ -33,6 +37,7 @@
 		font-size: 2em;
 	}
 	.btn_update{
+		
 		flex: 1;
 		margin: auto;
 		align-items: center;	
@@ -70,7 +75,7 @@
 		text-align: right;
 		margin: auto 10px;
 	}
-	.mypage img{
+	#mypage img{
 		height: 100px;
 		width: 100px;
 		border-radius: 50%;
@@ -79,11 +84,7 @@
 		border-right: 1px solid black;
 		height : 130px;
 	}
-	.mypage_menu{
-		margin-left: 110px;
-		list-style-type: none;
-	}
-	.mypage_menu a{
+	#mypage_menu a{
 		font-size: 1.3em;
 		display: block;
 		margin-bottom: 3px;
@@ -92,8 +93,9 @@
 </style>
 
 <body>
-	<div class="mypage">
-		<div class="container"> 
+	<div id=wrap>
+	<div id="mypage">
+		<div id="container"> 
 			<div class="userImg_"> <img src="./img/${ user.imgUrl }"> <p class="nickname">${ user.nickname }</p> </div>
 			
 			<div class="btn_update">
@@ -117,29 +119,38 @@
 				<div class="mid"> ${ user.regDate } </div>
 			</div>
 		</div>
-		<!-- <table border="1">
-		<tr>
-		<td colspan="2"> <img src="./img/seolak.png"> 닉네임 </td>
-		<td>
-		</td>
-		</tr>
-		<tr>
-		<td> 캐시 </td>
-		<td> 회원 상태 </td>
-		<td> 가입 일자 </td>
-		</tr>
-		</table> -->
-	</div class="mypage_menu">
-	<a href="${ctx}/map.do"> - 내 동네 설정 </a><br>
-	<a href="${ctx}/purHistory.do?no=${user.no}&myPage=1"> - 판매 내역 </a><br>
-	<a href="${ctx}/purHistory.do?no=${user.no}&myPage=2"> - 구매 내역 </a><br>
-		<a href="${ctx}/productAdd.do?no=${user.no}"> - 물건등록 </a><br>
-		<a href="${ctx}/productList.do?no=${user.no}"> - 물건구매하기 </a><br>
-	<a href="${ctx}/main.do?no=${user.no}">  메인화면 </a><br>
+	</div>
+		
+	<div  id="mypage_menu">
+	<a href="${ctx}/userInfo.do"> - 내 동네 설정 </a><br>
+	<a href="${ctx}/saleHistory.do?no=${user.no}"> - 판매 내역 </a><br>
+	<a href="${ctx}/purHistory.do?no=${user.no}"> - 구매 내역 </a><br>
 	<c:if test="${ user.id ne 'admin' }"> <a href="${ctx}/userInfo.do"> - 라이더 신청 </a><br> </c:if>
-	<c:if test="${ user.id ne 'admin' }"> <a href="${ctx}/userInfo.do"> - 탈퇴 하기 </a><br> </c:if>
+	<c:if test="${ user.id ne 'admin' }"> <a href="#" onclick="checkCash()"> - 탈퇴 하기 </a><br> </c:if>
 	<c:if test="${ user.id eq 'admin' }"> <a href="${ctx}/userList.do"> - 전체 회원 보기 </a><br> </c:if>
+	</div>
 
+	</div>
 <%@ include file="./cashModal.jsp" %>	
 <%@ include file="../parts/footer.jsp" %>
-
+<script>
+	function checkCash() {
+	    // user.cash 값을 가져와서 정수로 변환합니다.
+	    let cash = parseInt("${user.cash}");
+	    let SNSPw = "${user.pw}";
+	    let userNo = parseInt("${user.no}");
+	    
+	    if (cash > 0) {
+	        alert("캐시 잔액이 없을 경우에만 회원 탈퇴 가능합니다.");
+	    } else {
+			if(SNSPw === 'SNSPw'){
+				if(window.confirm("탈퇴 하시겠습니까?")){
+					kakaoLogout();
+					location.href = "${ctx}/userDelete.do?no="+userNo;
+				}
+			} else{
+		    	location.href = "${ctx}/userDelete.do";
+			}
+	    }
+	}
+</script>

@@ -55,11 +55,12 @@
     <update id="userUpdate" parameterType="user">
         update user
         set pw=#{pw},
+            img_url=#{imgUrl},
             name=#{name},
             nickname=#{nickname},
             phone=#{phone},
             deliver=#{deliver}
-        where no =#{no}
+        where no=#{no}
     </update>
 
     <update id="locationUpdate" parameterType="user">

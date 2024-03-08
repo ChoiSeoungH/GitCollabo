@@ -80,7 +80,7 @@
 	<br><hr width="350px"><br>	
 	<p> 도움이 필요하시면 고객센터 또는 02-000-0000으로 문의 주시기 바랍니다.</p>	                                                                              
 </div>
- <%@ include file="../user/kakaoLogin.jsp" %>
+
 </body>
 </html>
 
