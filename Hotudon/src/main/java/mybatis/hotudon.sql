@@ -129,7 +129,6 @@ INSERT INTO user (id, pw, name, phone, deliver) VALUES ('zxcv', '1234', '김영�
 INSERT INTO user (id, pw, name, phone) VALUES ('aaaa', '1234', '김철수', '010-1234-5645' );
 
 
-
 INSERT INTO category (no, name) VALUES (0, '전체');
 INSERT INTO category (no, name) VALUES (1, '디지털');
 INSERT INTO category (no, name) VALUES (2, '의류');

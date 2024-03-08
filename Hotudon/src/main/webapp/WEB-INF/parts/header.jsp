@@ -19,7 +19,7 @@
 		width: 10%;
 		heigth: 100px;
 	}
-	
+
     .modal{
     	/* border: 1px solid black; */
     	border-radius: 10px;
@@ -116,16 +116,16 @@
  	<header>
 		<div class="logo" onclick=""><img src="./img/logo.png"> </div>
 		<div class="search">
-			
+
 			<input type="text" name="search" width="400px" height="200px">
 		</div>
-		<div class="userImg"> 
+		<div class="userImg">
 			<c:if test="${ user eq null }"> <a onclick="clickLogin()"> <img class="userImg" src="https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg" ></a></c:if>
 			<c:if test="${ user ne null }"> <a onclick="openInfo()"> <img class="userImg" src="./img/${ user.imgUrl }" ></a></c:if>
 		</div>
  	</header>
- 	
- 	
+
+
 <div class="overlay hidden" onclick="unclickLogin()"></div>
 <%@ include file="./LoginModal.jsp" %>
 <%@ include file="../user/kakaoLogin.jsp" %>

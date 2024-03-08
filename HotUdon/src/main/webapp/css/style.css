@@ -1,0 +1,24 @@
+body {
+    font-family: 'GmarketSansMedium', sans-serif;
+    text-underline-position: under;
+}
+#container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+#main_header, #main_nav, #main_info {
+    border: 1px solid black;
+}
+#main_header {
+    height: 100px;
+}
+#main_nav {
+    flex-basis: 15%;
+}
+#main_info {
+    flex-basis: 15%;
+}
+#main_center {
+    flex-grow: 1;
+}

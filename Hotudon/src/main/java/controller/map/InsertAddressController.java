@@ -25,18 +25,9 @@ public class InsertAddressController implements Controller {
       json.append(line);
     }
 
-    HttpSession session = request.getSession();
     UserDAO uDao = UserDAO.getInstance();
-//    int no = 1;
-//    if (session.getAttribute("user") != null) {
-//      no = (int) session.getAttribute("no");
-//    }
-//    System.out.println("no : "+no);
-//    System.out.println("user : "+uDao.userList().get(no));
-//    User vo = uDao.userList().get(no + 1);
-    User vo = (User) session.getAttribute("user");
-    System.out.println(vo);
     String combinedAddress = null;
+    int no;
 
     try {
       JSONObject jsonObject = new JSONObject(json.toString());
@@ -45,12 +36,17 @@ public class InsertAddressController implements Controller {
       String roadAddress = jsonObject.getString("roadAddress");
       String jibunAddress = jsonObject.getString("jibunAddress");
       String detailAddress = jsonObject.getString("detailAddress");
+      no = Integer.parseInt(jsonObject.getString("no"));
       combinedAddress = roadAddress + "/" + jibunAddress + "/" + detailAddress;
     } catch (JSONException e) {
       throw new RuntimeException(e);
     }
 
-//    System.out.println("combinedAddress"+ combinedAddress);
+
+    User vo = uDao.getOneUser(no);
+    System.out.println(vo);
+
+
     vo.setLocation(combinedAddress);
     int cnt = uDao.locationUpdate(vo);
 

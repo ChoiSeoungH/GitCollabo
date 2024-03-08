@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%--강남구 역삼동 831-3--%>
+<c:set var="ctx" value="${ pageContext.request.contextPath }"/>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -8,53 +9,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>뜨끈한 우동</title>
   <!-- 부트스트랩 CSS -->
+  <link rel="stylesheet" href="./css/map.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <style>
-      @font-face {
-          font-family: 'GmarketSansMedium';
-          src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
-          font-weight: normal;
-          font-style: normal;
-      }
 
-      body {
-          font-family: 'GmarketSansMedium', sans-serif;
-          text-underline-position: under;
-      }
-
-      .overlaybox {
-          position: relative;
-          display: inline-block;
-          background: #284a6e no-repeat;
-          padding: 10px;
-          border-radius: 10px;
-          color: #fff;
-      }
-
-
-      #map-container {
-          position: relative; /* For absolute positioning of the buttons */
-      }
-      #map {
-          width: 100%;
-          height: 600px;
-      }
-
-      /* 인포윈도우 디자인 커스텀 */
-      .custom-infowindow .card-body {
-          padding: 0.5rem;
-      }
-      .custom-infowindow .card-title {
-          margin-bottom: 0.5rem;
-      }
-      .custom-infowindow .card-text:last-child {
-          margin-bottom: 0;
-      }
-
-      .no-wrap {
-          white-space: nowrap;
-      }
-  </style>
 </head>
 <body>
 <div class="container mt-4">
@@ -102,8 +59,7 @@
   var marker;
   var lat;
   var lon;
-  var ctx = "${ctx}";
-
+  console.log(${user.no});
   var mapContainer = document.getElementById('map'), // 지도를 표시할 div
       mapOption = {
         center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
@@ -243,11 +199,12 @@
   function saveAddress() {
     // var basicAddress = $('#basic-address').val();
     var detailAddress = $('#detail-address').val();
-
+    var no = ${user.no};
     var address = {
       roadAddress: roadAddress,
       jibunAddress: jibunAddress,
-      detailAddress: detailAddress
+      detailAddress: detailAddress,
+      no : no
     };
     console.log(JSON.stringify(address));
     $.ajax({
@@ -259,7 +216,7 @@
         // 성공적으로 응답을 받았을 때의 처리
         console.log("응답:", response);
         alert('주소가 성공적으로 저장되었습니다.');
-        location.href = ctx+"/myPage.do"
+        location.href = `${ctx}userMyPage.do?no=${user.no}`;
       },
       error: function(xhr, status, error) {
         // 에러가 발생했을 때의 처리

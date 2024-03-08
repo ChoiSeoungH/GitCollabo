@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
-<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %> 
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 
-<c:set var="ctx" value="${ pageContext.request.contextPath }"/> 
+<c:set var="ctx" value="${ pageContext.request.contextPath }"/>
 <!DOCTYPE html>
 <html>
-<head> 
+<head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
@@ -41,24 +41,24 @@
 	<table id="main">
 	<!-- Nav -->
 	<tr>
-	<td id="main_nav" rowspan ="2"> 
+	<td id="main_nav" rowspan ="2">
 	<%@ include file="./parts/Nav.jsp" %>
 	<%-- <jsp:include page="./parts/Nav.jsp"/> --%>
 	 </td>
-	
+
 	<!-- header -->
 	<td id="main_header" >
 	<%@ include file="./parts/header.jsp" %>
 	<%-- <jsp:include page="./parts/header.jsp"/> --%>
 	</td>
-	
+
 	<!-- Info -->
 	<td id="main_info" rowspan ="2">
 	<%@ include file="./parts/Info.jsp" %>
 	<%-- <jsp:include page="./parts/Info.jsp"/> --%>
 	</td>
 	</tr>
-	
+
 	<!-- center -->
 		<jsp:include page="${center}"/>
 	<tr><td>

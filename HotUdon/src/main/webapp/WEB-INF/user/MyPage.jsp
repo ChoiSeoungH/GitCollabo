@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
-<c:set var="ctx" value="${pageContext.request.contextPath}"/>
-<c:set var="user" value="${user}"/>
+<%@ include file="../Main.jsp" %>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -126,7 +124,7 @@
 	</div>
 		
 	<div  id="mypage_menu">
-	<a href="${ctx}/userInfo.do"> - 내 동네 설정 </a><br>
+	<a href="${ctx}/map.do"> - 내 동네 설정 </a><br>
 	<a href="${ctx}/saleHistory.do?no=${user.no}"> - 판매 내역 </a><br>
 	<a href="${ctx}/purHistory.do?no=${user.no}"> - 구매 내역 </a><br>
 	<c:if test="${ user.id ne 'admin' }"> <a href="${ctx}/userInfo.do"> - 라이더 신청 </a><br> </c:if>
@@ -136,7 +134,7 @@
 
 	</div>
 <%@ include file="./cashModal.jsp" %>	
-<%@ include file="../parts/footer.jsp" %>
+<%@ include file="../parts/footer.jsp" %>	
 <script>
 	function checkCash() {
 	    // user.cash 값을 가져와서 정수로 변환합니다.
