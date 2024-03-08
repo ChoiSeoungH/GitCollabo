@@ -13,8 +13,7 @@
 	#mypage{
 		border: 2px solid black;
 		border-radius: 10px;
-		margin: 0px auto 30px; 
-		width: 100%;
+		margin: 200px auto 30px; 
 		width: 900px;
 		height: 300px;
 		display: flex;
@@ -113,7 +112,10 @@
 			</div>
 			<div class="status">
 				<h3>회원 상태</h3> 
-				<div class="mid"> 활동 중 </div>
+				<div class="mid"> 
+				<c:if test="${ user.status ne '4' }">활동 중</c:if>
+				<c:if test="${ user.status eq '4' }">활동 제한</c:if>
+				</div>
 				<a class="foot" href="#">상세내역 ></a>
 			</div>
 			<div class="regDate">
@@ -127,7 +129,6 @@
 	<a href="${ctx}/userInfo.do"> - 내 동네 설정 </a><br>
 	<a href="${ctx}/saleHistory.do?no=${user.no}"> - 판매 내역 </a><br>
 	<a href="${ctx}/purHistory.do?no=${user.no}"> - 구매 내역 </a><br>
-	<c:if test="${ user.id ne 'admin' }"> <a href="${ctx}/userInfo.do"> - 라이더 신청 </a><br> </c:if>
 	<c:if test="${ user.id ne 'admin' }"> <a href="#" onclick="checkCash()"> - 탈퇴 하기 </a><br> </c:if>
 	<c:if test="${ user.id eq 'admin' }"> <a href="${ctx}/userList.do"> - 전체 회원 보기 </a><br> </c:if>
 	</div>

@@ -6,14 +6,27 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-	.info{
+ 	.info{
 		width: 100%;
 		visibility: visible;
     	opacity: 1;
+    	position: relative;
 	}
 	.hidden{
 		visibility: hidden;
     	opacity: 0;
+	}
+	.info #myPage{
+		position: absolute;
+		top: 0px;
+		left: 150px;
+		border: none;
+		width: 100px;
+		height: 40px;
+		border-radius: 5px;
+	}
+	.info #myPage:hover{
+		background-color: #bbb;
 	}
 	.info_nickname{
 		text-decoration: none;
@@ -22,30 +35,35 @@
 	.info_cash{}
 	.info_notify{
 		width: 95%;
+		height: 500px;
 		border: 1px solid black;
 		border-radius: 5px;
-		margin: 5px auto;
+		margin: 10px 0;
 	}
-	.info_chat, .info_pay, .info_quick, .info_logout{
+	.btns{
 		width: 95%;
-		margin: 5px auto;
+		padding: 10px;
+		margin: 10px 0;
 		padding: 10px auto;
-		justify-content: center;
-		/* border: none; */
+		border: none;
 		border-radius: 5px;
+		font-size: 1.5em;
+	}
+	.btns:hover {
+		background-color: #bbb;
 	}
 </style>
 </head>
 <body>
  <div class="info hidden">
  	<a class="info_nickname" href='${ctx}/userMyPage.do?no=${ user.no }'> ${ user.nickname } (${ user.name }) </a>
- 	<div class="info_cash" onclick=""> ${ user.cash } </div>
+ 	<div class="info_cash" onclick=""> 보유 캐시 : ${ user.cash } </div>
+ 	<input type="button" id="myPage" onclick="location.href='${ctx}/userMyPage.do?no=${ user.no }'" value="마이페이지"/>
  	<div class="info_notify" > 알림 </div>
- 	<button class="info_chat" onclick="">채팅</button>
- 	<button class="info_pay" onclick="">결제</button>
- 	<button class="info_quick" onclick="">퀵 서비스</button>
- 	<input type="button" class="info_logout" onclick="location.href='${ctx}/userLogOut.do'"
- 	<c:if test="${ user.pw eq 'SNSPw' }"> onclick="kakaoLogout()" </c:if> value="로그아웃"/>
+ 	<button class="btns info_chat" onclick="">채팅</button>
+ 	<button class="btns info_pay" onclick="">결제</button>
+ 	<button class="btns info_quick" onclick="">퀵 서비스</button>
+ 	<input type="button" class="btns info_logout" onclick="location.href='${ctx}/userLogOut.do'" value="로그아웃"/>
  </div>
 </body>
 </html>

@@ -7,10 +7,9 @@
 <title>Insert title here</title>
 <style>
 	.userList{
-		margin: auto;
-		
+		margin: 0px auto;
 	}
-	th{
+	#form th{
 		height: 50px;
 		background-color: #efefef;
 		border-radius: 3px;
@@ -28,11 +27,6 @@
 		text-align: center;
 		
 	}
-	
-	/* th{
-		max-width: 150px;
-		overflow-x: scroll;
-	} */
 </style>
 </head>
 <body>
