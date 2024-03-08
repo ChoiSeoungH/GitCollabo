@@ -21,6 +21,9 @@
         height: 100%;
         width: 100%;
     }
+    th, td{
+        border: 1px solid black;
+    }
     #main > td, #main > td > th {
         border: 1px solid black;
     }

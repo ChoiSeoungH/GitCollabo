@@ -8,14 +8,14 @@
 </head>
 <style>
 	#wrap{
-		width: 900px;
-		
+		margin: auto;
 	}
 	#mypage{
 		border: 2px solid black;
 		border-radius: 10px;
 		margin: 0px auto 30px; 
 		width: 100%;
+		width: 900px;
 		height: 300px;
 		display: flex;
 		flex-direction: column;
@@ -81,6 +81,10 @@
 	.cash,.status{
 		border-right: 1px solid black;
 		height : 130px;
+	}
+	#mypage_menu {
+		margin: auto;
+		width: 900px;
 	}
 	#mypage_menu a{
 		font-size: 1.3em;
