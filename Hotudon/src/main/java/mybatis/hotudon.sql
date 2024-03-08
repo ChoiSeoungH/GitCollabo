@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS product (
     is_auction BOOLEAN NOT NULL DEFAULT FALSE, # 경매 여부
     sell_location VARCHAR(100), # 희망 거래 위치
     product_method INT NOT NULL DEFAULT 0, # 0 : 직거래, 1 : 택배, 2 : 퀵서비스, 3: 상관없음
-    buyer_no INT DEFAULT 0, # 구매자 번호 (판매 완료가 되어야만 값이 들어감)
+    buyer_no INT NOT NULL, # 구매자 번호 (판매 완료가 되어야만 값이 들어감)
     end_date TIMESTAMP, # 판매 종료일
     FOREIGN KEY (seller_no) REFERENCES user(no), # seller_no 외래키
     FOREIGN KEY (buyer_no) REFERENCES user(no), # buyer_no 외래키

@@ -130,7 +130,7 @@
 		</tr>
 		</table> -->
 	</div class="mypage_menu">
-	<a href="${ctx}/userInfo.do"> - 내 동네 설정 </a><br>
+	<a href="${ctx}/map.do"> - 내 동네 설정 </a><br>
 	<a href="${ctx}/purHistory.do?no=${user.no}&myPage=1"> - 판매 내역 </a><br>
 	<a href="${ctx}/purHistory.do?no=${user.no}&myPage=2"> - 구매 내역 </a><br>
 		<a href="${ctx}/productAdd.do?no=${user.no}"> - 물건등록 </a><br>
@@ -142,3 +142,4 @@
 
 <%@ include file="./cashModal.jsp" %>	
 <%@ include file="../parts/footer.jsp" %>
+

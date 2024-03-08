@@ -12,15 +12,6 @@ import controller.map.MapController;
 import controller.search.ProductSearchListController;
 
 import java.util.HashMap;
-import product.ProductAddController;
-import user.PurchaseHistoryController;
-import user.VaildIdAjaxController;
-import user.selfJoinController;
-import user.selfLoginController;
-import user.userCashUpdateController;
-import user.userContentController;
-import user.userLogOutController;
-import user.userUpdateController;
 
 public class HandlerMapping {
 	private HashMap<String, Controller> mappings;
@@ -65,12 +56,11 @@ public class HandlerMapping {
 		mappings.put("/vaildIdAjax.do", new VaildIdAjaxController());
 		mappings.put("/userContent.do", new userContentController());
 		mappings.put("/userUpdate.do", new userUpdateController());
+		mappings.put("/userMyPage.do", new myPageController());
 		mappings.put("/userLogOut.do", new userLogOutController());
 		mappings.put("/cashUpdate.do", new userCashUpdateController());
 		mappings.put("/purHistory.do", new PurchaseHistoryController());
 		mappings.put("/saleHistory.do", new SalesHistoryController());
-		mappings.put("/myPage.do", new myPageController());
-		mappings.put("/purHistory.do", new PurchaseHistoryController());
 
 
 		// admin

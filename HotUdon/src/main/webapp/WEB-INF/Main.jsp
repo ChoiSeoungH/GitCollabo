@@ -57,4 +57,5 @@
 	</tr>
 	
 	<!-- center -->
+		<jsp:include page="${center}"/>
 	<tr><td>

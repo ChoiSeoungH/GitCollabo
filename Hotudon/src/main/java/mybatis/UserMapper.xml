@@ -41,7 +41,9 @@
 	</insert>
 
 
-      <delete id="userDelete" parameterType="String">  
+    <select id="checkLogin" parameterType="user" resultMap="user"> SELECT * FROM user WHERE id=#{id} AND pw=#{pw} </select>
+
+    <delete id="userDelete" parameterType="String">
         delete from user where id=#{id} 
     </delete>
 
