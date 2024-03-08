@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
+import com.mysql.cj.Session;
+
 import util.MybatisConfig;
 import vo.Auction;
 
@@ -62,7 +64,18 @@ public class AuctionDAO {
 	session.close();
 	return list;
 	}
-	
+	//경매상품 재등록
+	public int UpdateReAddProduct(int productNo,String regDate) {
+		SqlSession session =MybatisConfig.getInstance().openSession();
+		Auction vo = new Auction();
+		vo.setProductNo(productNo);
+		vo.setLastBidDate(regDate);
+		int i =session.update("mapper.product.updateAuctionProduct",vo);
+		session.commit();
+		session.close();
+		return 1;
+	}
+
 	
 	
 }

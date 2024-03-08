@@ -37,17 +37,19 @@ public class UpdateEndDateJob implements Job {
                 calendar.setTime(lastBidDate);
 
                 if (auction.getLastBidderNo() == 0) {
-                    calendar.add(Calendar.HOUR_OF_DAY, 2);  //24 시로 나중에 바꾸기
+                    calendar.add(Calendar.HOUR_OF_DAY, 1);  //24 시로 나중에 바꾸기
                 } else {
                     calendar.add(Calendar.HOUR_OF_DAY, 1);  //3시간으로 바꾸기
                 }
                 Date threeHoursAgoDate = calendar.getTime();
 
                 if (currentDate.after(calendar.getTime())) {
-                    // 현재 시간으로 end_date 업데이트
+                    // 현재 시간으로 end_date 업데이트 // 경매종료됏을때 상대방한테 돈을 지고 가기
                     String endDate = dateFormat.format(threeHoursAgoDate);
                     Product vo = new Product(auction.getProductNo(), endDate);
                     List<Product> productList = session.selectList("mapper.product.autoAuctionEnd", vo);
+                    Auction au = new Auction(auction.getProductNo());
+                   List<Auction> aulist=  session.selectList("mapper.product.auctionEndCash",vo);
                 }
             }
             // MyBatis에서는 자동으로 commit이 이루어지지 않기 때문에 수동으로 commit

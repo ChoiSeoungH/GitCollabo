@@ -35,4 +35,15 @@ public class ProductImgDAO {
 		session.close();
 		return list;
 	}
+	
+		public List<ProductImg> getOneUpdageImg(int productNo,String imgurl) {
+		SqlSession session = MybatisConfig.getInstance().openSession();
+		ProductImg vo = new ProductImg();
+		vo.setImageUrl(imgurl);
+		vo.setProductNo(productNo);
+		List<ProductImg> list =  session.selectList("mapper.product.getOneUpdateImg",vo);
+		session.commit();
+		session.close();
+		return list;
+	}
 }

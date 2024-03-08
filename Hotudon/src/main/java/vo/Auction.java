@@ -42,6 +42,8 @@ public class Auction {
 		this.lastBidderNo = lastBidderNo;
 	}
 	public Auction() {}
-
+	public Auction(int no) {
+		this.productNo= no;
+	}
 	
 }

@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import com.mysql.cj.Session;
 
 import util.MybatisConfig;
+import vo.Auction;
 import vo.Product;
 
 public class ProductDAO {
@@ -99,6 +100,22 @@ public class ProductDAO {
 			session.close();
 			return check;
 		}
+		//상품 업데이트 하기
+		public int getOneUpdate(Product vo) {
+			SqlSession session = MybatisConfig.getInstance().openSession();
+			int check = session.update("mapper.product.updateProduct",vo);
+			session.commit();
+			session.close();
+			return check;
+		}
+		public int updateDate(int no) {
+			SqlSession session =MybatisConfig.getInstance().openSession();
+			int check = session.update("mapper.product.updateEndDate",no);
+			session.commit();
+			session.close();
+			return check;
+		}
+	
 		
 
 		

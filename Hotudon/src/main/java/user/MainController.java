@@ -42,6 +42,7 @@ public class MainController implements Controller{
 	                    .build();
 	          
 	            scheduler.scheduleJob(jobDetail, trigger);
+	            System.out.println("트레거온");
 
 	        } catch (Exception e) {
 	            e.printStackTrace();

@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import dao.AuctionDAO;
+import dao.UserDAO;
 import frontcontorller.Controller;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,13 +30,14 @@ public class ProductAuctionBidController implements Controller {
 		Auction ret = AuctionDAO.getInstance().getOneAuction(productNo);
 		int money = ret.getLastPrice();
 		int userNo= ret.getLastBidderNo();
-		//유저값넘기기 
+		UserDAO.getInstance().bidFail(userNo, money);//유저값넘기기 
 		
 		
 		
 		//public Auction(int productNo, int lastPrice, String lastBidDate, int lastBidderNo)
 		Auction vo = new Auction(productNo,bid,now,lastBidNo);
 		AuctionDAO.getInstance().updateAuctionBid(vo);
+		UserDAO.getInstance().bidSuccess(lastBidNo, bid);
 		
 		System.out.println("체크용");
 		

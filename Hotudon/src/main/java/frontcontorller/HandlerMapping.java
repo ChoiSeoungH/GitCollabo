@@ -6,6 +6,7 @@ import product.ProductAuctionBidController;
 import product.ProductContentController;
 import product.ProductListController;
 import product.ProductSearchListController;
+import product.ProductUpdateController;
 import user.MainController;
 import user.PurchaseHistoryController;
 import user.VaildIdAjaxController;
@@ -26,7 +27,8 @@ public class HandlerMapping {
 		
 	//상품등록
 	mappings.put("/productAdd.do", new ProductAddController());
-		
+	//상품업데이트쪽
+	mappings.put("/productUpdate.do", new ProductUpdateController());
 	
 	
 	

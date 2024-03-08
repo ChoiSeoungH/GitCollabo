@@ -81,11 +81,17 @@ SELECT * FROM product WHERE title LIKE CONCAT('%', #{title}, '%')
    		select * from product where buyer_no=#{no}
    		</select>
    <!-- 상품수정 -->  	
-  		<update id="productUpdate" parameterType="product" >
-    	update product 
-    	set price=#{price} , category=#{category} , title=#{title}, description=#{description} ,product_method=#{productMethod}
-    	where no=#{no}
-    	</update>
+	<update id="updateProduct" parameterType="product">
+   		UPDATE product
+    	SET
+        category = #{category},
+        title = #{title},
+        price = #{price},
+        description = #{description},
+        sell_location = #{sellLocation},
+        product_method = #{productMethod}
+    WHERE no = #{no};
+</update>
     
     
     <!--  거래완료 -->
@@ -118,14 +124,11 @@ SELECT * FROM product WHERE title LIKE CONCAT('%', #{title}, '%')
     </select>
     
      <!-- 상품삭제 본인-->
-      <update id="SellproductDelete" parameterType="Integer">  
+<!--       <update id="SellproductDelete" parameterType="Integer">  
        	 update product
-    <set>
-        numeric_field = 0,
-        <!-- 다른 필드들에 대한 조건 추가 -->
-    </set>
-    where no = #{no};
-    </update>
+       	 SET seller_no = 0
+    where no = #{no}
+    </update> -->
     
     <!-- 경매리스트 불러오기 -->
 	<select id="selectAllAuction" resultMap="auction">
@@ -177,21 +180,46 @@ ORDER BY no DESC LIMIT 5;
     
     
     <!--경매 자동종료 -->
-   <update id="autoAuctionEnd" parameterType="product">
-    <!-- auction 테이블에서 해당 정보 가져오기 -->
-    <selectKey keyProperty="lastBidderNo" resultType="java.lang.Integer">
-        SELECT COALESCE(lastBidderNo, 0) AS lastBidderNo
-        FROM auction
-        WHERE product_no=#{productNo}
-    </selectKey>
+<update id="autoAuctionEnd" parameterType="product">
+UPDATE product
+SET buyer_no = (
+    SELECT last_bidder_no
+    FROM auction
+    WHERE product_no = #{productNo}
+),
+end_date = #{endDate}
+WHERE no = #{productNo};
+	</update>
 
-    <!-- product 테이블 업데이트 -->
-    update product
-    set end_date=#{endDate},
-        buyer_no=#{lastBidderNo}
-    where no=#{productNo};
+<update id="auctionEndCash" parameterType="auction">
+    UPDATE user
+    SET cash = cash + (
+        SELECT COALESCE(last_price, 0) AS lastBid
+        FROM auction
+        WHERE product_no = #{productNo}
+            AND last_bidder_no IS NOT NULL
+    )
+    WHERE no = (
+        SELECT seller_no
+        FROM product
+        WHERE no = #{productNo}
+    );
 </update>
-    
+
+<!--  경매상품 재등록시 -->    
+<update id="updateAuctionProduct" parameterType="auction">
+    UPDATE auction
+	   SET last_bid_date = #{lastBidDate, jdbcType=TIMESTAMP}
+    WHERE product_no = #{productNo}
+
+    <!-- Update Product table -->
+</update>
+<update id="updateEndDate" parameterType="Integer">
+	update product
+	   SET end_date = NULL
+	WHERE no=#{no}
+</update>
+
     
     <!-- 상품이미지리스트 전체불러오기 -->
     <select id="getAllProductImg" resultMap="productImg">
@@ -204,11 +232,13 @@ ORDER BY no DESC LIMIT 5;
     #{imageUrl}
     )
 	</insert>
-	
-	
-	
 	<!-- 각 상품이미지 불러오기 -->
 	<select id="getOneImage" parameterType="Integer" resultMap="productImg">
 	select * from product_image where product_no=#{no}
 	</select>
+	<update id="getOneUpdateImg" parameterType="productImg">
+	update product_image
+	   SET image_url =#{imageUrl}
+		WHERE product_no=#{productNo}
+		</update>
 </mapper>
