@@ -16,9 +16,7 @@
 	width:300px;
 	height:100px;
 }
-  .list-container {
-    display: flex;
-  }
+
 .list {
 margin-right: 10px;
 	width:100px;
@@ -30,15 +28,6 @@ margin-right: 10px;
  width:100px;
  height:100px;
  }
-.fixed {
-    background-color: #f1f1f1;
-    padding: 10px;
-    text-align: center;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    height: 100px;
-}
 
 product_listitem li {
     display: flex;
@@ -58,7 +47,7 @@ product_listitem li {
     margin-right: 10px; /* Adjust the margin as needed */
 }
 
-#remainingTime{
+.remainingTime{
 	color:red;
 }
 .productList{
@@ -66,6 +55,24 @@ product_listitem li {
 	align-items: center;
 	border: 1px solid #000; 
 }
+.fixed {
+        position: fixed;
+        bottom: 0;
+        left: 25%; /* 가운데 정렬을 위한 조정 값 */
+        width: 50%;
+        height:200px;
+        background-color: #fff; /* 배경색을 필요에 따라 지정하세요. */
+        border: 1px solid #ccc; /* 테두리를 필요에 따라 지정하세요. */
+        padding: 0px; /* 내용과의 여백을 필요에 따라 지정하세요. */
+    }
+
+    .list-container {
+    	display:flex;
+        text-align: center; /* 내용 가운데 정렬을 위한 스타일 */
+
+    align-items: center; /* 내용을 가운데 정렬하기 위한 스타일 추가 */
+    }
+
 
 </style>
 </head>
@@ -134,51 +141,55 @@ product_listitem li {
         <c:forEach var="au" items="${au}">
         	<c:if test="${c.no == au.productNo}">
         <li class="price">현재 입찰가: ${au.lastPrice}</li>
-        <li id="remainingTime"></li>
-        <script>
-    
-		const lastBidDate = new Date("${au.lastBidDate}");
-		let  lastBidNo = Number('${au.lastBidderNo}');
-		let endDate;
-		
-		const updateCurrentDate = () => {
-			// 현재 시간
-		  const currentDate = new Date();
-			if(lastBidNo == 0){
-			endDate = new Date(lastBidDate.getTime() + 24 * 60 * 60 * 1000); // 초기
-			}else {
-			endDate = new Date(lastBidDate.getTime() + 3 * 60 * 60 * 1000); // 초기
-			}
-			const timeDifference = endDate - currentDate;
-		  var hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
-		  var minutesDifference = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
-		  var secondsDifference = Math.floor((timeDifference % (1000 * 60)) / 1000);
-		  // 표시할 문자열 생성
-		  var remainingTimeText = "경매남은시간 :" +hoursDifference + "시간 "+minutesDifference+"분 "+secondsDifference+"초";
-		  // 결과를 HTML에 적용
-		 document.getElementById('remainingTime').innerHTML = "";
-		document.getElementById('remainingTime').textContent = remainingTimeText;
+        <li class="remainingTime" data-auction-id="${au.productNo}"></li>
+ <script>
+    var lastBidDate = new Date("${au.lastBidDate}");
+    var lastBidNo = Number('${au.lastBidderNo}');
+    console.log('${au}');
+    console.log('${img}');
+    console.log('${vo}');
+    var endDate;
+    var remainingTimeElement = document.querySelector(`.remainingTime[data-auction-id="${au.productNo}"]`);
+   	console.log(remainingTimeElement);
+    var updateCurrentDate = () => {
+        // 현재 시간
+        var currentDate = new Date();
+        if (lastBidNo == 0) {
+            endDate = new Date(lastBidDate.getTime() + 1 * 60 * 60 * 1000); // 초기
+        } else {
+            endDate = new Date(lastBidDate.getTime() + 1 * 60 * 60 * 1000); // 초기
+        }
+        var timeDifference = endDate - currentDate;
+        var hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
+        var minutesDifference = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+        var secondsDifference = Math.floor((timeDifference % (1000 * 60)) / 1000);
+        // 표시할 문자열 생성
+        var remainingTimeText = "경매남은시간 :" + hoursDifference + "시간 " + minutesDifference + "분 " + secondsDifference + "초";
+        // 결과를 HTML에 적용
+       	remainingTimeElement.innerHTML = "";
+    	remainingTimeElement.textContent = remainingTimeText;
 
-		  // 경매가 종료되었을 때 처리
-		  if (timeDifference <= 0) {
-			  document.getElementById('remainingTime').innerHTML = "경매 종료"; // 종료 메시지 표시
-			  elementsToRemove.forEach(element => {
-			      element.remove();
-			    });
-			  
-			  clearInterval(intervalId); // 1초마다 실행되는 함수 중지
-		  
-		  }
-		};
-		// 초기 호출
-		updateCurrentDate();
-		
-		// 1초마다 updateCurrentDate 함수를 호출
-		const intervalId = setInterval(updateCurrentDate, 1000);
-	
-		
-		
-        </script>
+        // 경매가 종료되었을 때 처리
+        if (timeDifference <= 0) {
+        	if(lastBidNo==0){
+        		remainingTimeElement.innerHTML = "유찰"; // 종료 메시지 표시
+        	}else{
+        		remainingTimeElement.innerHTML = "경매 종료"; // 종료 메시지 표시	
+        	}
+        	
+            elementsToRemove.forEach(element => {
+                element.remove();
+            });
+
+            clearInterval(intervalId); // 1초마다 실행되는 함수 중지
+        }
+    };
+    // 초기 호출
+    updateCurrentDate();
+
+    // 1초마다 updateCurrentDate 함수를 호출
+    var intervalId = setInterval(updateCurrentDate, 1000);
+</script>
         </c:if>
         </c:forEach>
         </ul>

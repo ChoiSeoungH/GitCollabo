@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    pageEncoding="UTF-8"%>
+    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <c:set var="user" value="${user}"/>
 <!DOCTYPE html>
@@ -150,7 +150,7 @@ input.img {
 			</tr>
 			<tr>
 				<td style="text-align: center; padding: 10px;"><input
-					type="button" value="등록하기" onclick="validCheck(form)"> <input
+					type="button" value="수정하기" onclick="validCheck(form)"> <input
 					type="button" value="메인으로" onclick="location.href='${ctx}/main.do'"></td>
 			</tr>
 		</table>

@@ -23,32 +23,26 @@
         SELECT * FROM user
     </select>
 
-    <insert id="userInsert" parameterType="user">
-        INSERT INTO user (id, pw, name, phone, nickname)
-        VALUES (#{id},
-                #{pw},
-                #{name},
-                #{phone},
-                #{nickname})
-    </insert>
-
-
     <select id="validId" parameterType="String" resultType="String">
         select id
         from user
         where id = #{id}
     </select>
+    
+	<insert id="userInsert" parameterType="user">
+        INSERT INTO user (id, pw, name, phone, nickname)
+       VALUES(
+        #{id},
+        #{pw},
+        #{name},
+        #{phone},
+        #{nickname}
+        )       
+	</insert>
 
-    <select id="checkLogin" parameterType="user" resultMap="user">
-        SELECT * FROM user WHERE id=#{id} AND pw=#{pw}
-    </select>
 
-    <select id="getUserNo" parameterType="String" resultType="Integer">
-        SELECT no FROM user WHERE id=#{id}
-    </select>
-
-    <delete id="userDelete" parameterType="String">
-        DELETE FROM user WHERE id=#{id}
+      <delete id="userDelete" parameterType="String">  
+        delete from user where id=#{id} 
     </delete>
 
     <select id="userContent" parameterType="Integer" resultType="user">
