@@ -21,8 +21,9 @@ public class myPageController implements Controller {
 		User user = UserDAO.getInstance().getOneUser(no);
 		
 		user.setRegDate(user.getRegDate().substring(0,10));
-		String temp = user.getLocation().split("/")[0];
-		user.setLocation(temp);
+		if(user.getLocation() != null) {
+			user.setLocation(user.getLocation().split("/")[0]);
+		}
 		HttpSession session = req.getSession();
 		session.setAttribute("user", user);
 		

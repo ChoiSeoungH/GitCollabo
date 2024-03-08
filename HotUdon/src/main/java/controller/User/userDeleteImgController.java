@@ -1,18 +1,21 @@
-package controller.User;
+package com.basic.team.controller.User;
+
+import java.io.IOException;
+
 
 import frontcontorller.Controller;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import java.io.IOException;
-
-public class googleLoginContoller implements Controller {
+public class userDeleteImgController implements Controller {
 
 	@Override
 	public String requestHandler(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+	
 		
-		return "Main";
+		
+		return null;
 	}
 
 }
