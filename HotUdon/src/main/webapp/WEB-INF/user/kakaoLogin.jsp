@@ -11,7 +11,8 @@
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script>
 Kakao.init('00ad72e29796cba962a38d1cdb07c5e5'); //발급받은 키 중 javascript키를 사용해준다.
-console.log(Kakao.isInitialized()); // sdk초기화여부판단
+Kakao.isInitialized(); // sdk초기화여부판단
+kakaoLogout();
 //카카오로그인
 function kakaoLogin() {
     Kakao.Auth.login({
@@ -55,7 +56,8 @@ function kakaoLogin() {
   
 //카카오로그아웃  
 function kakaoLogout() {
-    if (Kakao.Auth.getAccessToken()) {
+
+	if (Kakao.Auth.getAccessToken()) {
       Kakao.API.request({
         url: '/v1/user/unlink',
         success: function (response) {
@@ -67,6 +69,7 @@ function kakaoLogout() {
       })
       Kakao.Auth.setAccessToken(undefined)
     }
+	
   }  
 </script>
 <!-- 	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>

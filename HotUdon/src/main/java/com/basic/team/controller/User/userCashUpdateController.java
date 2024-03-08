@@ -33,7 +33,8 @@ public class userCashUpdateController implements Controller {
 		
 		int cnt = UserDAO.getInstance().cashUpdate(no,cash);
 		if(cnt>0) {
-			return "redirect:" + ctx + "/userContent.do?no=" + no;
+			return "redirect:" + ctx + "/userMyPage.do?no=" + no;
+//			return "user/MyPage"; 
 
 //			return "redirect:" + ctx + "/userContent.do";
 //			req.removeAttribute("center");

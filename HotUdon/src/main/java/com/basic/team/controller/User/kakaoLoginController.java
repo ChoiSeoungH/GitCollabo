@@ -36,9 +36,10 @@ public class kakaoLoginController implements Controller {
 			
 			int cnt = UserDAO.getInstance().userInsert(u);
 			if(cnt == 0) {
-				nextPage = "user/selfJoin";
-//				req.setAttribute("center", "user/join");
+				nextPage = "Main";
 			}
+			
+			user = UserDAO.getInstance().checkLogin(id, pw);
 		} 
 		
 		user.setRegDate(user.getRegDate().substring(0,10));

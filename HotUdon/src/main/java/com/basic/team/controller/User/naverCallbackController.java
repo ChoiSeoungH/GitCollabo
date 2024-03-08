@@ -34,7 +34,7 @@ public class naverCallbackController implements Controller {
 	    String clientSecret = "sBfEH5az6y";//애플리케이션 클라이언트 시크릿값";
 	    String code = req.getParameter("code");
 	    String state = req.getParameter("state");
-	    String redirectURI = URLEncoder.encode("http://localhost:8080/test/naverCallback.do", "UTF-8");
+	    String redirectURI = URLEncoder.encode("http://localhost:8080/Hotudon/naverCallback.do", "UTF-8");
 	    String apiURL;
 	    apiURL = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&";
 	    apiURL += "client_id=" + clientId;

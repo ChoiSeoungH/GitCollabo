@@ -16,6 +16,7 @@ import com.basic.team.controller.User.selfLoginController;
 import com.basic.team.controller.User.userCashUpdateController;
 import com.basic.team.controller.User.userContentController;
 import com.basic.team.controller.User.userDeleteController;
+import com.basic.team.controller.User.userDeleteImgController;
 import com.basic.team.controller.User.userLogOutController;
 import com.basic.team.controller.User.userUpdateController;
 import com.basic.team.controller.admin.userListController;
@@ -44,6 +45,7 @@ public class HandlerMapping {
 		mappings.put("/vaildIdAjax.do", new VaildIdAjaxController());
 		mappings.put("/userContent.do", new userContentController());
 		mappings.put("/userUpdate.do", new userUpdateController());
+		mappings.put("/userDeleteImg.do", new userDeleteImgController());
 		mappings.put("/userMyPage.do", new myPageController());
 		mappings.put("/userLogOut.do", new userLogOutController());
 		mappings.put("/userDelete.do", new userDeleteController());

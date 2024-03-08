@@ -91,4 +91,11 @@ public class UserDAO {
 		session.close();
 		return 1;
 	}
+	
+	public int removeUser(String id) {
+		SqlSession session= MybatisConfig.getInstance().openSession(true);
+		int cnt=session.insert("userDelete", id);
+		session.close();
+		return cnt;
+	}
 }

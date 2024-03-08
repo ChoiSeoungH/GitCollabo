@@ -25,7 +25,10 @@
 		height: 40px;
 		border-bottom: 1px solid black;
 		background-color: #fafafa;
+		text-align: center;
+		
 	}
+	
 	/* th{
 		max-width: 150px;
 		overflow-x: scroll;
@@ -35,8 +38,10 @@
 <body>
 	<div class="userList">
 	<form action="" id="form">
-		<table align="center" >
-		<tr><td colspan="12" align="center" ><h1> 유저 관리 </h1></tr>
+		<table id="" align="center" >
+		<tr><td colspan="12" align="center" >
+		<h1> 유저 관리 </h1>
+		</tr>
 			<tr>
 				<th>회원번호</th>
 				<th width="150">아이디</th>
@@ -54,27 +59,27 @@
 			<c:forEach var="user" items="${ list }" varStatus="i">
 			<input type="hidden" name="no" id="no" value="${ user.no }"/>
 			<tr id="userList" data-no="${user.no}" >
-				<td align="center">${ user.no }</td>
-				<td align="center">
+				<td>${ user.no }</td>
+				<td>
 				<c:if test="${ user.pw ne 'SNSPw' }">${ user.id }</c:if>
 				<c:if test="${ user.pw eq 'SNSPw' }">SNS 로그인 회원</c:if>
 				</td>
-				<td align="center">${ user.name }</td>
-				<td align="center">${ user.nickname }</td>
-				<td align="center">${ user.cash }</td>
-				<td align="center">${ user.phone }</td>
-				<td align="center">${ user.regDate }</td>
-				<td align="center">${ user.location }</td>
-				<td align="center">
+				<td>${ user.name }</td>
+				<td>${ user.nickname }</td>
+				<td>${ user.cash }</td>
+				<td>${ user.phone }</td>
+				<td>${ user.regDate }</td>
+				<td>${ user.location }</td>
+				<td>
 				<input type="number" name="penalty" id="penalty" value="${ user.penalty }" min="0"/></td>
-				<td align="center">
+				<td>
 				<c:if test="${ user.deliver eq true }"> 신청 </c:if>
 				<c:if test="${ user.deliver eq false }"> 미신청 </c:if>
 				</td>
-				<td align="center">
+				<td>
 				<c:if test="${ user.status ne '4' }">활동중</c:if>
 				<c:if test="${ user.status eq '4' }">활동제한</c:if></td>
-				<td align="center"><input type="button" data-no="${ user.no }" onclick="penaltyUpdate(${user.no})" value="수정" /></td>
+				<td><input type="button" data-no="${ user.no }" onclick="penaltyUpdate(${user.no})" value="수정" /></td>
 			</tr>
 			</c:forEach>
 		</table>
