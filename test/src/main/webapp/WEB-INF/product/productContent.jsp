@@ -3,7 +3,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <c:set var="user" value="${user}"/>
-<c:set var="nick" value="${nick}"/>
 <!DOCTYPE html>
 <html>
 <style>
@@ -129,19 +128,7 @@ margin-right: 10px;
 				<td class="space">상품가격 : 
 				 ${vo.price }원
 				 
-				<!--  <end><input type="button" value="채팅하기" onclick=""></end> -->
-				<c:if test="${vo.sellerNo!=user.no && vo.buyerNo == 0 }">
-				<end><input type="button" value="결제하기" onclick="processPayment()"></end>
-				</c:if>
-	
-		
-				<c:if test="${vo.sellerNo==user.no }">
-				<end><h4>판매자(본인) 상품입니다</h4>
-				<input type="button" value="수정하기" onclick="location.href='${ctx}/productUpdate.do?productNo=${vo.no}&check=1&no=${user.no}'"></end>
-				</c:if>
-					<c:if test="${vo.sellerNo!=user.no && vo.buyerNo != 0 }">
-					<h4>판매가 종료된 상품입니다</h4>
-					</c:if>
+				 <end><input type="button" value="채팅하기" onclick=""></end>
 				</td>
 			</tr>
 				<tr>
@@ -231,21 +218,13 @@ margin-right: 10px;
 			<td>현재 입찰자 없음</td> 
 				</c:if>
 	<c:if test="${au.lastBidderNo != 0 }">			
-	<td>현재 입찰자:${nick.nickname}</td> 
+	<td>현재 입찰자:${au.lastBidderNo}</td> 
 				</c:if>		
 			</tr>
 			<tr>
-			<c:if test="${vo.sellerNo != user.no && user.no != au.lasetBidderNo}">
 				<td><input type="button" class="prevent"  id="btn10" value="+10% 입찰하기" onclick="bidmoney(10)"> 
 					<input type="button" class="prevent"  id="btn50"   value="+50% 입찰하기" onclick="bidmoney(50)"> 
 					<input type="button"  class="prevent" id="btn100"   value="+100% 입찰하기" onclick="bidmoney(100)"></td> 
-			</c:if>
-			<c:if test="${vo.sellerNo == user.no}">
-				<td><h3>판매자는 입찰을 하실수 없습니다</h3></td> 
-			</c:if>
-				<c:if test="${au.lastBidderNo == user.no}">
-				<td><h3>현재 최고 입찰자이십니다</h3></td> 
-			</c:if>
 			</tr>
 			<tr>
 				<td class="Content">상품정보
@@ -257,14 +236,119 @@ margin-right: 10px;
 			</tr>
 			
 			<tr>
-	
+		<%-- 	<if test="${vo.sellerNo != }"> userNo같지않을경우에만 생성	 --%>	
 				<td style="text-align: center; padding: 10px;">
-					<c:if test="${vo.sellerNo != user.no }" >
 					<input type="button" value="입찰신청" onclick="submitBid()">
- 					</c:if>
  					<input type="button" value="메인으로" onclick="location.href='${ctx}/main.do'"></td>
 			</if> 
 			</tr>
+				<%-- 	<if test="${vo.sellerNo == }"> userNo같지않을경우에만 생성		
+				<td style="text-align: center; padding: 10px;">
+					<h4>판매자 본인은 입찰이 불가능합니다.</h4>
+ 					<input type="button" value="메인으로" onclick="location.href='${ctx}/main.do'"></td>
+			</if> --%>
+			<script>
+			const recentBid = Number('${au.lastPrice}');
+			const lastBidDate = new Date("${au.lastBidDate}");
+			let  lastBidNo = Number('${au.lastBidderNo}');
+			let cash=Number('${user.cash}');
+			let user=('${user.no}');
+			let endDate;
+			const elementsToRemove = document.querySelectorAll('.prevent');
+			const resultElement = document.querySelector('#expectation');
+			const product = ('${vo.no}');
+			let selectedBidAmount;
+			
+			function bidmoney(money){
+				var  w = money / 100;	
+				const bid =w*(recentBid) +recentBid
+				selectedBidAmount = Math.round(bid);
+				
+				 resultElement.innerHTML = '입찰가격예상 : '+ selectedBidAmount +'원'
+				var buttonId = "btn" + money; 
+			    var clickedButton = document.getElementById(buttonId);
+
+			 
+			    clickedButton.style.backgroundColor = "red";  
+
+
+			    var allButtons = document.querySelectorAll('.prevent');
+			    allButtons.forEach(function(button) {
+			        if (button.id !== buttonId) {
+			            button.style.backgroundColor = ""; 
+			        }
+			    });
+
+			    
+				
+				  
+				}
+			function submitBid() {
+			    if (!selectedBidAmount) {
+			        alert('입찰 금액을 선택해주세요.');
+			        return;
+			    }
+			    if(Number(selectedBidAmount)>cash){
+			    	alert('현재 소지하신 금액이 입찰금액보다 적습니다');
+			    	return
+			    }
+			
+			        fetch('auctionBid.do', {
+			            method: 'POST',
+			            headers: {
+			                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+			            },
+			            body: "bidAmount=" + selectedBidAmount +"&product=" + product  + "&no=" + user,  //아이디값 넘기기
+			        })
+			        .then(response => response.text())
+			        .then(() => {
+    					// 여기에 다음 화면으로 이동하는 코드 추가
+    				alert("경매 입찰에 성공하셨습니다");	
+    				window.location.href =	'${ctx}/productList.do';
+					})
+			        
+			        .catch(() => alert("error"));
+			
+			    }
+			
+			
+			
+			const updateCurrentDate = () => {
+				// 현재 시간
+			  const currentDate = new Date();
+				if(lastBidNo == 0){
+				endDate = new Date(lastBidDate.getTime() + 24 * 60 * 60 * 1000); // 초기
+				}else {
+				endDate = new Date(lastBidDate.getTime() + 3 * 60 * 60 * 1000); // 초기
+				}
+				const timeDifference = endDate - currentDate;
+			  var hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
+			  var minutesDifference = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+			  var secondsDifference = Math.floor((timeDifference % (1000 * 60)) / 1000);
+			  // 표시할 문자열 생성
+			  var remainingTimeText = "경매남은시간 :" +hoursDifference + "시간 "+minutesDifference+"분 "+secondsDifference+"초";
+			  // 결과를 HTML에 적용
+			 document.getElementById('remainingTime').innerHTML = "";
+			document.getElementById('remainingTime').textContent = remainingTimeText;
+
+			  // 경매가 종료되었을 때 처리
+			  if (timeDifference <= 0) {
+				  document.getElementById('remainingTime').innerHTML = "경매 종료"; // 종료 메시지 표시
+				  elementsToRemove.forEach(element => {
+				      element.remove();
+				    });
+				  
+				  clearInterval(intervalId); // 1초마다 실행되는 함수 중지
+			  
+			  }
+			};
+			// 초기 호출
+			updateCurrentDate();
+			
+			// 1초마다 updateCurrentDate 함수를 호출
+			const intervalId = setInterval(updateCurrentDate, 1000);
+		
+			</script>
 		</table>
 <div class="fixed">
 <div class="list-container">
@@ -327,49 +411,8 @@ margin-right: 10px;
 </html>
 <c:forEach var="img" items="${img}">
 <script type="text/javascript">
-var imageUrl = "${img.imageUrl}"; 
-const recentBid = Number('${au.lastPrice}');
-const lastBidDate = new Date("${au.lastBidDate}");
-let  lastBidNo = Number('${au.lastBidderNo}');
-let endDate;
-const elementsToRemove = document.querySelectorAll('.prevent');
-const resultElement = document.querySelector('#expectation');
-let selectedBidAmount;
-let cash=Number('${user.cash}');
-let user=('${user.no}');
-let productPrice = Number('${vo.price}');
-let seller=('${vo.sellerNo}');
-let aus = ('${auction}');
-let h = document.querySelector('.s');
-let product = ('${vo.no}');
-
-	 function processPayment(){
-		    if(productPrice>cash){
-		    	alert('현재 소지하신 금액이 제품금액보다 적습니다');
-		    	return
-		    }
-		
-		        fetch('auctionBid.do', {
-		            method: 'POST',
-		            headers: {
-		                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-		            },
-		            body: "product=" + product  + "&no=" + user +"&productPrice=" +productPrice +"&seller=" + seller,  //아이디값 넘기기
-		        })
-		        .then(response => response.text())
-		        .then(() => {
-					// 여기에 다음 화면으로 이동하는 코드 추가
-				alert("상품 구매 성공하셨습니다");	
-				window.location.href =	'${ctx}/productList.do';
-				})
-		        
-		        .catch(() => alert("error"));
-		 
-	 }
-
-
-
-
+var imageUrl = "${img.imageUrl}";
+let aus = '${auction}';
 if(imageUrl){
 		var parts = imageUrl.split(",");
 		var fileName = parts[parts.length - 1];
@@ -421,7 +464,7 @@ if(imageUrl){
 	
 
         if (aus == false) {
-        	document.querySelector('.fixed').style.paddingTop = '200px';
+            document.querySelector('.s').style.paddingBottom = '200px';
         } else {
             document.querySelector('.t').style.paddingBottom = '200px';
         }
@@ -439,97 +482,6 @@ if(imageUrl){
              myform.submit();
          });
      });
-     
-    
-		function bidmoney(money){
-			var  w = money / 100;	
-			const bid =w*(recentBid) +recentBid
-			selectedBidAmount = Math.round(bid);
-			
-			 resultElement.innerHTML = '입찰가격예상 : '+ selectedBidAmount +'원'
-			var buttonId = "btn" + money; 
-		    var clickedButton = document.getElementById(buttonId);
-
-		 
-		    clickedButton.style.backgroundColor = "red";  
-
-
-		    var allButtons = document.querySelectorAll('.prevent');
-		    allButtons.forEach(function(button) {
-		        if (button.id !== buttonId) {
-		            button.style.backgroundColor = ""; 
-		        }
-		    });
-
-		    
-			
-			  
-			}
-		function submitBid() {
-		    if (!selectedBidAmount) {
-		        alert('입찰 금액을 선택해주세요.');
-		        return;
-		    }
-		    if(Number(selectedBidAmount)>cash){
-		    	alert('현재 소지하신 금액이 입찰금액보다 적습니다');
-		    	return
-		    }
-		
-		        fetch('auctionBid.do', {
-		            method: 'POST',
-		            headers: {
-		                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-		            },
-		            body: "bidAmount=" + selectedBidAmount +"&product=" + product  + "&no=" + user,  //아이디값 넘기기
-		        })
-		        .then(response => response.text())
-		        .then(() => {
-					// 여기에 다음 화면으로 이동하는 코드 추가
-				alert("경매 입찰에 성공하셨습니다");	
-				window.location.href =	'${ctx}/productList.do';
-				})
-		        
-		        .catch(() => alert("error"));
-		
-		    }
-		
-		
-		
-		const updateCurrentDate = () => {
-			// 현재 시간
-		  const currentDate = new Date();
-			if(lastBidNo == 0){
-			endDate = new Date(lastBidDate.getTime() + 24 * 60 * 60 * 1000); // 초기
-			}else {
-			endDate = new Date(lastBidDate.getTime() + 3 * 60 * 60 * 1000); // 초기
-			}
-			const timeDifference = endDate - currentDate;
-		  var hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
-		  var minutesDifference = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
-		  var secondsDifference = Math.floor((timeDifference % (1000 * 60)) / 1000);
-		  // 표시할 문자열 생성
-		  var remainingTimeText = "경매남은시간 :" +hoursDifference + "시간 "+minutesDifference+"분 "+secondsDifference+"초";
-		  // 결과를 HTML에 적용
-		 document.getElementById('remainingTime').innerHTML = "";
-		document.getElementById('remainingTime').textContent = remainingTimeText;
-
-		  // 경매가 종료되었을 때 처리
-		  if (timeDifference <= 0) {
-			  document.getElementById('remainingTime').innerHTML = "경매 종료"; // 종료 메시지 표시
-			  elementsToRemove.forEach(element => {
-			      element.remove();
-			    });
-			  
-			  clearInterval(intervalId); // 1초마다 실행되는 함수 중지
-		  
-		  }
-		};
-		// 초기 호출
-		updateCurrentDate();
-		
-		// 1초마다 updateCurrentDate 함수를 호출
-		const intervalId = setInterval(updateCurrentDate, 1000);
-	    
 	
 	
 </script>

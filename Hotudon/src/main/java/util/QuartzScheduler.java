@@ -27,10 +27,10 @@ public class QuartzScheduler {
 
 	    private static void scheduleJob() throws SchedulerException {
 	        JobDetail jobDetail = JobBuilder.newJob(UpdateEndDateJob.class)
-	                .withIdentity("updateEndDateJob", "group1")
+	                .withIdentity("updateEndDateJob", "group2")
 	                .build();
 	        Trigger trigger = TriggerBuilder.newTrigger()
-	                .withIdentity("updateEndDateTrigger", "group1")
+	                .withIdentity("updateEndDateTrigger", "group2")
 	                .startNow()
 	                .withSchedule(SimpleScheduleBuilder.simpleSchedule()
 	                        .withIntervalInSeconds(20)

@@ -115,5 +115,16 @@
         WHERE no = #{no}
     </update>
 
+    <update id="bidFail" parameterType="user">
+        UPDATE user
+        SET cash = cash + #{cash}
+        WHERE no =#{no};
+
+    </update>
+    <update id="bidSuccess" parameterType="user">
+        UPDATE user
+        SET cash = cash - #{cash}
+        WHERE no =#{no};
+    </update>
 
 </mapper>

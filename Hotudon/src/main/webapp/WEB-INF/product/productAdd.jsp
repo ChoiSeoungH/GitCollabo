@@ -95,10 +95,9 @@ input.img {
 	<h1 align="center">상품추가하기</h1>
 	<form action="${ctx}/productAdd.do" enctype="multipart/form-data"	method="post">
 		<table align="center" border=1>
-	<%-- 	<input type="hidden" name="no" value="${user.no}" >
-		<input type="hidden" name="sellLocation" value="${user.location}">  --%>
-		<input type="hidden" name="no" value="${user.no}" >
-		<input type="hidden" name="sellLocation" value="강남시 역삼역">  
+	 	<input type="hidden" name="no" value="${user.no}" >
+	<%--	<input type="hidden" name="sellLocation" value="${user.location}">  --%>
+		<input type="hidden" name="sellLocation" value="${user.location}">  
 		<!-- 위에 나중에 sellLocation 바꿔야함 -->
 			<tr>
 				<td>상품제목 : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <input
@@ -197,10 +196,10 @@ input.img {
 				return false;
 			}
 	/* 	if(!userLocation.trim()){
-			alert("위치설정을 해주세요");
+			alert("먼저 위치설정을 해주세요");
 			return false;
-		}
- */
+		} */
+
 		// 최대 3개의 파일만 허용
 		form.submit();
 	}

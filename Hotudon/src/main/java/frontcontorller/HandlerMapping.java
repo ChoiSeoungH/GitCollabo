@@ -26,6 +26,8 @@ public class HandlerMapping {
 		mappings.put("/deliveryUpdate.do", new DeliveryUpdateController());
 		mappings.put("/quickRefresh.do", new QuickRefreshController());
 
+
+
 		//map
 		mappings.put("/map.do", new MapController());
 		mappings.put("/insertAddress.do", new InsertAddressController());
@@ -35,9 +37,14 @@ public class HandlerMapping {
 
 		//상품등록
 		mappings.put("/productAdd.do", new ProductAddController());
+		//상품업데이트쪽
+		mappings.put("/productUpdate.do", new ProductUpdateController());
+
+
 
 		//검색체크
 		mappings.put("/productSearch.do", new ProductSearchListController());
+
 
 		//상품리스트
 		mappings.put("/productList.do" ,new ProductListController());

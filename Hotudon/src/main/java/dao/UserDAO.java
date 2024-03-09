@@ -150,4 +150,24 @@ public class UserDAO {
     return cnt;
   }
 
+	public int bidFail(int no , int cash) {
+		SqlSession session = MybatisConfig.getInstance().openSession();
+		User vo = new User();
+		vo.setNo(no);
+		vo.setCash(cash);
+		int bid = session.update("bidFail",vo);
+		session.commit();
+		session.close();
+		return 1;
+	}
+	public int bidSuccess(int no , int cash) {
+		SqlSession session = MybatisConfig.getInstance().openSession();
+		User vo = new User();
+		vo.setNo(no);
+		vo.setCash(cash);
+		int bid = session.update("bidSuccess",vo);
+		session.commit();
+		session.close();
+		return 1;
+	}
 }
