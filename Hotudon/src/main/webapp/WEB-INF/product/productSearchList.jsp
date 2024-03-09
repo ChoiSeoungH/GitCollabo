@@ -1,12 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-        <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
-<c:set var="ctx" value="${pageContext.request.contextPath}"/> 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<%@ include file="../Main.jsp" %>
+<%--<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>--%>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
+
 <style>
 
 .search{
@@ -73,14 +70,8 @@ product_listitem li {
     align-items: center; /* 내용을 가운데 정렬하기 위한 스타일 추가 */
     }
 
-
 </style>
-</head>
-<body>
-<form action="${ctx}/productSearch.do" method="get" class="search">
-<input class="query" placeholder="검색어 입력" type="text" name="query">
-<input type=submit value="검색">
-</form>
+
 <c:if test="${vo.size()==0}">
 <h1 style="text-align:center">${query} 검색한 제품히 현재 존재하지 않습니다</h1>
 </c:if>
@@ -222,7 +213,10 @@ product_listitem li {
 </div>
 </div>
 
-
+</td>
+</tr>
+</table>
+</div>
 
 </body>
 </html>

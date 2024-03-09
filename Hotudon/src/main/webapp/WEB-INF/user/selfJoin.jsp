@@ -5,80 +5,59 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<style>
-	#table_join{
-		width: 370px;
-	}
-	#table_join td{
-		height: 40px;
-	}
-	#table_join .input{
-		width: 100%;
-		height: 100%;
-		box-sizing: border-box;
-	}
-	#table_join #tr_id{
-		
-	}
-	#table_join .input_id{
-		width: 73%;
-		height: 100%;
-		box-sizing: border-box;
-		font-size: 1.2em;
-	}
-	#table_join #checkId{
-		width: 25%;
-		height: 100%;
-		box-sizing: border-box;
-		border: none;
-	}
-	#table_join .join_btn{
-		width: 100%;
-		height: 100%;
-		box-sizing: border-box;
-	}
-</style>
 </head>
 <body>
 <div align="center">
 <form action="${ ctx }/selfJoin.do" method="post">
-<table id="table_join">
-	<tr id="tr_id">	
+<table class="table table-bordered" border="1">
+	<tr>	
 		<td align="center" colspan="2"> 
 			<font size="6" color="gray"> 회원가입 </font> 
 		</td>
 	</tr>
-  <tr><td>이메일</td></tr>
-  <tr><td><input class="input_id id" type="text" name="id" placeholder="test@test.com"/>
+  <tr>
+    <td>이메일</td>
+    <td><input class="col-12 id" type="text" name="id"/>
 	<input type="button" value="ID중복체크" id="checkId"/>    
     </td>
   </tr>
-  <tr><td>비밀번호</td></tr>
-  <tr><td><input class="input pw" type="password" name="pw"/></td></tr>
-  <tr><td>비밀번호 확인</td></tr>
-  <tr><td><input class="input pw" type="password" name="pw1"/></td></tr>
-  <tr><td>이름</td></tr>
-  <tr><td><input class="input" type="text" name="name"/></td></tr>
-  <tr><td>전화번호</td></tr>
-  <tr><td><input class="input" type="text" name="phone"/></td></tr>
-  <tr><td>닉네임</td></tr>
-  <tr><td><input class="input" type="text" name="nickname"/></td></tr>
   <tr>
-    <td> 
-    <input id="checkbox" type="checkbox" name="checkbox" value="check">
-    <label for="checkbox">뜨끈한 우동의 전체 <a onclick="#">이용약관</a>에 동의합니다.(필수)</label></td>
+    <td>비밀번호</td>
+    <td><input class="col-12 pw" type="password" name="pw"/></td>
+  </tr>
+  <tr>
+    <td>비밀번호 확인</td>
+    <td><input class="col-12 pw" type="password" name="pw1"/></td>
+  </tr>
+  <tr>
+    <td>이름</td>
+    <td><input class="col-12" type="text" name="name"/></td>
+  </tr>
+  <tr>
+    <td>전화번호</td>
+    <td><input class="col-12" type="text" name="phone"/></td>
+  </tr>
+  <tr>
+    <td>닉네임</td>
+    <td><input class="col-12" type="text" name="nickname"/></td>
+  </tr>
+  <tr>
+  	
+    <td colspan="2"> 
+    <input type="checkbox" name="checkbox" value="check">
+    뜨끈한 우동의 전체 <a onclick="#">이용약관</a>에 동의합니다.(필수)</td>
   </tr>
   
   <tr>
-    <td align="center">
-      <input type="button" value="회원 가입" class="join_btn" onclick="validCheck(form)"/>
-      <!-- <input type="reset" value="취소" class="col-3 btn btn-warning"/> -->
+    <td colspan="2" align="center">
+      <input type="button" value="회원 가입" class="col-3 btn btn-primary" onclick="validCheck(form)"/>
+      <input type="reset" value="취소" class="col-3 btn btn-warning"/>
     </td>
   </tr>
 </table>
 </form>
 </div>
-<%@ include file="../parts/footer.jsp" %>	
+<%@ include file="../parts/footer.jsp" %>
 </body>
 </html>
 
@@ -136,7 +115,7 @@ function validCheck(form) {
 	form.submit();
 }
 
-	document.querySelector('.join_btn').addEventListener('click',()=>{
+	document.querySelector('.btn-warning').addEventListener('click',()=>{
 		let id = document.querySelector('.id');
 		//id.style.borber = "";
 		id.removeAttribute("readonly");

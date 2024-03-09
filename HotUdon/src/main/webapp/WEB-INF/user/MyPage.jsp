@@ -135,7 +135,7 @@
 
 	</div>
 <%@ include file="./cashModal.jsp" %>	
-<%@ include file="../parts/footer.jsp" %>	
+<%@ include file="../parts/footer.jsp" %>
 <script>
 	function checkCash() {
 	    // user.cash 값을 가져와서 정수로 변환합니다.

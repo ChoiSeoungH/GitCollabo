@@ -7,13 +7,14 @@
 <title>Insert title here</title>
 <style type="text/css">
 #wrap{
-	position: relative;
-	width: 100%;
-	height: 100%
-	
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    flex-direction: column;
 }
 #bar {
-  width: 30px;
+  width: 40px;
   height: 25px;
   display: flex;
   flex-direction: column;

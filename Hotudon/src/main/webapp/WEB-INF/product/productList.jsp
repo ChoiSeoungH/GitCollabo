@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-        <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
+<%@ include file="../Main.jsp" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>  
 <c:set var="user" value="${user}"/>
 <!DOCTYPE html>
@@ -20,18 +20,17 @@
 h3{
 text-align:center;
 }
-table{
+.list{
 	width:300px;
 	height:200px;
 	margin-right:20px;
-
 }
 .list>tr{
  flex-direction: column;
 width:200px;
 height:200px;
 }
-.tr>img{
+.list>tr>img{
  flex-direction: column;
 width:200px;
 height:100px;
@@ -50,11 +49,7 @@ form{
 
 </style>
 <body>
-<form action="${ctx}/productSearch.do" method="get" class="search">
-<input class="query" placeholder="검색어 입력" type="text" name="query">
 
-<input type=submit value="검색">
-</form>
 
 <div class="cate">
 <input type="button" value="일반" onclick="location.href='${ctx}/productList.do?auction=0'">
@@ -538,7 +533,10 @@ form{
     </c:forEach>
 </div>
 </c:if>
-
+</td>
+</tr>
+</table>
+</div>
 </body>
 </html>
 <script>

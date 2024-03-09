@@ -7,10 +7,12 @@
 <title>Insert title here</title>
 <style>
  	.info{
-		width: 100%;
+		width: 250px;
 		visibility: visible;
-    	opacity: 1;
-    	position: relative;
+		opacity: 1;
+		position: fixed;
+		top: 10px;
+		right: 10px;
 	}
 	.hidden{
 		visibility: hidden;

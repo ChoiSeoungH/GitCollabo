@@ -7,9 +7,10 @@
 <title>Insert title here</title>
 <style>
 	.userList{
-		margin: 0px auto;
+		margin: auto;
+		
 	}
-	#form th{
+	th{
 		height: 50px;
 		background-color: #efefef;
 		border-radius: 3px;
@@ -27,6 +28,11 @@
 		text-align: center;
 		
 	}
+	
+	/* th{
+		max-width: 150px;
+		overflow-x: scroll;
+	} */
 </style>
 </head>
 <body>
@@ -79,7 +85,7 @@
 		</table>
 	</form>
 	</div>
-<%@ include file="../parts/footer.jsp" %>	
+<%@ include file="../parts/footer.jsp" %>
 
 <script type="text/javascript">
 function penaltyUpdate(no){

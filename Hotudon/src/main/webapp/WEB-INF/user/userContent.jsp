@@ -38,16 +38,6 @@
 	.btn-success, .btn-warning{
 		margin-left: 0px;
 	}
-	.table #submit{
-		border: none;
-		margin-top: 30px;
-		width: 300px;
-		height: 50px;
-		font-size: 1.3em;
-	}
-	.table #submit:hover {
-		background-color: #bbb;
-	}
 </style>
 </head>
 <body>
@@ -109,7 +99,7 @@
     	</td>
 	</tr>
 	<tr>
-		<td colspan="3" align="center"><input type="submit" id="submit" value="개인정보 수정"/></td>
+		<td colspan="3" align="center"><input type="submit" value="개인정보 수정"/></td>
 	</tr>
 	</table>
 	</form>

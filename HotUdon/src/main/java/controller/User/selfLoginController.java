@@ -40,7 +40,7 @@ public class selfLoginController implements Controller {
 			session.setAttribute("user", user);
 			System.out.println("user : "+user);
 //			return "redirect:" + ctx + "/main.do";
-			return "Main";
+			return "product/productList";
 		}
 	}
 
