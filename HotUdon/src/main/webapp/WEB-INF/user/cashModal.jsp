@@ -22,7 +22,7 @@
    	transform: translate(-50%, -50%);
    	visibility: visible;
    	opacity: 1;
-   	z-index: 2;
+   	z-index: 1000;
     }
     .hidden{
     	visibility: hidden;

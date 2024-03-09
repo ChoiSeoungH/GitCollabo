@@ -16,11 +16,12 @@ public class userCashUpdateController implements Controller {
   public String requestHandler(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
     String ctx = req.getContextPath();
 
-    HttpSession session = req.getSession();
-    User user = (User)session.getAttribute("user");
+//    HttpSession session = req.getSession();
+//    User user = (User)session.getAttribute("user");
     String type = (String)req.getParameter("type");
 
     int no = Integer.parseInt(req.getParameter("no"));
+    User user = UserDAO.getInstance().getOneUser(no);
     int cash = 0;
 
     if(type.equals("deposit")) {

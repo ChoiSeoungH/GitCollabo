@@ -7,14 +7,13 @@
 <title>Insert title here</title>
 <style type="text/css">
 #wrap{
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    display: flex;
-    flex-direction: column;
+	position: relative;
+	width: 100%;
+	height: 100%
+
 }
 #bar {
-  width: 40px;
+  width: 30px;
   height: 25px;
   display: flex;
   flex-direction: column;
@@ -50,7 +49,7 @@
   right: 0px;
 	width: 80%;
 	background-color: #eee;
-  
+
 }
 #category .category {
 	display: block;
@@ -60,7 +59,7 @@
 }
 #category.open {
   display: block; /* h2 클릭시 나타나게 함 */
-  
+
 }
 #bar.open .bar1 {
   transform: translateY(10px) rotate(45deg);

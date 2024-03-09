@@ -39,8 +39,6 @@ public class HandlerMapping {
 		//상품업데이트쪽
 		mappings.put("/productUpdate.do", new ProductUpdateController());
 
-
-
 		//검색체크
 		mappings.put("/productSearch.do", new ProductSearchListController());
 

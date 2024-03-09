@@ -127,8 +127,9 @@
 		
 	<div  id="mypage_menu">
 	<a href="${ctx}/map.do"> - 내 동네 설정 </a><br>
-	<a href="${ctx}/saleHistory.do?no=${user.no}"> - 판매 내역 </a><br>
-	<a href="${ctx}/purHistory.do?no=${user.no}"> - 구매 내역 </a><br>
+		<a href="${ctx}/purHistory.do?no=${user.no}&myPage=1"> - 판매 내역 </a><br>
+		<a href="${ctx}/purHistory.do?no=${user.no}&myPage=2"> - 구매 내역 </a><br>
+		<a href="${ctx}/productAdd.do?no=${user.no}"> - 물건등록 </a><br>
 	<c:if test="${ user.id ne 'admin' }"> <a href="#" onclick="checkCash()"> - 탈퇴 하기 </a><br> </c:if>
 	<c:if test="${ user.id eq 'admin' }"> <a href="${ctx}/userList.do"> - 전체 회원 보기 </a><br> </c:if>
 	</div>
