@@ -22,13 +22,13 @@
         width: 100%;
     }
     th, td{
-        border: 1px solid black;
+        /* border: 1px solid black; */
     }
     #main > td, #main > td > th {
         border: 1px solid black;
     }
-	#main_nav,#main_info{
-		width: calc(50% - 600px);
+	#main_nav, #main_info {
+		width: 300px; 
 	}
 	#main_header{
 		width: 1200px;
@@ -40,8 +40,8 @@
 <div id="container">
 	<table id="main">
 	<!-- Nav -->
-	<tr>
-	<td id="main_nav" rowspan ="2">
+	<tr id="main_tr">
+	<td id="main_nav" rowspan ="2"> 
 	<%@ include file="./parts/Nav.jsp" %>
 	<%-- <jsp:include page="./parts/Nav.jsp"/> --%>
 	 </td>

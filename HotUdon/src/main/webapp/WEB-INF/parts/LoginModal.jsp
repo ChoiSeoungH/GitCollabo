@@ -32,6 +32,80 @@
 	#modal_login{
 		display: none;
 	}
+	.modal{
+    	/* border: 1px solid black; */
+    	border-radius: 10px;
+    	width: 400px;
+     	height: 600px;
+    	margin: auto;
+    	text-align: center;
+    	background-color: #fff;
+    	position: absolute;
+    	top: 50%;
+    	left: 50%;
+    	transform: translate(-50%, -50%);
+    	visibility: visible;
+    	opacity: 1;
+    	z-index: 4;
+    }
+    .hidden{
+    	visibility: hidden;
+    	opacity: 0;
+    }
+    .btn{
+    	border: none;
+    	width: 334px;
+    	height: 48px;
+    	border-radius: 5px;
+    	margin: 10px auto;
+    	display: flex;
+    	justify-content: center;
+    	align-items: center;
+    	position: relative;
+    }
+    .naver svg{
+    	color: #00C73C;
+    }
+    .btn svg{
+    	vertical-align: middle;
+    	margin-right: 10px;
+    	position: absolute;
+  		left: 50px;
+    }
+    .kakao:hover{
+    	background-color: #FEE500;
+    }
+    .naver:hover{
+    	background-color: #00C73C;
+    	color: #fff;
+    }
+    .naver:hover path{
+    	fill: #fff;
+    }
+    .google:hover{
+    	background-color: #DB4437;
+    	color: #fff;
+    }
+    .google:hover path{
+    	fill: #fff;
+    }
+    .email:hover{
+    	background-color: #FFF;
+    }
+    p{
+    	font-size: 0.8em;
+    	margin: 20px 30px;
+    }
+    .overlay{
+		background-color: #00000096;
+		width: 100%;
+ 		height: 100%;
+ 		position: fixed;
+ 		top: 0;
+ 		left: 0;
+ 		z-index: 3;
+ 		/* opacity: 0; */
+    }
 </style>
 </head>
 <body>
@@ -56,7 +130,7 @@
 			<svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="none" viewBox="0 0 21 21">
 			<path fill="#00C73C" d="M4 16.717h4.377V9.98l4.203 6.737H17v-13h-4.377v6.737l-4.16-6.737H4v13Z"></path>
 	     	</svg> 네이버로 시작하기 </button>
-		<button class="btn google" onclick="location.href='${ctx}/googleLogin.do'"> 
+		<button id="GgCustomLogin" class="btn google" onclick="location.href='${ctx}/googleLogin.do'"> 
 			<svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="none" viewBox="0 0 21 21">
 			<path fill="#4285F4" d="M18.18 10.398c0-.567-.05-1.113-.145-1.636H10.5v3.094h4.306a3.68 3.68 0 0 1-1.597 2.415v2.007h2.586c1.512-1.393 2.385-3.443 2.385-5.88Z"></path>
 	  		<path fill="#34A853" d="M10.5 18.216c2.16 0 3.97-.716 5.294-1.938l-2.585-2.007c-.717.48-1.633.763-2.71.763-2.083 0-3.847-1.407-4.476-3.298H3.351v2.073a7.997 7.997 0 0 0 7.149 4.407Z"></path>
