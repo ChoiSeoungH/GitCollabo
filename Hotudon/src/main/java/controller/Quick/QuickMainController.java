@@ -28,11 +28,11 @@ public class QuickMainController implements Controller {
     ProductDAO pdao = ProductDAO.getInstance();
     UserDAO udao = UserDAO.getInstance();
     DeliveryDAO ddao = DeliveryDAO.getInstance();
-
+    int no = Integer.parseInt(request.getParameter("no"));
     HttpSession session = request.getSession();
-    User vo = (User) session.getAttribute("user");
-//    User user = udao.getOneUser(vo.getNo());
-    User user = udao.getOneUser(5);
+//    User vo = (User) session.getAttribute("user");
+//    User user = udao.getOneUser(5);
+    User user = udao.getOneUser(no);
     String dong = "";
 
     // User 객체의 location 필드에서 '동'을 추출하기 위한 정규 표현식
@@ -71,9 +71,10 @@ public class QuickMainController implements Controller {
       System.out.println(u);
     }
 
+
     Gson gson = new Gson();
     String json = gson.toJson(list); // Product 객체 리스트를 JSON 형식으로 변환
-    System.out.println(json);
+    System.out.println("productList"+json);
     request.setAttribute("json", json); // JSON 데이터를 "json" 속성으로 설정하여 JSP로 전달
 
     json = gson.toJson(buyerList); // User 객체 리스트를 JSON 형식으로 변환

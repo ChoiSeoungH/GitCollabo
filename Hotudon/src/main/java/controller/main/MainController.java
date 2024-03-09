@@ -18,7 +18,10 @@ public class MainController implements Controller {
 		Object log = req.getAttribute("log");
 		
 		System.out.println("main-log="+log);
-		
+
+		String center = "product/productList.jsp";
+		req.setAttribute("center", center);
+
 		return "Main";
 	}
 

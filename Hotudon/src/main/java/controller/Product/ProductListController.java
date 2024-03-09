@@ -20,8 +20,7 @@ public class ProductListController implements Controller {
 	public String requestHandler(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String saveDirectory = request.getServletContext().getRealPath("/img");
-		
-		
+
 		
 		//일반상품 리스트 가져오기
 		List<Product> list = ProductDAO.getInstance().getAllProduct();
