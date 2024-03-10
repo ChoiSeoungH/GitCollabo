@@ -40,12 +40,27 @@ form{
 	text-align:center;
 }
 .cate{
+	 padding-top: 20px;
 	text-align:center;
-	border:1px solid ;
+
 }
 .cate>input{
+ margin-right: 20px;
 	text-align:center;
   background-color: white;
+    border: 3px solid transparent;
+    border-radius: 50%;
+    border-image: linear-gradient(to right, red 0%, orange 100%);
+    border-image-slice: 1;
+}
+.hr-styled {
+    margin-right: 20px;
+    text-align: center;
+    background-color: white;
+    border: 3px solid transparent;
+    border-radius: 50%;
+    border-image: linear-gradient(to right, red 0%, orange 100%);
+    border-image-slice: 1;
 }
 
 </style>
@@ -57,9 +72,9 @@ form{
 </form>
 
 <div class="cate">
-<input type="button" value="일반" onclick="location.href='${ctx}/productList.do?auction=0'">
-<input type="button" value="경매" onclick="location.href='${ctx}/productList.do?auction=2'">
-<input type="button" value="전체" onclick="location.href='${ctx}/productList.do?auction='">
+<input type="button" class="btn" value="일반" onclick="location.href='${ctx}/productList.do?auction=0'">
+<input type="button" class="btn" value="경매" onclick="location.href='${ctx}/productList.do?auction=2'">
+<input type="button" class="btn" value="전체" onclick="location.href='${ctx}/productList.do?auction='">
 </div>
 <c:if test="${au == null}">
 <h3>최신상품리스트</h3> 
@@ -104,7 +119,7 @@ form{
         </c:forEach>
     </c:forEach>
 </div>
-<hr>
+<hr class="hr-styled">
 <h3>디지털상품리스트</h3>
 <div class="list-container">
  <c:forEach var="c" items="${list}">
@@ -149,7 +164,7 @@ form{
         </c:forEach>
     </c:forEach>
 </div>
-<hr>
+<hr class="hr-styled">
 <h3>의류상품리스트</h3>
 <div class="list-container">
  <c:forEach var="c" items="${list}">
@@ -197,7 +212,7 @@ form{
         </c:forEach>
     </c:forEach>
 </div>
-<hr>
+<hr class="hr-styled">
 <h3>가구상품리스트</h3>
 <div class="list-container">
     <c:forEach var="c" items="${list}">
@@ -244,7 +259,7 @@ form{
         </c:forEach>
     </c:forEach>
 </div>
-<hr>
+<hr class="hr-styled">
 <h3>기타상품리스트</h3>
 <div class="list-container">
  <c:forEach var="c" items="${list}">
@@ -343,7 +358,7 @@ form{
     </c:forEach>
  
 </div>
-<hr>
+<hr class="hr-styled">
 <h3>경매 디지털상품리스트</h3>
 <div class="list-container">
  <c:forEach var="c" items="${list}">
@@ -391,7 +406,7 @@ form{
     </c:forEach>
     </c:forEach>
 </div>
-<hr>
+<hr class="hr-styled">
 <h3>경매 의류상품리스트</h3>
 <div class="list-container">
  <c:forEach var="c" items="${list}">
@@ -440,7 +455,7 @@ form{
         </c:forEach>
     </c:forEach>
 </div>
-<hr>
+<hr class="hr-styled">
 <h3>경매 가구상품리스트</h3>
 <div class="list-container">
     <c:forEach var="c" items="${list}">
@@ -489,7 +504,7 @@ form{
     </c:forEach>
     </c:forEach>
 </div>
-<hr>
+<hr class="hr-styled">
 <h3>경매 기타상품리스트</h3>
 <div class="list-container">
  <c:forEach var="c" items="${list}">

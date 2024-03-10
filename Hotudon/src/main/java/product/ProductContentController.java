@@ -103,10 +103,12 @@ public class ProductContentController implements Controller {
 			return "product/productContent";
 			
 		}
+		Product vo = ProductDAO.getInstance().getProductNoContent(ProductNo);
+		int getNo = vo.getSellerNo();
+		User bo = UserDAO.getInstance().getOneUser(getNo);  
+		request.setAttribute("bo", bo);
 		request.setAttribute("au", au);
  		request.setAttribute("img", image);
- 		
-		Product vo = ProductDAO.getInstance().getProductNoContent(ProductNo);
 		request.setAttribute("auction", isAuction); // 옥션 값던지기
 		request.setAttribute("vo", vo);
 		request.setAttribute("naver", responseMap); //네이버 최저가

@@ -85,6 +85,15 @@ public class ProductDAO {
 		session.close();
 		return list;
 		}
+		//일반상품리스트만 가져오기
+		public List<Product> getThreeNproduct(){
+			SqlSession session = MybatisConfig.getInstance().openSession();
+			List<Product> list = session.selectList("mapper.product.latestNproductThree");
+			session.close();
+			return list;
+		}
+		
+		
 		//내가 구매한 상품들 가져오기
 		public List<Product> getAllBuyProduct(int no){
 			SqlSession session = MybatisConfig.getInstance().openSession();

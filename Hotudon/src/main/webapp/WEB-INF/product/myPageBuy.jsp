@@ -20,27 +20,26 @@ body {
 }
 
     .container {
-      width: 700px;
-      height: 200px;
-      border: 1px solid black;
+      width: 500px;
+      height: 150px;
+    background-color: white;
+    border: 3px solid transparent;
+    border-image: linear-gradient(to right, red 0%, orange 100%);
+    border-image-slice: 1;
       border-radius: 30px;
-      margin: auto 0;
+     margin: 0 auto 20px;
       display: flex;
       
     }
 
 a{
       width: 30%;
-      border: 1px solid black;
-      border-radius: 10px;
-      padding: 10px;
+   	padding: 10px;
     }
 
 
 #product_img {
 	width: 30%;
-	border: 1px solid black;
-	border-radius: 10px;
 	padding: 10px;
 }
 
@@ -72,10 +71,15 @@ a{
 .remainingTime {
 	color: red;
 }
+h4{
+text-align:center;
+
+}
 </style>
 </head>
 
 <body>
+		<h4>${user.nickname} 님 구매페이지</h4>
 	 <c:if test="${list.size()==0 && auList.size()==0}">
         <h3>구매 상품이 존재하지 않습니다</h3>
     </c:if>

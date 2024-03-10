@@ -18,33 +18,34 @@ body {
 }
 
 .container {
-	width: 700px;
-	height: 200px;
-	border: 1px solid black;
+	width: 500px;
+    height: 150px;
+	background-color: white;
+    border: 3px solid transparent;
+    border-image: linear-gradient(to right, red 0%, orange 100%);
+    border-image-slice: 1;
 	border-radius: 30px;
-	margin: auto 0;
+	margin: 0 auto 10px;
 	display: flex;
 }
 
 a {
 	width: 30%;
-	border: 1px solid black;
-	border-radius: 10px;
 	padding: 10px;
 }
 
 .content {
-
+	width: 70%;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-evenly;
 	padding: 20px;
+	margin-bottom:10px;
 }
 
 
-button {
-	
-	
+.btn {
+	margin: auto 0;
 	margin-right:20px;
 	padding:10px 20px;
 	border: none;
@@ -56,10 +57,20 @@ button:hover {
 .remainingTime {
 	color: red;
 }
+h4{
+text-align:center;
+}
+.status{
+color:red;
+margin-top:0.3px;
+text-align:center;
+font:bold;
+}
 </style>
 </head>
 
 <body>
+<h4>${user.nickname} 님 판매페이지</h4>
 <c:if test="${list.size()==0 }">
 		<h3>판매 상품이 존재하지 않습니다</h3>
 	</c:if>
@@ -68,10 +79,8 @@ button:hover {
 			<c:forEach var="vo" items="${list}">
 
 				<c:if test="${vo.no == img.productNo }">
-					<%-- 	<input type="hidden" value="${vo.sellerNo}" name="no">
-            	<input type="hidden" value="${vo.no}" name=roductNo">
-              <input type="hidden" value="${vo.auction}" name="auction"> --%>
-					<div class="container">
+						
+						<div class="container">
 						<c:choose>
 							<c:when test="${not empty img.imageUrl}">
 								<script>
@@ -99,16 +108,16 @@ button:hover {
 							<div class="title">제목 : ${vo.title}</div>
 							<c:if test="${vo.auction ==false}">
 								<div class="price">가격 ${vo.price}</div>
-								<div class="reg_data">등록일 :${vo.regDate}</div>
+								<div class="reg_date">등록일 :${vo.regDate}</div>
 								<c:if test="${vo.endDate == null}">
-									<div class="reg_data">판매중</div>
+									<div class="status">판매중</div>
 												<div class="btns">
 							<button class="btn" type="button"
 								onclick="location.href='${ctx}/productUpdate.do?productNo=${vo.no}&check=1&no=${user.no}'">수정</button>
 						</div>				
 								</c:if>
 								<c:if test="${vo.endDate != null}">
-									<div class="reg_data">판매종료일 :${vo.endDate}</div>
+									<div class="end_date">판매완료 : ${vo.endDate}</div>
 								
 								</c:if>
 								

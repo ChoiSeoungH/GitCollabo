@@ -53,10 +53,17 @@
 </select>
 	<!--  최신상품 3개 조회해오기 -->
 <select id="latestProductThree" resultMap="product">
-SELECT * FROM product
+     SELECT * FROM product
+    WHERE end_date IS NULL
+    ORDER BY reg_date DESC
+    LIMIT 3
 </select>
-
-
+<select id="latestNproductThree" resultMap="product">
+SELECT * FROM product
+WHERE end_date IS NULL AND is_auction = 1
+ORDER BY reg_date DESC
+LIMIT 3;
+</select>
 <!--카테고리 상품 조회리스트 -->
 <select id="getCateProductList" resultMap="product" parameterType="Integer">
 	select * from product where category=#{category}

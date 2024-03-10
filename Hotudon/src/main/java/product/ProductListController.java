@@ -50,7 +50,9 @@ public class ProductListController implements Controller {
 			
 		return "product/productList";
 		}
+		List<Product> nomalList = ProductDAO.getInstance().getThreeNproduct();
 		// 일반상품들만 가져오기
+		request.setAttribute("latest", nomalList);
 		request.setAttribute("list", list);
 		return "product/productList";
 		

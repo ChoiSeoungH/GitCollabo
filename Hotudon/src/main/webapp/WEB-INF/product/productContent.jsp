@@ -92,10 +92,46 @@ margin-right: 10px;
 
     align-items: center; /* 내용을 가운데 정렬하기 위한 스타일 추가 */
     }
+tr{
+border: 1px solid #ccc;
 
+}
+td{
+border: 1px solid #ccc;
+}
+
+.close-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  color: #000; /* x 버튼 색상 */
+}
+
+.product{
+ margin-right: 20px;
+	text-align:center;
+  background-color: white;
+    border: 3px solid transparent;
+    border-radius: 50%;
+    border-image: linear-gradient(to right, red 0%, orange 100%);
+    border-image-slice: 1;
+     margin: 0 auto;
+
+}
+.btn1{
+ margin-right: 20px;
+	text-align:center;
+  background-color: white;
+    border: 3px solid transparent;
+    border-radius: 50%;
+    border-image: linear-gradient(to right, red 0%, orange 100%);
+    border-image-slice: 1;
+
+}
 
 </style>
-
 <head>
 <meta charset="UTF-8">
 
@@ -114,103 +150,94 @@ margin-right: 10px;
 
 <!-- 옥션이 아닐 경우 -->
 <div class="s">
-<c:if test="${auction ne true }">
-	<h3 align="center">상품 : ${vo.title}</h3>
-	<form action="${ctx}/productUpdate.do" method="post">
-		<table align="center" border=1>
-		<input type="hidden" name="ProductNo" value="${vo.no}" >
-	            	<input type="hidden" value="${user.no}" name="no">
-	<tr>	
-		<td id="myTd">
-		</td>
-			
-			</tr>
-			<tr>
-				<td class="space">상품가격 : 
-				 ${vo.price }원
-				 
-				<!--  <end><input type="button" value="채팅하기" onclick=""></end> -->
-				<c:if test="${vo.sellerNo!=user.no && vo.buyerNo == 0 }">
-				<end><input type="button" value="결제하기" onclick="processPayment()"></end>
-				</c:if>
-	
-		
-				<c:if test="${vo.sellerNo==user.no }">
-				<end><h4>판매자(본인) 상품입니다</h4>
-				<input type="button" value="수정하기" onclick="location.href='${ctx}/productUpdate.do?productNo=${vo.no}&check=1&no=${user.no}'"></end>
-				</c:if>
-					<c:if test="${vo.sellerNo!=user.no && vo.buyerNo != 0 }">
-					<h4>판매가 종료된 상품입니다</h4>
-					</c:if>
-				</td>
-			</tr>
-				<tr>
-				<td class="space">판매자 : 
-				 
-				 <end>판매자위치: ${vo.sellLocation}</end>
-				</td>
-			</tr>
-			
-			<tr>
-				<td>거래방법 :
-				<c:if test="${vo.productMethod == 0 }">
-						직거래
-						</c:if>
-				<c:if test="${vo.productMethod == 1 }">
-						택배	
-						</c:if>
-				<c:if test="${vo.productMethod == 2 }">
-					퀵서비스
-						</c:if>
-			<c:if test="${vo.productMethod == 3 }">
-					상관없음
-						</c:if>
-						</td> 
-			</tr>
-
-			<tr>
-				<td class="Content">상품정보
-					<hr>
-				</td>
-			</tr>
-			<tr>
-				<td><textarea style="height:150px;"  readonly>${vo.description }</textarea></td>
-			</tr>
-			<tr>
-				<td style="text-align: center; padding: 10px;">
-				<input type="button" value="뒤로가기" onclick="window.history.back()">
-				<input type="button" value="메인으로" onclick="location.href='${ctx}/main.do'"></td>
-			</tr>
-		</table>
-	</form>
-<div class="fixed">
-
-<div class="list-container">
-<h5>네이버 최저가 연관검색어</h5>
-<c:forEach var="na" items="${naver.items}">
-<a href="${na.link}" target="_blank">
-<table class="list">
-<tr>
-  <td><img src="${na.image}"></td>
-</tr>
-<tr>
- <td>${na.lprice}원</td>
-</tr>
-
-</table>
-</a>
-</c:forEach>
+    <c:if test="${auction ne true }">
+        <h3 align="center">상품 : ${vo.title}</h3>
+        <form action="${ctx}/productUpdate.do" method="post">
+            <table class="product">
+                <input type="hidden" name="ProductNo" value="${vo.no}">
+                <input type="hidden" value="${user.no}" name="no">
+                <tr>
+                    <td id="myTd">
+                    </td>
+                </tr>
+                <tr>
+                    <c:if test="${vo.sellerNo!=user.no && vo.buyerNo == 0 }">
+                        <td class="space">상품가격 : 
+                            ${vo.price }원
+                            <end><input type="button" class="btn1" value="결제하기" onclick="processPayment()"></end></td>
+                    </c:if>
+                    <c:if test="${vo.sellerNo==user.no }">
+                        <td class="space">상품가격 : 
+                            ${vo.price }원
+                            <end><h4>판매자(본인) 상품입니다</h4></end>
+                            <input type="button" class="btn1" value="수정하기" onclick="location.href='${ctx}/productUpdate.do?productNo=${vo.no}&check=1&no=${user.no}'"></td>
+                    </c:if>
+                    <c:if test="${vo.sellerNo!=user.no && vo.buyerNo != 0 }">
+                        <td><h4>판매가 종료된 상품입니다</h4></td>
+                    </c:if>
+                </tr>
+                <tr>
+                    <td class="space">판매자 : ${bo.nickname}
+                        <end>판매자위치: ${vo.sellLocation}</end>
+                    </td>
+                </tr>
+                <tr>
+                    <td>거래방법 :
+                        <c:if test="${vo.productMethod == 0 }">직거래</c:if>
+                        <c:if test="${vo.productMethod == 1 }">택배</c:if>
+                        <c:if test="${vo.productMethod == 2 }">퀵서비스</c:if>
+                        <c:if test="${vo.productMethod == 3 }">상관없음</c:if>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="Content">상품정보
+                        <hr>
+                    </td>
+                </tr>
+                <tr>
+                    <td><textarea style="height:150px;" readonly>${vo.description}</textarea></td>
+                </tr>
+                <tr>
+                    <td style="text-align: center; padding: 10px;">
+                        <input type="button" class="btn1" value="뒤로가기" onclick="window.history.back()">
+                        <input type="button" class="btn1" value="메인으로" onclick="location.href='${ctx}/main.do'">
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <div class="fixed" id="fixedContainer">
+        <div class="close-button" onclick="hideFixedContainer()">x</div>
+            <div class="list-container">
+                <h5>네이버 최저가 연관검색어</h5>
+                <c:forEach var="na" items="${naver.items}">
+                    <a href="${na.link}" target="_blank">
+                        <table class="list">
+                            <tr>
+                                <td><img src="${na.image}"></td>
+                            </tr>
+                            <tr>
+                                <td>${na.lprice}원</td>
+                            </tr>
+                        </table>
+                    </a>
+                </c:forEach>
+            </div>
+        </div>
+    </c:if>
 </div>
-</div>
-	</c:if>
-</div>	
+<script>
+  function hideFixedContainer() {
+    var fixedContainer = document.getElementById('fixedContainer');
+    fixedContainer.style.display = 'none';
+  }
+</script>
 	
 <!-- 옥션일 경우 -->	
 	<c:if test="${auction eq true}">
 <div class="t">	
 	<h3 align="center">상품 : ${vo.title}</h3>
 	<form action="${ctx}/productUpdate.do" method="post">
-		<table align="center" border=1>
+		<table align="center" class="product">
 		<tr>	<td id="myTd">
 		</td>
 			
@@ -260,14 +287,14 @@ margin-right: 10px;
 	
 				<td style="text-align: center; padding: 10px;">
 					<c:if test="${vo.sellerNo != user.no }" >
-					<input type="button" value="입찰신청" onclick="submitBid()">
+					<input type="button" class="btn1" value="입찰신청" onclick="submitBid()">
  					</c:if>
- 					<input type="button" value="메인으로" onclick="location.href='${ctx}/main.do'"></td>
+ 					<input type="button" class="btn1" value="메인으로" onclick="location.href='${ctx}/main.do'"></td>
 			</if> 
 			</tr>
 		</table>
-<div class="fixed">
-<div class="list-container">
+        <div class="fixed" id="fixedContainer1">
+        <div class="close-button" onclick="hideFixedContainer1()">x</div>
 <h5>경매 관련 카테고리</h5>
 	<c:forEach var="list" items="${list}">
  	<c:forEach var="auList" items="${auList}">
@@ -317,6 +344,12 @@ margin-right: 10px;
 </c:forEach>
 </c:forEach>
 </div>
+<script>
+function hideFixedContainer1() {
+    var fixedContainer = document.getElementById('fixedContainer1');
+    fixedContainer.style.display = 'none';
+  }
+</script>
 </div>
 		
 	</form>
@@ -340,7 +373,6 @@ let user=('${user.no}');
 let productPrice = Number('${vo.price}');
 let seller=('${vo.sellerNo}');
 let aus = ('${auction}');
-let h = document.querySelector('.s');
 let product = ('${vo.no}');
 
 	 function processPayment(){
@@ -416,16 +448,6 @@ if(imageUrl){
 	image.src= "img/unnamed.jpg";
 	myTd.appendChild(image);
 	}
-	
-	
-	
-
-        if (aus == false) {
-        	document.querySelector('.fixed').style.paddingTop = '200px';
-        } else {
-            document.querySelector('.t').style.paddingBottom = '200px';
-        }
-	
 	
         var formElementsArray = document.querySelectorAll('.myForm');
 
