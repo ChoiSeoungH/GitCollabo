@@ -129,8 +129,17 @@ public class ProductDAO {
 		return check;
 	}
 
-	public int buyProductOne(int productNo, int buyerNo, String endDate) {
-		SqlSession session = MybatisConfig.getInstance().openSession();
+		//일반상품리스트만 가져오기
+		public List<Product> getThreeNproduct(){
+			SqlSession session = MybatisConfig.getInstance().openSession();
+			List<Product> list = session.selectList("mapper.product.latestNproductThree");
+			session.close();
+			return list;
+		}
+
+
+		public int buyProductOne(int productNo,int buyerNo,String endDate) {
+		SqlSession session =MybatisConfig.getInstance().openSession();
 		Product vo = new Product();
 		vo.setNo(productNo);
 		vo.setBuyerNo(buyerNo);
