@@ -32,5 +32,6 @@
     <PostResources base="C:/HotUdon/HotUdon/src/main/webapp/WEB-INF/lib/spring-jdbc-5.2.19.RELEASE.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/spring-jdbc-5.2.19.RELEASE.jar"/>
     <PostResources base="C:/HotUdon/HotUdon/src/main/webapp/WEB-INF/lib/spring-tx-5.2.19.RELEASE.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/spring-tx-5.2.19.RELEASE.jar"/>
     <PostResources base="C:/HotUdon/HotUdon/src/main/webapp/WEB-INF/lib/taglibs-standard-10.0.0-M10.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/taglibs-standard-10.0.0-M10.jar"/>
+    <PostResources base="C:/HotUdon/HotUdon/src/main/webapp/WEB-INF/lib/commons-fileupload-1.5.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/commons-fileupload-1.5.jar"/>
   </Resources>
 </Context>

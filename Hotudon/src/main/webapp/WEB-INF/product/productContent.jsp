@@ -262,7 +262,7 @@ border: 1px solid #ccc;
 				</c:if>		
 			</tr>
 			<tr>
-			<c:if test="${vo.sellerNo != user.no && user.no != au.lasetBidderNo}">
+			<c:if test="${vo.sellerNo != user.no && user.no != au.lastBidderNo}">
 				<td><input type="button" class="prevent"  id="btn10" value="+10% 입찰하기" onclick="bidmoney(10)"> 
 					<input type="button" class="prevent"  id="btn50"   value="+50% 입찰하기" onclick="bidmoney(50)"> 
 					<input type="button"  class="prevent" id="btn100"   value="+100% 입찰하기" onclick="bidmoney(100)"></td> 

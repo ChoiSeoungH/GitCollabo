@@ -1,6 +1,7 @@
 package frontcontorller;
 
 
+
 import controller.Product.*;
 import controller.Quick.*;
 import controller.User.*;
@@ -78,9 +79,7 @@ public class HandlerMapping {
 	public Controller getController(String key) {
 		return mappings.get(key);
 	}
-	
-	
-	
+
 	
 	
 }

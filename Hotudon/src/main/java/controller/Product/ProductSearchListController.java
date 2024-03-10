@@ -79,8 +79,8 @@ public class ProductSearchListController implements Controller {
 		    request.setAttribute("vo", list);
 		    request.setAttribute("au", auList);
 		    request.setAttribute("naver", responseMap);
-		    return "product/productSearchList";
-
+		    return "product/productSearchList";  
+	 
 	}
 	  private static String get(String apiUrl, Map<String, String> requestHeaders){
 	    HttpURLConnection con = connect(apiUrl);

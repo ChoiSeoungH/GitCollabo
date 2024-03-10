@@ -1,203 +1,159 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+				 pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="ctx" value="${pageContext.request.contextPath}" />
+<c:set var="user" value="${user}"/>
 <!DOCTYPE html>
-<html lang="ko">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>상품추가하기</title>
-	<!-- 부트스트랩 CSS 추가 -->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-	<style>
-		.img-btn {
-			width: 30px;
-			height: 30px;
-			border-radius: 50%;
-			border: none;
-			background-color: #808080;
-			cursor: pointer;
-		}
-		.preview-container {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-		}
-		#previewImg > img {
-			width: 250px;
-			height: 300px;
-			margin-bottom: 10px;
-			display: none; /* 기본적으로 숨김 처리 */
-		}
-		#previewImg > img.active {
-			display: block; /* 활성화 시 보여짐 */
-		}
-		.form-group label {
-			font-weight: bold; /* 라벨을 더 강조 */
-		}
-		.highlighted-input {
-			background-color: #f0f0f0; /* 입력 필드 배경색 */
-			border: 1px solid #007bff; /* 테두리 색상 */
-		}
-		.form-control:focus {
-			border-color: #007bff; /* 포커스 시 테두리 색상 변경 */
-			box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* 포커스 시 그림자 효과 */
-		}
-		/* 추가적인 CSS 스타일링 및 애니메이션 효과 */
-		.animated-input:hover {
-			background-color: #e9ecef;
-			transition: background-color 0.3s;
-		}
-	</style>
-</head>
-<body>
-<div class="container mt-5">
-	<div class="row">
-		<div class="col-md-4 preview-container">
-			<div id="previewImg">
-				<img alt="" id="preview1" class="active">
-				<img alt="" id="preview2">
-				<img alt="" id="preview3">
-			</div>
-			<div>
-				<button type="button" class="img-btn" onclick="changePreviewIds(['preview1'])"></button>
-				<button type="button" class="img-btn" onclick="changePreviewIds(['preview2'])"></button>
-				<button type="button" class="img-btn" onclick="changePreviewIds(['preview3'])"></button>
-			</div>
-		</div>
-		<div class="col-md-8">
-			<form action="${ctx}/productAdd.do" enctype="multipart/form-data" method="post" class="needs-validation" novalidate>
-				<input type="hidden" name="no" value="${user.no}">
-				<input type="hidden" name="sellLocation" value="${user.location}">
-				<!-- 폼 필드들 -->
-				<div class="form-group">
-					<label for="productName">상품제목</label>
-					<input type="text" class="form-control highlighted-input" id="productName" name="productName" required>
-				</div>
+<html>
+<style>
+	table {
+		width: 600px;
+	}
 
-				<div class="form-group">
-					<label for="productPrice">상품가격</label>
-					<input type="number" class="form-control highlighted-input" id="productPrice" name="productPrice" min="1000" required>
-				</div>
+	textarea {
+		text-align: center;
+		width: 600px;
+		height: 200px;
+	}
 
-				<div class="form-group">
-					<label>거래방법</label>
-					<div>
-						<div class="form-check form-check-inline">
-							<input class="form-check-input highlighted-input" type="radio" name="method" id="direct" value="0" required>
-							<label class="form-check-label" for="direct">직거래</label>
-						</div>
-						<div class="form-check form-check-inline">
-							<input class="form-check-input highlighted-input" type="radio" name="method" id="parcel" value="1">
-							<label class="form-check-label" for="parcel">택배</label>
-						</div>
-						<div class="form-check form-check-inline">
-							<input class="form-check-input highlighted-input" type="radio" name="method" id="quick" value="2">
-							<label class="form-check-label" for="quick">퀵서비스</label>
-						</div>
-						<div class="form-check form-check-inline">
-							<input class="form-check-input highlighted-input" type="radio" name="method" id="noMatter" value="3">
-							<label class="form-check-label" for="noMatter">상관없음</label>
-						</div>
-					</div>
-				</div>
+	.Content {
+		text-align: center;
+		border: 0;
+	}
 
-				<div class="form-group">
-					<label>경매여부</label>
-					<div>
-						<div class="form-check form-check-inline">
-							<input class="form-check-input highlighted-input" type="radio" name="auction" id="normalSale" value="0" required>
-							<label class="form-check-label" for="normalSale">일반판매</label>
-						</div>
-						<div class="form-check form-check-inline">
-							<input class="form-check-input highlighted-input" type="radio" name="auction" id="auctionSale" value="1">
-							<label class="form-check-label" for="auctionSale">경매판매</label>
-						</div>
-					</div>
-				</div>
+	.input {
+		width: 300px;
+		text-align: center;
+	}
 
-				<div class="form-group">
-					<label>상품 카테고리</label>
-					<div>
-						<div class="form-check form-check-inline">
-							<input class="form-check-input highlighted-input" type="radio" name="category" id="digital" value="1" required>
-							<label class="form-check-label" for="digital">디지털</label>
-						</div>
-						<div class="form-check form-check-inline">
-							<input class="form-check-input highlighted-input" type="radio" name="category" id="clothes" value="2">
-							<label class="form-check-label" for="clothes">의류</label>
-						</div>
-						<div class="form-check form-check-inline">
-							<input class="form-check-input highlighted-input" type="radio" name="category" id="furniture" value="3">
-							<label class="form-check-label" for="furniture">가구</label>
-						</div>
-						<div class="form-check form-check-inline">
-							<input class="form-check-input highlighted-input" type="radio" name="category" id="etc" value="4">
-							<label class="form-check-label" for="etc">기타</label>
-						</div>
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label for="fileInput">다중 파일(최대3개) 선택:</label>
-					<input type="file" class="form-control-file highlighted-input" id="fileInput" name="files[]" accept="image/*" onchange="loadFiles(this)" multiple>
-				</div>
-
-				<div class="form-group">
-					<label for="productContent">상품정보</label>
-					<textarea class="form-control highlighted-input" id="productContent" name="productContent" rows="5" required></textarea>
-				</div>
-
-				<div class="text-center">
-					<button type="button" class="btn btn-primary" onclick="validCheck(form)">등록하기</button>
-					<button type="button" class="btn btn-secondary" onclick="location.href='${ctx}/main.do'">메인으로</button>
-				</div>
-			</form>
-		</div>
-	</div>
-</div>
-<!-- 부트스트랩 JS 추가 -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	input.img {
+		width: 10px;
+		height: 10px;
+		border-radius: 50%; /* 동그라미를 만들기 위한 속성 */
+		border: none;
+		background-color: #808080;
+		cursor: pointer;
+	}
+</style>
 <script type="text/javascript">
 	var previewIds = ['preview1', 'preview2', 'preview3'];
 	var currentPreviewIndex = 0;
 
 	function loadFiles(input) {
 		var files = input.files;
-		var maxFiles = parseInt(input.getAttribute('max'), 10);
+		var maxFiles = parseInt(input.getAttribute('max'));
 
-		if (files.length > maxFiles) {
+		if (files.length > 3) {
 			alert('최대 ' + maxFiles + '개의 파일만 업로드할 수 있습니다.');
-			input.value = ''; // 파일 선택 초기화
-			return;
+			// 파일 업로드 막기 (선택한 파일 초기화)
+			input.value = '';
 		}
 
-		previewIds.forEach((id, index) => {
-			if (index < files.length) {
-				var reader = new FileReader();
-				reader.onload = function (e) {
-					document.getElementById(id).src = e.target.result;
-					// document.getElementById(id).classList.add('active');
-				};
-				reader.readAsDataURL(files[index]);
-			} else {
-				document.getElementById(id).classList.remove('active');
-			}
-		});
-	}
+		for (var i = 0; i < input.files.length && i < previewIds.length; i++) {
+			var fr = new FileReader();
+			var currentPreviewId = previewIds[i];
 
+			fr.onload = (function (previewId) {
+				return function (event) {
+					document.getElementById(previewId).src = event.target.result;
+					document.getElementById(previewId).style.display = 'none';
+				};
+			})(currentPreviewId);
+
+			fr.readAsDataURL(input.files[i]);
+		}
+
+		document.getElementById(previewIds[currentPreviewIndex]).style.display = 'inline-block';
+	}
 	function changePreviewIds(newIds) {
-		previewIds.forEach(id => {
-			document.getElementById(id).classList.remove('active');
-		});
+		for (var i = 0; i < previewIds.length; i++) {
+			document.getElementById(previewIds[i]).style.display = 'none';
+		}
 
 		previewIds = newIds;
+		currentPreviewIndex = 0;
 
-		previewIds.forEach(id => {
-			document.getElementById(id).classList.add('active');
-		});
+		for (var j = 0; j < previewIds.length; j++) {
+			document.getElementById(previewIds[j]).style.display = 'none';
+		}
+
+		document.getElementById(previewIds[currentPreviewIndex]).style.display = 'inline-block';
 	}
 </script>
+
+<head>
+	<meta charset="UTF-8">
+	<title>상품추가하기</title>
+</head>
+<body>
+<img alt="" id="preview1" style="width: 250px; height: 300px; position: absolute; left: 195px; top: 100px;" />
+<img alt="" id="preview2" style="width: 250px; height: 300px; position: absolute; left: 195px; top: 100px; display: none;"/>
+<img alt="" id="preview3" style="width: 250px; height: 300px; position: absolute; left: 195px; top: 100px; display: none;"/>
+<input type="button" class="img" onclick="changePreviewIds(['preview1'])" style="position: absolute; left: 295px; top: 380px;"/>
+<input type="button" class="img" onclick="changePreviewIds(['preview2'])" style="position: absolute; left: 310px; top: 380px;"/>
+<input type="button" class="img" onclick="changePreviewIds(['preview3'])" style="position: absolute; left: 325px; top: 380px;"/>
+<h1 align="center">상품추가하기</h1>
+<form action="${ctx}/productAdd.do" enctype="multipart/form-data"	method="post">
+	<table align="center" border=1>
+		<input type="hidden" name="no" value="${user.no}" >
+		<%--	<input type="hidden" name="sellLocation" value="${user.location}">  --%>
+		<input type="hidden" name="sellLocation" value="${user.location}">
+		<!-- 위에 나중에 sellLocation 바꿔야함 -->
+		<tr>
+			<td>상품제목 : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <input
+					class="input" type="text" name="productName"></td>
+		</tr>
+		<tr>
+			<td>상품가격 : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+				&nbsp; &nbsp; &nbsp; <input class="inputPrice" type="number"
+																		name="productPrice" min="1000" max="">원
+			</td>
+		</tr>
+		<tr>
+			<td>거래방법 : &nbsp; &nbsp; &nbsp; <input type="radio"
+																						 name="method" value="0">직거래 <input type="radio"
+																																								name="method" value="1">택배 <input type="radio"
+																																																									name="method" value="2">퀵서비스 <input type="radio"
+																																																																											name="method" value="3">상관없음
+			</td>
+		</tr>
+		<tr>
+			<td>경매여부 : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <input
+					type="radio" name="auction" value="0">일반판매 <input
+					type="radio" name="auction" value="1">경매판매
+			</td>
+		</tr>
+		<tr>
+			<td>상품 카테고리 : &nbsp; &nbsp; &nbsp; <input type="radio"
+																								name="category" value="1">디지털 <input type="radio"
+																																										 name="category" value="2">의류 <input type="radio"
+																																																												 name="category" value="3">가구 <input type="radio"
+																																																																														 name="category" value="4">기타
+			</td>
+		</tr>
+		<tr>
+			<td><label for="fileInput">다중 파일(최대3개) 선택:</label> <input
+					type="file" name="files[]" id="fileInput" accept="image/*" max="3"
+					onchange="loadFiles(this)" multiple>
+				<br>
+			</td>
+		</tr>
+
+		<tr>
+			<td class="Content">상품정보
+				<hr>
+			</td>
+		</tr>
+		<tr>
+			<td><textarea name="productContent" width="400"></textarea></td>
+		</tr>
+		<tr>
+			<td style="text-align: center; padding: 10px;"><input
+					type="button" value="등록하기" onclick="validCheck(form)"> <input
+					type="button" value="메인으로" onclick="location.href='${ctx}/main.do'"></td>
+		</tr>
+	</table>
+</form>
 </body>
 </html>
 <script>
@@ -239,10 +195,10 @@
 			form.productPrice.focus();
 			return false;
 		}
-		 	if(!userLocation.trim()){
+		/* 	if(!userLocation.trim()){
         alert("먼저 위치설정을 해주세요");
         return false;
-      }
+      } */
 
 		// 최대 3개의 파일만 허용
 		form.submit();

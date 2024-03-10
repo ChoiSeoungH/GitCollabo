@@ -21,8 +21,7 @@ public class ProductAddController implements Controller {
 	@Override
 	public String requestHandler(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		System.out.println("name "+request.getParameter("productName"));
+		System.out.println(request.getParameter("productName"));
 		if(request.getParameter("productName")==(null)) {
 			return "product/productAdd";
 		}
@@ -40,15 +39,13 @@ public class ProductAddController implements Controller {
 		String sellLocation = request.getParameter("sellLocation");
 		String productContent = request.getParameter("productContent");
 		System.out.println("image" + image);
-
-
 		if(auction == 0 ) { // 경매 방법
 			Product vo = new Product(0, category, sellerNo, title, price, productContent,null, false, sellLocation, method,0,null); 
 			ProductDAO.getInstance().insertOneProduct(vo);
 			int no =ProductDAO.getInstance().getselectAucton();
 			ProductImg Img = new ProductImg(0,no, image, null);
 			ProductImgDAO.getInstance().addOneProductImg(Img);
-			return "main";
+			return "user/MyPage";
 		
 		}else { 
 			// 경매일떄  일단
@@ -59,10 +56,17 @@ public class ProductAddController implements Controller {
 			ProductImg Img = new ProductImg(0,no, image, null);
 			ProductImgDAO.getInstance().addOneProductImg(Img);
 			AuctionDAO.getInstance().addAuction(au);
-			return "main";
+			return "user/MyPage";
 			
 		}
+		
+
+		
+		
+		
 
 	}
+
+	
 
 }
