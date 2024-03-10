@@ -21,6 +21,8 @@ public class ProductAddController implements Controller {
 	@Override
 	public String requestHandler(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
+		System.out.println("name "+request.getParameter("productName"));
 		if(request.getParameter("productName")==(null)) {
 			return "product/productAdd";
 		}
@@ -38,8 +40,6 @@ public class ProductAddController implements Controller {
 		String sellLocation = request.getParameter("sellLocation");
 		String productContent = request.getParameter("productContent");
 		System.out.println("image" + image);
-		
-		
 
 
 		if(auction == 0 ) { // 경매 방법
@@ -62,14 +62,7 @@ public class ProductAddController implements Controller {
 			return "main";
 			
 		}
-		
-
-		
-		
-		
 
 	}
-
-	
 
 }

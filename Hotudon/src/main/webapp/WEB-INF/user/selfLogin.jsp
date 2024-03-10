@@ -1,65 +1,57 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../Main.jsp" %>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<style type="text/css">
-	#table_login{
-		width: 500px;
-		height: 400px;
-	}
-	#table_login #id{
-		width: 100%;
-		height: 100%;
-		box-sizing: border-box;
-		font-size: 1.3em;
-	}
-	#table_login #pw{
-		width: 100%;
-		height: 100%;
-		box-sizing: border-box;
-		font-size: 1.3em;
-	}
-	#table_login #submit{
-		width: 100%;
-		height: 100%;
-		box-sizing: border-box;
-		font-size: 1.3em;
-		border: none;	
-	}
-	#table_login #submit:hover{
-		background-color: #ccc;
-	}
-</style>
+	<meta charset="UTF-8">
+	<title>로그인 페이지</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<style>
+
+		.login-container {
+			width
+			padding: 20px;
+			background: #ffffff;
+			border: 1px solid #dee2e6;
+			border-radius: .25rem;
+			box-shadow: 0 4px 6px rgba(0,0,0,.1);
+			align-self: center;
+			margin: auto;
+			width: 600px;
+		}
+		.login-container h2 {
+			color: #495057;
+		}
+		.form-control {
+			font-size: 1.3em;
+			margin-bottom: 20px;
+		}
+		.btn-login {
+			font-size: 1.3em;
+			padding: 10px;
+			width: 100%;
+			background-color: #007bff;
+			color: white;
+			border: none;
+			cursor: pointer;
+		}
+		.btn-login:hover {
+			background-color: #0056b3;
+		}
+	</style>
 </head>
 <body>
-	<div align="center">
-	<form action="${ ctx }/selfLogin.do" method="post"> 
-		<table id="table_login">
-			<tr height="100">
-				<td align="center" colspan="2"> 
-					<font size="6" color="gray"> 로그인 </font> 
-				</td>
-			</tr>
-			<tr height="30">
-				<!-- <td width="120" align="center"> 이메일 </td> -->
-				<td> <input type="text" id="id" name="id" placeholder="Username" required /> </td>
-			</tr>
-			<tr height="30">
-				<!-- <td width="120" align="center"> 패스워드 </td> -->
-				<td> <input type="password" id="pw" name="pw" placeholder="Password" required /> </td>
-			</tr>
-			<tr height="30">
-				<td align="center" colspan="2">
-					<input type="submit" id="submit" value="Sign In" />
-				</td>
-			</tr>
-		</table>
-		
+<div class="login-container">
+	<form action="${ ctx }/selfLogin.do" method="post">
+		<h2 class="text-center">로그인</h2>
+		<input type="text" id="id" name="id" class="form-control" placeholder="Username" required autofocus>
+		<input type="password" id="pw" name="pw" class="form-control" placeholder="Password" required>
+		<button type="submit" class="btn btn-primary btn-login">로그인</button>
 	</form>
 </div>
 <%@ include file="../parts/footer.jsp" %>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

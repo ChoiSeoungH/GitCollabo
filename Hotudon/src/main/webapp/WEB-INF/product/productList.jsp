@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../Main.jsp" %>
-<c:set var="ctx" value="${pageContext.request.contextPath}"/>  
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <c:set var="user" value="${user}"/>
 <!DOCTYPE html>
 <html>
@@ -57,7 +57,7 @@ form{
 <input type="button" value="전체" onclick="location.href='${ctx}/productList.do?auction='">
 </div>
 <c:if test="${au == null}">
-<h3>최신상품리스트</h3> 
+<h3>최신상품리스트</h3>
 <div class="list-container">
  <c:forEach var="latest" items="${latest}">
         <c:forEach var="img" items="${imgList}">
@@ -155,9 +155,9 @@ form{
             	<input type="hidden" value="${c.title}" name="query">
             	<input type="hidden" value="${c.no}" name="productNo">
             	 <input type="hidden" value="${c.auction}" name="auction">
-             
+
                 <table class="list" align="center">
-                
+
 <c:choose>
     <c:when test="${not empty img.imageUrl}">
         <script>
@@ -196,7 +196,7 @@ form{
 <h3>가구상품리스트</h3>
 <div class="list-container">
     <c:forEach var="c" items="${list}">
-    
+
         <c:forEach var="img" items="${imgList}">
             <c:if test="${c.category == 3 && c.no == img.productNo  && c.buyerNo == 0 && c.endDate == null}">
                         <form action="${ctx}/productContent.do"  method="post" class="myForm">
@@ -204,7 +204,7 @@ form{
             	<input type="hidden" value="${c.title}" name="query">
             	<input type="hidden" value="${c.no}" name="productNo">
             	  <input type="hidden" value="${c.auction}" name="auction">
-              
+
                 <table class="list" align="center">
 <c:choose>
     <c:when test="${not empty img.imageUrl}">
@@ -336,7 +336,7 @@ form{
             </c:forEach>
         </c:forEach>
     </c:forEach>
- 
+
 </div>
 <hr>
 <h3>경매 디지털상품리스트</h3>
@@ -399,9 +399,9 @@ form{
             	    	<input type="hidden" value="${c.title}" name="query">
             	<input type="hidden" value="${c.category}" name="category">
             	 <input type="hidden" value="${c.auction}" name="auction">
-             
+
                 <table class="list" align="center">
-                
+
 <c:choose>
     <c:when test="${not empty img.imageUrl}">
         <script>
@@ -448,7 +448,7 @@ form{
             	    	<input type="hidden" value="${c.title}" name="query">
             	<input type="hidden" value="${c.category}" name="category">
             	  <input type="hidden" value="${c.auction}" name="auction">
-              
+
                 <table class="list" align="center">
 <c:choose>
     <c:when test="${not empty img.imageUrl}">

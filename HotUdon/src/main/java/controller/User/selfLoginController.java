@@ -16,7 +16,6 @@ public class selfLoginController implements Controller {
 	public String requestHandler(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		HttpSession session = req.getSession();
 
-
 		if (req.getParameter("id") == null) {
 			return "user/selfLogin";
 		}

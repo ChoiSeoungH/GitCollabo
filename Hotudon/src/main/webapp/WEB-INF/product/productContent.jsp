@@ -535,7 +535,4 @@ if(imageUrl){
 </script>
 </c:forEach>
 
-</td>
-</tr>
-</table>
-</div>
+
