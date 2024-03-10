@@ -2,259 +2,274 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="mapper.product"> 
+<mapper namespace="mapper.product">
 
-<!-- 상품등록 -->
+	<!-- 상품등록 -->
 
-  <resultMap id="product" type="vo.Product">
-  <id property="no" column="no"/>
-  <result property="category" column="category"/>
-  <result property="sellerNo" column="seller_no"/>
-  <result property="title" column="title"/>
-  <result property="price" column="price"/>
-  <result property="description" column="description"/>
-  <result property="regDate" column="reg_date"/>
-  <!-- <result property="isAuction" column="is_auction" /> -->
-  <result property="auction" column="is_auction" jdbcType="TINYINT" javaType="boolean"/>
-  <result property="sellLocation" column="sell_location"/>
-  <result property="productMethod" column="product_method"/>
-  <result property="buyerNo" column="buyer_no"/>
-  <result property="endDate" column="end_date"/>
-</resultMap>
-  
-  <!-- 경매 -->
-  
-  <resultMap id="auction"  type="vo.Auction">
-  <result property="productNo" column="product_no"/>
-  <result property="lastPrice"  column="last_price"/>
-  <result property="lastBidDate" column="last_bid_date"/>
-  <result property="lastBidderNo" column="last_bidder_no"/>
-  </resultMap>
-  
-  <!-- 상품이미지 -->
-  
-  <resultMap id="productImg" type="vo.ProductImg">
-  <id property="no" column="no" />
-  <result property="productNo"  column="product_no"/>
-  <result property="imageUrl" column="image_url"/>
-  <result property="regDate"  column="reg_date"/>
-  </resultMap>
-  
-   <!-- 카테고리 -->
-  
-  <resultMap id="category" type="vo.Category">
-  <id property="no" column="no"/>
-  <result property="name" column="name"/>
-  </resultMap>
- 
- <!-- 모든상품 조회리스트 --> 
-  <select id="selectAllProduct" resultMap="product">
-  SELECT * FROM product
-</select>
-	<!--  최신상품 3개 조회해오기 -->
-<select id="latestProductThree" resultMap="product">
-     SELECT * FROM product
-    WHERE end_date IS NULL
-    ORDER BY reg_date DESC
-    LIMIT 3
-</select>
-<select id="latestNproductThree" resultMap="product">
-SELECT * FROM product
-WHERE end_date IS NULL AND is_auction = 1
-ORDER BY reg_date DESC
-LIMIT 3;
-</select>
-<!--카테고리 상품 조회리스트 -->
-<select id="getCateProductList" resultMap="product" parameterType="Integer">
-	select * from product where category=#{category}
-</select>
-<!-- 상품 검색 조회 -->
-<select id="getSearchProduct"  resultMap="product" parameterType="String">
-SELECT * FROM product WHERE title LIKE CONCAT('%', #{title}, '%')
+	<resultMap id="product" type="vo.Product">
+		<id property="no" column="no" />
+		<result property="category" column="category" />
+		<result property="sellerNo" column="seller_no" />
+		<result property="title" column="title" />
+		<result property="price" column="price" />
+		<result property="description" column="description" />
+		<result property="regDate" column="reg_date" />
+		<!-- <result property="isAuction" column="is_auction" /> -->
+		<result property="auction" column="is_auction"
+			jdbcType="TINYINT" javaType="boolean" />
+		<result property="sellLocation" column="sell_location" />
+		<result property="productMethod" column="product_method" />
+		<result property="buyerNo" column="buyer_no" />
+		<result property="endDate" column="end_date" />
+	</resultMap>
 
-</select>	
- 
- 		<!-- 판매상품넘버가져오기 -->
-     	<select id="getOneProduct" parameterType="Integer" resultMap="product">
-    	 SELECT * FROM product where no=#{no} 
-    	</select>
- 	
-   			<!-- 판매자 상품유저 가져오기 -->
-    	<select id="getSellUserProductList" parameterType="Integer" resultMap="product">
-    	 SELECT * FROM product where seller_no=#{no}
-    	</select>
-  		 <!-- 구매한 상품들 가져오기 -->
-   		<select id="getBuyUserProductList" parameterType="Integer" resultMap="product">
-   		select * from product where buyer_no=#{no}
-   		</select>
-   <!-- 상품수정 -->  	
-	<update id="updateProduct" parameterType="product">
-   		UPDATE product
-    	SET
-        category = #{category},
-        title = #{title},
-        price = #{price},
-        description = #{description},
-        sell_location = #{sellLocation},
-        product_method = #{productMethod}
-    WHERE no = #{no};
-</update>
-    
-    
-    <!--  거래완료 -->
-    	<update id="productUpdateEnd" parameterType="product" >
-    	update product 
-    	set end_date=#{endDate}, buyer_no=#{buyerNo}
-    	where no=#{no}
-    	</update>
-    
-    <!--  상품등록 -->
-        <insert id="productInsert" parameterType="product">
-        INSERT INTO product (no, category, seller_no, title, price, description,is_auction,sell_location,product_method,end_date)
-       VALUES(
-        #{no},
-        #{category},
-        #{sellerNo},
-        #{title},
-        #{price},
-        #{description},
-        #{auction},
-        #{sellLocation},
-        #{productMethod},
-        #{endDate}
-        )       
-    </insert>
-    
-    <!-- 상품추가시 옥션일때 마지막 번호 가져와서 값 넣기 -->
-    <select id="getProductNo" resultType="Integer">
-    SELECT no FROM product ORDER BY no DESC LIMIT 1;
-    </select>
-    
-     <!-- 상품삭제 본인-->
-<!--       <update id="SellproductDelete" parameterType="Integer">  
-       	 update product
-       	 SET seller_no = 0
-    where no = #{no}
-    </update> -->
-    
-    <!-- 경매리스트 불러오기 -->
-	<select id="selectAllAuction" resultMap="auction">
-	SELECT * FROM AUCTION
+	<!-- 경매 -->
+
+	<resultMap id="auction" type="vo.Auction">
+		<result property="productNo" column="product_no" />
+		<result property="lastPrice" column="last_price" />
+		<result property="lastBidDate" column="last_bid_date" />
+		<result property="lastBidderNo" column="last_bidder_no" />
+	</resultMap>
+
+	<!-- 상품이미지 -->
+
+	<resultMap id="productImg" type="vo.ProductImg">
+		<id property="no" column="no" />
+		<result property="productNo" column="product_no" />
+		<result property="imageUrl" column="image_url" />
+		<result property="regDate" column="reg_date" />
+	</resultMap>
+
+	<!-- 카테고리 -->
+
+	<resultMap id="category" type="vo.Category">
+		<id property="no" column="no" />
+		<result property="name" column="name" />
+	</resultMap>
+
+	<!-- 모든상품 조회리스트 -->
+	<select id="selectAllProduct" resultMap="product">
+		SELECT * FROM product
 	</select>
-	<!--경매상품넘버가져오기 -->
-     	<select id="getOneAuction" parameterType="Integer" resultMap="auction">
-    	 SELECT * FROM auction where product_no=#{no} 
-    </select>
- 
- <!-- 하나의 옥션번호 가지고오기 -->
-    <select id="getOneAuctionNo" parameterType="Integer" resultType="String">
-    SELECT a.last_bidder_no
-    FROM auction a
-    WHERE a.product_no = #{no}
-</select> 
-   	
-    	
-	
-	<!-- 경매선택추가 -->
-    <insert id="addOneAuction" parameterType="auction">
-    INSERT INTO AUCTION(product_no,last_price)
-    VALUES(
-    #{productNo},
-    #{lastPrice}
-    )
-    </insert>
-    
-    
-    <!-- 경매 추가입찰자 -->
-    <update id="addBidAuction" parameterType="auction">
-    update auction 
-    set last_price=#{lastPrice}, last_bid_date=#{lastBidDate}, last_bidder_no=#{lastBidderNo}
-   	where product_no=#{productNo} 
-    </update>
- 	<!-- 경매입찰자 가져오기 -->
- 	<select id="getAllBidUserNo" parameterType="Integer" resultMap="auction">
-  	SELECT * FROM auction where last_bidder_no=#{no} 
- 	
- 	</select>
- 
-    <!-- 경매상품 최신리스트 가져오기 -->
-    <select id="auctionLatestThree" resultMap="auction">
-    select * from auction ORDER BY product_no DESC LIMIT 3
-    </select>
-    
-    <!-- 경매 관련된 상품 5개 가져오기  -->
-    <select id="getAboutCategory" parameterType="Integer" resultMap="product">
-    SELECT *
-FROM product
-WHERE category = (SELECT category FROM product WHERE no=#{no})
-  AND no != #{no}
-  AND is_auction = 1
-  AND end_date IS NULL
-ORDER BY no DESC LIMIT 5;
-    </select>
-    
-    
-    <!--경매 자동종료 -->
-<update id="autoAuctionEnd" parameterType="product">
-UPDATE product
-SET buyer_no = (
-    SELECT last_bidder_no
-    FROM auction
-    WHERE product_no = #{no}
-),
-end_date = NOW()
-WHERE no = #{no};
+	<!-- 최신상품 3개 조회해오기 -->
+	<select id="latestProductThree" resultMap="product">
+		SELECT * FROM product
+		WHERE end_date IS NULL
+		ORDER BY reg_date DESC
+		LIMIT 3
+	</select>
+	<select id="latestNproductThree" resultMap="product">
+		SELECT * FROM product
+		WHERE end_date IS NULL AND is_auction = 0
+		ORDER BY reg_date DESC
+		LIMIT 3;
+	</select>
+	<!--카테고리 상품 조회리스트 -->
+	<select id="getCateProductList" resultMap="product"
+		parameterType="Integer">
+		select * from product where category=#{category}
+	</select>
+	<!-- 상품 검색 조회 -->
+	<select id="getSearchProduct" resultMap="product"
+		parameterType="String">
+		SELECT * FROM product WHERE title LIKE CONCAT('%', #{title}, '%')
+
+	</select>
+
+	<!-- 판매상품넘버가져오기 -->
+	<select id="getOneProduct" parameterType="Integer"
+		resultMap="product">
+		SELECT * FROM product where no=#{no}
+	</select>
+
+	<!-- 판매자 상품유저 가져오기 -->
+	<select id="getSellUserProductList" parameterType="Integer"
+		resultMap="product">
+		SELECT * FROM product where seller_no=#{no}
+	</select>
+	<!-- 구매한 상품들 가져오기 -->
+	<select id="getBuyUserProductList" parameterType="Integer"
+		resultMap="product">
+		select * from product where buyer_no=#{no}
+	</select>
+	<!-- 상품수정 -->
+	<update id="updateProduct" parameterType="product">
+		UPDATE product
+		SET
+		category = #{category},
+		title = #{title},
+		price = #{price},
+		description = #{description},
+		sell_location = #{sellLocation},
+		product_method = #{productMethod}
+		WHERE no = #{no};
 	</update>
 
-<update id="auctionEndCash" parameterType="auction">
-    UPDATE user
-    SET cash = cash + (
-        SELECT COALESCE(last_price, 0) AS lastBid
-        FROM auction
-        WHERE product_no = #{productNo}
-            AND last_bidder_no IS NOT NULL
-    )
-    WHERE no = (
-        SELECT seller_no
-        FROM product
-        WHERE no = #{productNo}
- 	AND	end_date IS NULL 
-    );
-</update>
 
-<!--  경매상품 재등록시 -->    
-<update id="updateAuctionProduct" parameterType="auction">
-    UPDATE auction
-	   SET last_bid_date = #{lastBidDate, jdbcType=TIMESTAMP}
-    WHERE product_no = #{productNo}
+	<!-- 거래완료 -->
+	<update id="productUpdateEnd" parameterType="product">
+		update product
+		set end_date=#{endDate}, buyer_no=#{buyerNo}
+		where no=#{no}
+	</update>
 
-    <!-- Update Product table -->
-</update>
-<update id="updateEndDate" parameterType="Integer">
-	update product
-	   SET end_date = NULL
-	WHERE no=#{no}
-</update>
+	<!-- 상품등록 -->
+	<insert id="productInsert" parameterType="product">
+		INSERT INTO product (no, category, seller_no, title, price,
+		description,is_auction,sell_location,product_method,end_date)
+		VALUES(
+		#{no},
+		#{category},
+		#{sellerNo},
+		#{title},
+		#{price},
+		#{description},
+		#{auction},
+		#{sellLocation},
+		#{productMethod},
+		#{endDate}
+		)
+	</insert>
 
-    
-    <!-- 상품이미지리스트 전체불러오기 -->
-    <select id="getAllProductImg" resultMap="productImg">
-    select * from Product_image;
-    </select>
+	<!-- 상품추가시 옥션일때 마지막 번호 가져와서 값 넣기 -->
+	<select id="getProductNo" resultType="Integer">
+		SELECT no FROM product ORDER BY no DESC LIMIT 1;
+	</select>
+
+	<!-- 상품삭제 본인 -->
+	<!-- <update id="SellproductDelete" parameterType="Integer"> update product 
+		SET seller_no = 0 where no = #{no} </update> -->
+
+	<!-- 경매리스트 불러오기 -->
+	<select id="selectAllAuction" resultMap="auction">
+		SELECT * FROM AUCTION
+	</select>
+	<!--경매상품넘버가져오기 -->
+	<select id="getOneAuction" parameterType="Integer"
+		resultMap="auction">
+		SELECT * FROM auction where product_no=#{no}
+	</select>
+
+	<!-- 하나의 옥션번호 가지고오기 -->
+	<select id="getOneAuctionNo" parameterType="Integer"
+		resultType="String">
+		SELECT a.last_bidder_no
+		FROM auction a
+		WHERE a.product_no = #{no}
+	</select>
+
+
+
+	<!-- 경매선택추가 -->
+	<insert id="addOneAuction" parameterType="auction">
+		INSERT INTO AUCTION(product_no,last_price)
+		VALUES(
+		#{productNo},
+		#{lastPrice}
+		)
+	</insert>
+
+
+	<!-- 경매 추가입찰자 -->
+	<update id="addBidAuction" parameterType="auction">
+		update auction
+		set last_price=#{lastPrice}, last_bid_date=#{lastBidDate},
+		last_bidder_no=#{lastBidderNo}
+		where product_no=#{productNo}
+	</update>
+	<!-- 경매입찰자 가져오기 -->
+	<select id="getAllBidUserNo" parameterType="Integer"
+		resultMap="auction">
+		SELECT * FROM auction where last_bidder_no=#{no}
+
+	</select>
+
+	<!-- 경매상품 최신리스트 가져오기 -->
+	<select id="auctionLatestThree" resultMap="auction">
+		SELECT a.*, p.end_date
+		FROM auction a
+		JOIN product p ON a.product_no = p.no
+		WHERE p.end_date IS NULL
+		ORDER BY a.product_no DESC
+		LIMIT 3;
+	</select>
+
+	<!-- 경매 관련된 상품 5개 가져오기 -->
+	<select id="getAboutCategory" parameterType="Integer"
+		resultMap="product">
+		SELECT *
+		FROM product
+		WHERE category = (SELECT category FROM product WHERE no=#{no})
+		AND no != #{no}
+		AND is_auction = 1
+		AND end_date IS NULL
+		ORDER BY no DESC LIMIT 5;
+	</select>
+
+
+	<!--경매 자동종료 -->
+	<update id="autoAuctionEnd" parameterType="product">
+		UPDATE product
+		SET buyer_no = (
+		SELECT last_bidder_no
+		FROM auction
+		WHERE product_no = #{no}
+		),
+		end_date = NOW()
+		WHERE no = #{no};
+	</update>
+
+	<update id="auctionEndCash" parameterType="auction">
+		UPDATE user
+		SET cash = cash + (
+		SELECT COALESCE(last_price, 0) AS lastBid
+		FROM auction
+		WHERE product_no = #{productNo}
+		AND last_bidder_no IS NOT NULL
+		)
+		WHERE no = (
+		SELECT seller_no
+		FROM product
+		WHERE no = #{productNo}
+		AND end_date IS NULL
+		);
+	</update>
+
+	<!-- 경매상품 재등록시 -->
+	<update id="updateAuctionProduct" parameterType="auction">
+		UPDATE auction
+		SET last_bid_date = #{lastBidDate, jdbcType=TIMESTAMP}
+		WHERE product_no = #{productNo}
+
+		<!-- Update Product table -->
+	</update>
+	<update id="updateEndDate" parameterType="Integer">
+		update product
+		SET end_date = NULL
+		WHERE no=#{no}
+	</update>
+
+
+	<!-- 상품이미지리스트 전체불러오기 -->
+	<select id="getAllProductImg" resultMap="productImg">
+		select * from Product_image;
+	</select>
 	<insert id="insertProductImg" parameterType="productImg">
-	  INSERT INTO Product_image(product_no,image_url)
-    VALUES(
-    #{productNo},
-    #{imageUrl}
-    )
+		INSERT INTO Product_image(product_no,image_url)
+		VALUES(
+		#{productNo},
+		#{imageUrl}
+		)
 	</insert>
 	<!-- 각 상품이미지 불러오기 -->
-	<select id="getOneImage" parameterType="Integer" resultMap="productImg">
-	select * from product_image where product_no=#{no}
+	<select id="getOneImage" parameterType="Integer"
+		resultMap="productImg">
+		select * from product_image where product_no=#{no}
 	</select>
 	<update id="getOneUpdateImg" parameterType="productImg">
-	update product_image
-	   SET image_url =#{imageUrl}
+		update product_image
+		SET image_url =#{imageUrl}
 		WHERE product_no=#{productNo}
-		</update>
+	</update>
 </mapper>

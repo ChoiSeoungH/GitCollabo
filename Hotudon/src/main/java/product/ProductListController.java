@@ -46,6 +46,7 @@ public class ProductListController implements Controller {
 		}else if (request.getParameter("auction").equals("2")) {
 			request.setAttribute("au", auList);
 			request.setAttribute("latest", auLatestList);
+			System.out.println(auLatestList.toString());
 			request.setAttribute("list", list);
 			
 		return "product/productList";

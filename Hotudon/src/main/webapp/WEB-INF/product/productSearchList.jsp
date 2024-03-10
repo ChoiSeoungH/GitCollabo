@@ -8,6 +8,19 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
+.productList{
+	display:flex;
+	background-color: white;
+    border: 3px solid transparent;
+    border-image: linear-gradient(to right, red 0%, orange 100%);
+    border-image-slice: 1;
+	border-radius: 30px;
+	margin: 10px auto 0;
+	width:600px; 
+	height:200px
+}
+
+
 
 .search{
 	text-align:center;
@@ -18,16 +31,11 @@
 }
 
 .list {
+margin-bottom: 10px;
 margin-right: 10px;
 	width:100px;
-	height:300px;
-	border:1px;
-
+	height:200px;
 }
- img{
- width:100px;
- height:100px;
- }
 
 product_listitem li {
     display: flex;
@@ -50,11 +58,8 @@ product_listitem li {
 .remainingTime{
 	color:red;
 }
-.productList{
-	diplay: flex;
-	align-items: center;
-	border: 1px solid #000; 
-}
+
+
 .fixed {
         position: fixed;
         bottom: 0;
@@ -66,10 +71,10 @@ product_listitem li {
         padding: 0px; /* 내용과의 여백을 필요에 따라 지정하세요. */
     }
 
-    .list-container {
+  .list-container {
+  	margin-bottom:50px;
     	display:flex;
         text-align: center; /* 내용 가운데 정렬을 위한 스타일 */
-
     align-items: center; /* 내용을 가운데 정렬하기 위한 스타일 추가 */
     }
 
@@ -94,7 +99,7 @@ product_listitem li {
     	<input type="hidden" value="${c.no}" name="productNo">
         <input type="hidden" value="${c.title}" name="query">
        <input type="hidden" value="${c.auction}" name="auction">
-<div module="product_recentlist" class="productList" style="display: flex; align-items: center;  border: 1px solid #000; margin-bottom: 10px; width:600px; height:200px">
+<div module="product_recentlist" class="productList">
     <div class="prdImg">
     <a>
        <c:choose>
@@ -126,10 +131,10 @@ product_listitem li {
  
         <ul module="product_setproduct" class="item">
             	<c:if test="${c.auction == true}">
-    	<h3><strong>경매상품</strong></h3>
+    	<h3><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;경매상품</strong></h3>
     	</c:if>
     	<c:if test="${c.auction == false}">
-    	<h3><strong>일반상품</strong></h3>
+    	<h3><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;일반상품</strong></h3>
     	</c:if>
             <li>상품 제목 : ${c.title}</li>
             <li>판매자 위치: ${c.sellLocation}</li>
@@ -203,18 +208,18 @@ product_listitem li {
 
 </c:if>
 
-<div class="fixed">
-
+<div class="fixed" id="fixedContainer">
+        <div class="close-button" onclick="hideFixedContainer()">x</div>
 <div class="list-container">
 <h5>네이버 최저가 연관검색어 ${query}</h5>
 <c:forEach var="na" items="${naver.items}">
 <a href="${na.link}" target="_blank">
 <table class="list">
 <tr>
-   <td><img src="${na.image}"></td>
+   <td border="1"><img src="${na.image}" width="50" height="50"></td>
 </tr>
 <tr>
- <td>${na.lprice}원</td>
+ <td border="1">${na.lprice}원</td>
 </tr>
 </table>
 </a>
@@ -227,6 +232,11 @@ product_listitem li {
 </body>
 </html>
 <script>
+function hideFixedContainer() {
+    var fixedContainer = document.getElementById('fixedContainer');
+    fixedContainer.style.display = 'none';
+  }
+
 var formElementsArray = document.querySelectorAll('.myForm');
 
 // 클릭 이벤트에 대한 핸들러 등록
