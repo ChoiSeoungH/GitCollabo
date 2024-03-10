@@ -9,7 +9,6 @@
 	<style>
 
 		.login-container {
-			width
 			padding: 20px;
 			background: #ffffff;
 			border: 1px solid #dee2e6;

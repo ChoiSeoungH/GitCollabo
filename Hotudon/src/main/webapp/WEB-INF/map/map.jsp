@@ -275,7 +275,7 @@
         strokeColor: '#004c80',
         strokeOpacity: 0.8,
         fillColor: '#fff',
-        fillOpacity: 0.7
+        fillOpacity: 0.5
       });
 
     });

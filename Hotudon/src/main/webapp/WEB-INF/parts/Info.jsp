@@ -99,19 +99,21 @@
 	<div class="info_notify"> 알림 </div>
 	<button class="btns info_chat">채팅</button>
 	<button class="btns info_pay">결제</button>
+<c:if test="${user.deliver}">
 	<button class="btns info_quick" onclick="location.href='${ctx}/quickMain.do?no=${user.no}'">퀵 서비스</button>
+	</c:if>
 	<c:choose>
 		<c:when test="${not empty user}">
 			<button class="btns info_logout" onclick="location.href='${ctx}/userLogOut.do'">로그아웃</button>
 		</c:when>
 		<c:otherwise>
-			<button class="btns info_login" onclick="openModal()">로그인</button>
+			<button class="btns info_login" onclick="clickLogin()">로그인</button>
 		</c:otherwise>
 	</c:choose>
 </div>
 <div class="overlay hidden" onclick="unclickLogin()"></div>
-<%@ include file="./LoginModal.jsp" %>
 <%@ include file="../user/kakaoLogin.jsp" %>
+<%@ include file="./LoginModal.jsp" %>
 <script>
 	const $info = document.querySelector(".info");
 	let clicked = false;

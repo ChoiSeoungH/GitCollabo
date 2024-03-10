@@ -58,11 +58,15 @@
 	<div id="logo" onclick="location.href='${ctx}/main.do'">
 		<img src="./img/ulogo.png" alt="Logo">
 	</div>
-	<div id="search" class="flex-grow-1"> <!-- 검색창 너비를 최대로 확장 -->
-		<div class="search">
-			<input type="text" placeholder="검색어 입력" name="query">
+	<form action="${ctx}/productSearch.do" method="get" class="search">
+		<div id="search" style="width: 700px">
+			<div class="search">
+				<input class="query" type="text" placeholder="검색어 입력" name="query">
+			</div>
 		</div>
-	</div>
+	</form>
+
+
 	<div id="userImg" onclick="openInfo()">
 		<c:choose>
 			<c:when test="${ user eq null }">

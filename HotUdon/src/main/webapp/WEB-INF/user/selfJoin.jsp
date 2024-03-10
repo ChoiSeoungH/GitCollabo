@@ -17,7 +17,7 @@
 	</tr>
   <tr>
     <td>이메일</td>
-    <td><input class="col-12 id" type="text" name="id"/>
+    <td><input class="col-9 id" type="text" name="id"/>
 	<input type="button" value="ID중복체크" id="checkId"/>    
     </td>
   </tr>

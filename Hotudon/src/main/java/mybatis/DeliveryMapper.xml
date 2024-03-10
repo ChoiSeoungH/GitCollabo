@@ -25,7 +25,28 @@
     <update id="updateDelivery" parameterType="delivery">
         UPDATE delivery
         SET price = #{price}
-        WHERE no = #{no}
+          ,deliver_no = #{deliverNo}
+        WHERE product_no = #{productNo}
     </update>
+
+    <select id="getDeliveryByLocation" parameterType="String" resultMap="delivery">
+        SELECT *
+        FROM delivery
+        WHERE location LIKE CONCAT('%', #{location}, '%')
+          AND deliver_no IS NULL
+        AND status != 2
+    </select>
+
+    <select id="getIncome" parameterType="int" resultType="map">
+        SELECT deliver_no,
+        SUM(price) AS weekly_income
+        FROM delivery
+        WHERE WEEK(reg_date, 1) = WEEK(CURRENT_DATE, 1)
+        AND YEAR(reg_date) = YEAR(CURRENT_DATE)
+        AND status = 2
+        AND deliver_no = #{deliverNo} <!-- 배달 기사 번호 조건 추가 -->
+        GROUP BY
+        deliver_no;
+    </select>
 
 </mapper>

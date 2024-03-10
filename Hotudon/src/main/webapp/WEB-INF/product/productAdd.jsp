@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 				 pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ include file="../Main.jsp" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <c:set var="user" value="${user}"/>
 <!DOCTYPE html>
@@ -86,17 +86,17 @@
 	<title>상품추가하기</title>
 </head>
 <body>
-<img alt="" id="preview1" style="width: 250px; height: 300px; position: absolute; left: 195px; top: 100px;" />
-<img alt="" id="preview2" style="width: 250px; height: 300px; position: absolute; left: 195px; top: 100px; display: none;"/>
-<img alt="" id="preview3" style="width: 250px; height: 300px; position: absolute; left: 195px; top: 100px; display: none;"/>
-<input type="button" class="img" onclick="changePreviewIds(['preview1'])" style="position: absolute; left: 295px; top: 380px;"/>
-<input type="button" class="img" onclick="changePreviewIds(['preview2'])" style="position: absolute; left: 310px; top: 380px;"/>
-<input type="button" class="img" onclick="changePreviewIds(['preview3'])" style="position: absolute; left: 325px; top: 380px;"/>
+<img alt="" id="preview1" style="width: 250px; height: 300px; position: absolute; left: 350px; top: 300px;" />
+<img alt="" id="preview2" style="width: 250px; height: 300px; position: absolute; left: 350px; top: 300px; display: none;"/>
+<img alt="" id="preview3" style="width: 250px; height: 300px; position: absolute; left: 350px; top: 300px; display: none;"/>
+<input type="button" class="img" onclick="changePreviewIds(['preview1'])" style="position: absolute; left: 440px; top: 610px;"/>
+<input type="button" class="img" onclick="changePreviewIds(['preview2'])" style="position: absolute; left: 460px; top: 610px;"/>
+<input type="button" class="img" onclick="changePreviewIds(['preview3'])" style="position: absolute; left: 480px; top: 610px;"/>
 <h1 align="center">상품추가하기</h1>
 <form action="${ctx}/productAdd.do" enctype="multipart/form-data"	method="post">
 	<table align="center" border=1>
 		<input type="hidden" name="no" value="${user.no}" >
-		<%--	<input type="hidden" name="sellLocation" value="${user.location}">  --%>
+<%--			<input type="hidden" name="sellLocation" value="${user.location}">  --%>
 		<input type="hidden" name="sellLocation" value="${user.location}">
 		<!-- 위에 나중에 sellLocation 바꿔야함 -->
 		<tr>
@@ -154,6 +154,10 @@
 		</tr>
 	</table>
 </form>
+</td>
+</tr>
+</table>
+</div>
 </body>
 </html>
 <script>
@@ -195,10 +199,10 @@
 			form.productPrice.focus();
 			return false;
 		}
-		/* 	if(!userLocation.trim()){
+		 	if(!userLocation.trim()){
         alert("먼저 위치설정을 해주세요");
         return false;
-      } */
+      }
 
 		// 최대 3개의 파일만 허용
 		form.submit();

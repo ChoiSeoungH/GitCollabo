@@ -151,7 +151,7 @@
               <input type="hidden" name="type" value="withdraw"/>
               <div class="form-group">
                 <label for="cash_withdraw">출금할 캐시</label>
-                <input type="number" class="form-control" id="cash_withdraw" name="cash_update" min="0"/>
+                <input type="number" class="form-control" id="cash_withdraw" name="cash_update" min="0" max="${total_cash}"/>
               </div>
               <div class="form-group text-center">
                 <button type="button" class="btn btn-outline-danger" onclick="modifyCash('withdraw', -${total_cash})">전액 출금</button>
@@ -193,15 +193,46 @@
         if (action === 'deposit') {
           input = document.getElementById('cash_deposit');
           expectedCash = document.getElementById('expected_deposit_cash');
-        } else {
+          let newValue = parseInt(input.value || 0) + amount;
+          input.value = newValue > 0 ? newValue : 0;
+          expectedCash.innerText = total_cash + newValue + '원';
+        } else { // 출금인 경우
           input = document.getElementById('cash_withdraw');
           expectedCash = document.getElementById('expected_withdraw_cash');
-          if (amount === -total_cash) amount = -parseInt(input.value || 0);
+          if (amount === -total_cash) { // 전액 출금인 경우
+            input.value = total_cash; // 입력 필드를 사용자의 전체 캐시로 설정
+            expectedCash.innerText = '0원'; // 출금 후 예상 캐시를 0으로 설정
+          } else { // 일부 출금인 경우
+            let newValue = parseInt(input.value || 0) + amount;
+            input.value = newValue > 0 ? newValue : 0;
+            let expectedValue = total_cash - newValue;
+            expectedCash.innerText = expectedValue >= 0 ? expectedValue + '원' : '0원'; // 예상 캐시 업데이트
+          }
         }
-        let newValue = parseInt(input.value || 0) + amount;
-        input.value = newValue > 0 ? newValue : 0;
-        expectedCash.innerText = (action === 'deposit' ? total_cash + newValue : total_cash - newValue) + '원';
       }
+
+      // 출금 입력 필드에 대한 이벤트 리스너를 추가하는 함수
+      function setupWithdrawInputListener() {
+        const withdrawInput = document.getElementById('cash_withdraw');
+        withdrawInput.addEventListener('input', function() {
+          updateExpectedWithdrawCash();
+        });
+      }
+
+      // 출금 후 예상 캐시를 업데이트하는 함수
+      function updateExpectedWithdrawCash() {
+        const withdrawInput = document.getElementById('cash_withdraw');
+        const expectedCashDisplay = document.getElementById('expected_withdraw_cash');
+        const withdrawAmount = parseInt(withdrawInput.value || 0, 10); // 입력된 출금액
+        const expectedCashAfterWithdrawal = total_cash - withdrawAmount; // 출금 후 예상 캐시 계산
+        expectedCashDisplay.innerText = expectedCashAfterWithdrawal >= 0 ? expectedCashAfterWithdrawal + '원' : '0원'; // 결과 표시
+      }
+
+      // 페이지 로드 시 이벤트 리스너 설정
+      document.addEventListener('DOMContentLoaded', function() {
+        setupWithdrawInputListener();
+        updateExpectedWithdrawCash(); // 페이지 로드 시 초기 예상 캐시 업데이트
+      });
 
       function selectPaymentMethod(element, method) {
         let methods = document.querySelectorAll('.payment-method');

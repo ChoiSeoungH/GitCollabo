@@ -76,7 +76,6 @@ public class ProductDAO {
 		Product list = session.selectOne("mapper.product.getOneProduct", no);
 		session.close();
 		return list;
-
 	}
 
 	//경매상품에 관한 연관된 카테고리 제품들 가져오기

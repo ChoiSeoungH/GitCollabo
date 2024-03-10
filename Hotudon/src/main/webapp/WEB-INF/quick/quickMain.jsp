@@ -47,7 +47,7 @@
         </c:otherwise>
       </c:choose></p>
       <p class="card-text" id="cash">현금: ${user.cash}원</p>
-    </div>
+      <p class="card-text" id="user-income">이번 주 수입 : ${income}원 </p></div>
   </div>
   <!-- Control buttons -->
   <div class="btn-group-vertical" role="group">
@@ -158,7 +158,8 @@
 
   var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
-  var listData = JSON.parse('${json}');
+  var listData = JSON.parse('${deliveryJson}');
+  var productlistData = JSON.parse('${productJson}');
   var deliver = JSON.parse('${deliver}');
   var buyerListData = JSON.parse('${buyerJson}');
   // listData를 사용하여 작업을 수행합니다.
@@ -284,14 +285,14 @@
   var selectedMarker = null; // 클릭한 마커를 담을 변수
 
   function createMarkerForAddress(listDatum, buyerListDatum, i) {
-    var product = listDatum;
+    var delivery = listDatum;
     var buyer = buyerListDatum;
     var deliveryFee;
 
 
-    // console.log(product);
-    var locationList = product.sellLocation.split("/");
-    // console.log(locationList);
+    console.log('delivery : '+delivery);
+    var locationList = delivery.location.split("/");
+    console.log('locationList : '+locationList);
     var roadAddress = locationList[0];
     var detailAddress = locationList[2];
     var productAddress = roadAddress + ' ' + detailAddress;
@@ -341,7 +342,9 @@
 
             console.log("distance : " + distance);
             console.log("deliveryFee : " + deliveryFee);
-            addMarker(product.no, product.title, latlng, latlng2, normalOrigin, overOrigin, clickOrigin, productAddress, buyerAddress, deliveryFee);
+
+
+            addMarker(delivery.productNo, productlistData[delivery.productNo].title, latlng, latlng2, normalOrigin, overOrigin, clickOrigin, productAddress, buyerAddress, deliveryFee);
           }
         });
 
@@ -453,7 +456,7 @@
         deliveryDate = new Date();
         acceptDelivery(position, buyerPosition, productAddress, buyerAddress, deliveryFee);
         var newStatus = 3;
-        setDelivery(productNo, ${user.no}, deliveryFee, productAddress);
+        setDelivery(productNo, ${user.no}, deliveryFee);
         updateDeliverStatus(${user.no}, newStatus, 0); // 상태 업데이트 함수 호출
         map.setCenter(locPosition);
       });
@@ -756,7 +759,6 @@
     var newStatus = 1; // 휴식
 
     console.log(productNo)
-    updateEndDate(productNo);
 
     // Java의 ProductDAO 클래스 내 updateEndDate 메소드 호출 (서버사이드 코드에서 처리 필요)
     var fee = price;
@@ -781,6 +783,7 @@
       success: function (response) {
         $('#user-status').text("상태 : " + response.status); // 응답 받은 새로운 상태로 업데이트
         $('#cash').text("현금 : " + response.cash + "원");
+        $('#user-income').text("이번 주 수입 : " + response.income + "원");
         toggleButtonsBasedOnStatus(response.status);
       },
       error: function () {
@@ -808,29 +811,15 @@
     });
   }
 
-  function updateEndDate(productNo) {
-    $.ajax({
-      url: 'quickEnd.do',
-      method: 'POST',
-      data: {no: productNo}, // endDate를 제외하고 no만 전송
-      success: function (response) {
-        console.log("날짜 업데이트 완료");
-      },
-      error: function (xhr, status, error) {
-        console.error("날짜 업데이트 실패");
-      }
-    });
-  }
 
-  function setDelivery(productNo, deliverNo, deliveryFee, productAddress) {
+  function setDelivery(productNo, deliverNo, deliveryFee) {
     $.ajax({
       url: 'deliveryUpdate.do',
       method: 'POST',
       data: {
         productNo: productNo,
         deliverNo: deliverNo,
-        deliveryFee: deliveryFee,
-        productAddress: productAddress,
+        deliveryFee: deliveryFee
       },
       success: function (response) {
         console.log("딜리버리 셋팅 완료");
@@ -847,9 +836,12 @@
       type: 'GET', // 또는 'POST', 서버의 요구사항에 따라 결정
       dataType: 'json', // 받아올 데이터 타입
       success: function (response) {
-        listData = response.productList;
+        listData = response.deliveryList;
         deliver = response.deliver;
         buyerListData = response.buyerList;
+        productlistData = response.productList;
+
+        console.log('listData:' +listData)
 
         var mapContainer = document.getElementById('map'), // 지도를 표시할 div
             mapOption = {

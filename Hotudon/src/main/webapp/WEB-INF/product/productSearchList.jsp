@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../Main.jsp" %>
-<%--<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>--%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 
 <style>
@@ -15,10 +14,10 @@
 }
 
 .list {
-margin-right: 10px;
 	width:100px;
 	height:300px;
 	border:1px;
+    margin: auto;
 
 }
  img{
@@ -50,7 +49,9 @@ product_listitem li {
 .productList{
 	diplay: flex;
 	align-items: center;
-	border: 1px solid #000; 
+	border: 1px solid #000;
+    margin: auto;
+
 }
 .fixed {
         position: fixed;
@@ -71,6 +72,8 @@ product_listitem li {
     }
 
 </style>
+<html>
+<body>
 
 <c:if test="${vo.size()==0}">
 <h1 style="text-align:center">${query} 검색한 제품히 현재 존재하지 않습니다</h1>
@@ -213,10 +216,6 @@ product_listitem li {
 </div>
 </div>
 
-</td>
-</tr>
-</table>
-</div>
 
 </body>
 </html>

@@ -170,4 +170,6 @@ public class UserDAO {
 		session.close();
 		return 1;
 	}
+
+
 }

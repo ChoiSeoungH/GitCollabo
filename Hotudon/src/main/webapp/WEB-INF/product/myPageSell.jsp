@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ include file="../Main.jsp" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <c:set var="list" value="${list}" />
 <c:set var="user" value="${user}" />
@@ -45,14 +45,14 @@ a {
 
 
 .btn {
-	margin: auto 0;
-	margin-right:20px;
-	padding:10px 20px;
-	border: none;
-	background-color: #d9d9d9;
+	margin: auto 0 !important;
+	margin-right:20px !important;
+	padding:10px 20px !important;
+	border: none !important;
+	background-color: #d9d9d9 !important;
 }
 button:hover {
-	background-color: #bbb;
+	background-color: #bbb !important;
 }
 .remainingTime {
 	color: red;
@@ -111,8 +111,8 @@ font:bold;
 								<div class="reg_date">등록일 :${vo.regDate}</div>
 								<c:if test="${vo.endDate == null}">
 									<div class="status">판매중</div>
-												<div class="btns">
-							<button class="btn" type="button"
+												<div class="btns"  style=" width : 200px; height : 30px; background: none">
+							<button class="btn" type="button" style="width : 200px; height : 30px; margin: 0; padding: 0;"
 								onclick="location.href='${ctx}/productUpdate.do?productNo=${vo.no}&check=1&no=${user.no}'">수정</button>
 						</div>				
 								</c:if>
@@ -205,6 +205,10 @@ font:bold;
 			</c:forEach>
 		</c:forEach>
 	</c:if>
+</td>
+</tr>
+</table>
+</div>
 </body>
 
 </html>

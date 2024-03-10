@@ -15,16 +15,13 @@ public class DeliveryUpdateController implements Controller {
     int productNo = Integer.parseInt(request.getParameter("productNo"));
     int deliverNo = Integer.parseInt(request.getParameter("deliverNo"));
     int deliveryFee = Integer.parseInt(request.getParameter("deliveryFee"));
-    String productAddress = request.getParameter("productAddress");
 
     Delivery vo = new Delivery();
     vo.setDeliverNo(deliverNo);
     vo.setProductNo(productNo);
     vo.setPrice(deliveryFee);
-    vo.setLocation(productAddress);
 
     DeliveryDAO ddao = DeliveryDAO.getInstance();
-
 
     ddao.updateDelivery(vo);
 

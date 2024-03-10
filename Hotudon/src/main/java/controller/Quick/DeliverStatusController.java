@@ -1,25 +1,32 @@
 package controller.Quick;
 
 import com.google.gson.Gson;
+import dao.DeliveryDAO;
 import dao.UserDAO;
 import frontcontorller.Controller;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import vo.Delivery;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DeliverStatusController implements Controller {
   @Override
   public String requestHandler(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
+    DeliveryDAO ddao = DeliveryDAO.getInstance();
 
     // 요청에서 사용자 번호와 새 상태 값을 가져옵니다.
     int userNo = Integer.parseInt(request.getParameter("no"));
     int newStatus = Integer.parseInt(request.getParameter("status"));
     int cash;
+
+//    request.setAttribute("income", totalIncome);
 
     // DAO 인스턴스를 가져와서 상태 업데이트 메소드를 호출합니다.
     UserDAO dao = UserDAO.getInstance();
@@ -70,6 +77,20 @@ public class DeliverStatusController implements Controller {
       throw new ServletException();
     }
     responseData.put("cash", dao.getOneUser(userNo).getCash());
+    List<Map<String, Object>> incomeList = ddao.getIncome(userNo);
+    int totalIncome = 0;
+    for (Map<String, Object> incomeRecord : incomeList) {
+      // weekly_income 값을 BigDecimal로 안전하게 가져옵니다.
+      BigDecimal weeklyIncome = (BigDecimal) incomeRecord.get("weekly_income");
+
+      // 필요한 경우, intValue() 메서드를 사용하여 int로 변환합니다.
+      if (weeklyIncome != null) {
+        totalIncome += weeklyIncome.intValue();
+      }
+    }
+
+    responseData.put("income", totalIncome);
+    System.out.println("totalIncome : "+totalIncome);
 
 
   // 응답의 컨텐트 타입을 JSON으로 설정

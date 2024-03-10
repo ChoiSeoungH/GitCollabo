@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 				 pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ include file="../Main.jsp" %>
+
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <c:set var="user" value="${user}"/>
 <c:set var="vo" value="${vo}"/>
@@ -181,6 +182,10 @@
 		</tr>
 	</table>
 </form>
+</td>
+</tr>
+</table>
+</div>
 </body>
 </html>
 <script>

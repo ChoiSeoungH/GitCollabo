@@ -4,8 +4,12 @@ import org.apache.ibatis.session.SqlSession;
 import vo.Delivery;
 
 import util.MybatisConfig;
+import vo.Product;
 
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DeliveryDAO {
 
@@ -47,4 +51,18 @@ public class DeliveryDAO {
     session.close();
     return cnt;
   }
+
+  public Object getDeliveryByLocation(String location) {
+    SqlSession session = MybatisConfig.getInstance().openSession();
+    List<Delivery> list = session.selectList("getDeliveryByLocation", location);
+    session.close();
+    return list;
+  }
+  public List<Map<String, Object>> getIncome(int deliverNo) {
+    SqlSession session = MybatisConfig.getInstance().openSession();
+    List<Map<String, Object>> income = session.selectList("getIncome", deliverNo);
+    session.close();
+    return income;
+  }
+
 }

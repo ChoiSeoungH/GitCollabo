@@ -16,8 +16,10 @@ import vo.Product;
 import vo.User;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -28,11 +30,27 @@ public class QuickMainController implements Controller {
     ProductDAO pdao = ProductDAO.getInstance();
     UserDAO udao = UserDAO.getInstance();
     DeliveryDAO ddao = DeliveryDAO.getInstance();
-    int no = Integer.parseInt(request.getParameter("no"));
     HttpSession session = request.getSession();
-//    User vo = (User) session.getAttribute("user");
-//    User user = udao.getOneUser(5);
-    User user = udao.getOneUser(no);
+    User user;
+    if (request.getParameter("no")!=null) {
+      int no = Integer.parseInt(request.getParameter("no"));
+      request.setAttribute("no",no);
+      user = udao.getOneUser(no);
+    }else{
+      user = (User) session.getAttribute("user");
+    }
+    List<Map<String, Object>> incomeList = ddao.getIncome(user.getNo());
+    int totalIncome = 0;
+    for (Map<String, Object> incomeRecord : incomeList) {
+      // weekly_income 값을 BigDecimal로 안전하게 가져옵니다.
+      BigDecimal weeklyIncome = (BigDecimal) incomeRecord.get("weekly_income");
+
+      // 필요한 경우, intValue() 메서드를 사용하여 int로 변환합니다.
+      if (weeklyIncome != null) {
+        totalIncome += weeklyIncome.intValue();
+      }
+    }
+    request.setAttribute("income", totalIncome);
     String dong = "";
 
     // User 객체의 location 필드에서 '동'을 추출하기 위한 정규 표현식
@@ -49,17 +67,16 @@ public class QuickMainController implements Controller {
     }
 
 
-    ArrayList<Product> list = (ArrayList<Product>) pdao.getDeliveryProductsByLocation(dong);
+    ArrayList<Product> productList = (ArrayList<Product>) pdao.getDeliveryProductsByLocation(dong);
+    ArrayList<Delivery> deliveryList = (ArrayList<Delivery>) ddao.getDeliveryByLocation(dong);
     ArrayList<User> buyerList = new ArrayList<>();
-    for (Product product : list) {
-      buyerList.add(udao.getOneUser(product.getBuyerNo()));
-
-      Delivery delivery = new Delivery();
-      delivery.setDeliverNo(user.getNo());
-      delivery.setProductNo(product.getNo());
-      delivery.setLocation(product.getSellLocation());
-
-      ddao.insertDelivery(delivery);
+    for (Delivery delivery : deliveryList) {
+      int proNo = delivery.getProductNo();
+      Product product = pdao.getProductNoContent(proNo);
+      if (product.getSellLocation().contains(dong)) {
+        System.out.println("buyer no"+product.getBuyerNo());
+        buyerList.add(udao.getOneUser(product.getBuyerNo()));
+      }
     }
 
 //    for (Product product : list) {
@@ -73,27 +90,28 @@ public class QuickMainController implements Controller {
 
 
     Gson gson = new Gson();
-    String json = gson.toJson(list); // Product 객체 리스트를 JSON 형식으로 변환
-    System.out.println("productList"+json);
-    request.setAttribute("json", json); // JSON 데이터를 "json" 속성으로 설정하여 JSP로 전달
+    String deliveryJson = gson.toJson(deliveryList); // Product 객체 리스트를 JSON 형식으로 변환
+    System.out.println("deliveryJson"+deliveryJson);
+    request.setAttribute("deliveryJson", deliveryJson); // JSON 데이터를 "json" 속성으로 설정하여 JSP로 전달
 
-    json = gson.toJson(buyerList); // User 객체 리스트를 JSON 형식으로 변환
-    System.out.println(json);
-    request.setAttribute("buyerJson", json); // JSON 데이터를 "json" 속성으로 설정하여 JSP로 전달
-
+    session.setAttribute("user", user);
     String deliver = gson.toJson(user);
     System.out.println(user);
     request.setAttribute("deliver", deliver); // JSON 데이터를 "json" 속성으로 설정하여 JSP로 전달
-    request.setAttribute("user", user);
+
 
     String buyerJson = gson.toJson(buyerList);
     request.setAttribute("buyerJson",buyerJson);
+    String productJson = gson.toJson(productList);
+    request.setAttribute("productJson",productJson);
+
 
     // 데이터를 Map에 저장
     Map<String, Object> dataMap = new HashMap<>();
-    dataMap.put("productList", json);
+    dataMap.put("deliveryList", deliveryList);
+    dataMap.put("productList", productList);
     dataMap.put("deliver", deliver);
-    dataMap.put("buyerList", buyerJson);
+    dataMap.put("buyerList", buyerList);
 
     // Map을 JSON으로 변환
     String mapJson = gson.toJson(dataMap);
@@ -103,6 +121,7 @@ public class QuickMainController implements Controller {
     response.setCharacterEncoding("UTF-8");
     response.getWriter().write(mapJson);
 
+    System.out.println("totalIncome : "+totalIncome);
     return "quick/quickMain";
   }
 }

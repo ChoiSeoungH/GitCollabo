@@ -140,13 +140,6 @@ border: 1px solid #ccc;
 </head>
 <body>
 
-<form action="${ctx}/productSearch.do" method="get" class="search">
-<input class="query" placeholder="검색어 입력" type="text" name="query">
-
-<input type=submit value="검색">
-</form>
-	
-
 
 <!-- 옥션이 아닐 경우 -->
 <div class="s">

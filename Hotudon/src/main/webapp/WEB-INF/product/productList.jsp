@@ -38,19 +38,20 @@ height:100px;
 form{
 	text-align:center;
 }
-.cate{
-	 padding-top: 20px;
-	text-align:center;
-
+.cate {
+    padding-top: 20px !important;
+    display: flex !important; /* Flexbox 레이아웃 사용 */
+    justify-content: center !important; /* 가로 방향에서 가운데 정렬 */
+    flex-wrap: wrap !important; /* 내부 요소가 넘칠 경우 다음 줄로 이동 */
 }
 .cate>input{
- margin-right: 20px;
-	text-align:center;
-  background-color: white;
-    border: 3px solid transparent;
-    border-radius: 50%;
-    border-image: linear-gradient(to right, red 0%, orange 100%);
-    border-image-slice: 1;
+ margin-right: 20px !important;
+	text-align:center !important;
+  background-color: white !important;
+    border: 3px solid transparent !important;
+    border-radius: 50% !important;
+    border-image: linear-gradient(to right, red 0%, orange 100%) !important;
+    border-image-slice: 1 !important;
 }
 .hr-styled {
     margin-right: 20px;

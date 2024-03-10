@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS product (
     is_auction BOOLEAN NOT NULL DEFAULT FALSE, # 경매 여부
     sell_location VARCHAR(100), # 희망 거래 위치
     product_method INT NOT NULL DEFAULT 0, # 0 : 직거래, 1 : 택배, 2 : 퀵서비스, 3: 상관없음
-    buyer_no INT NOT NULL, # 구매자 번호 (판매 완료가 되어야만 값이 들어감)
+    buyer_no INT, # 구매자 번호 (판매 완료가 되어야만 값이 들어감)
     end_date TIMESTAMP, # 판매 종료일
     FOREIGN KEY (seller_no) REFERENCES user(no), # seller_no 외래키
     FOREIGN KEY (buyer_no) REFERENCES user(no), # buyer_no 외래키
@@ -109,7 +109,7 @@ SELECT * FROM alarm;
 CREATE TABLE IF NOT EXISTS delivery (
                                         no INT AUTO_INCREMENT PRIMARY KEY, # 배송 번호
                                         product_no INT NOT NULL, # 상품 번호
-                                        deliver_no INT NOT NULL, # 배송 기사 번호
+                                        deliver_no INT, # 배송 기사 번호
                                         price INT NOT NULL DEFAULT 0, # 배송비
                                         status INT NOT NULL DEFAULT 0, # 0 : 배송 준비중, 1 : 배송 중, 2 : 배송 완료
                                         reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP, # 배송 신청일
@@ -133,6 +133,7 @@ INSERT INTO category (no, name) VALUES (0, '전체');
 INSERT INTO category (no, name) VALUES (1, '디지털');
 INSERT INTO category (no, name) VALUES (2, '의류');
 INSERT INTO category (no, name) VALUES (3, '가구');
+INSERT INTO category (no, name) VALUES (4, '기타');
 
 INSERT INTO product (category, seller_no, title, price, description, sell_location, product_method) VALUES (1, 2, '아이폰 12', 1000000, '아이폰 12 256GB 실버 색상입니다.', '서울시 강남구', 0);
 INSERT INTO product_image (product_no, image_url) VALUES (1, 'iphone12.jpg');

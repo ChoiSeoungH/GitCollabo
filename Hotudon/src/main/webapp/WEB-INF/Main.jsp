@@ -76,7 +76,9 @@
       #main_nav a:hover, #main_info a:hover {
           color: #0056b3;
       }
+
   </style>
+  <link rel="stylesheet" href="./css/font.css">
 </head>
 <body>
 <div id="container">
