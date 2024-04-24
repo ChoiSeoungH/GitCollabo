@@ -5,4 +5,3 @@
 # GitCollabo
 깃으로협업하기
 
-https://github.com/WoongJaeCho/Camel-UP/blob/main/upload/%EC%8B%9C%EC%97%B0%EC%98%81%EC%83%81.gif?raw=true
